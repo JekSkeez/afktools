@@ -1,6 +1,6 @@
 script_name('AFK Tools (upd)')
 script_author("skeez")
-script_version('2.0.9 (без паблика)')
+script_version('2.1.0 (Р±РµР· РїР°Р±Р»РёРєР°)')
 script_properties('work-in-pause')
 local dlstatus = require("moonloader").download_status
 local imgui = require('imgui')
@@ -95,142 +95,142 @@ end
 
 changelog = [[
 	v1.0
-		Релиз
+		Р РµР»РёР·
 	v1.1 
-		Добавил автообновление
-		Добавил новые события для уведомлений 
-		Изменил автологин, теперь это автозаполнение
+		Р”РѕР±Р°РІРёР» Р°РІС‚РѕРѕР±РЅРѕРІР»РµРЅРёРµ
+		Р”РѕР±Р°РІРёР» РЅРѕРІС‹Рµ СЃРѕР±С‹С‚РёСЏ РґР»СЏ СѓРІРµРґРѕРјР»РµРЅРёР№ 
+		РР·РјРµРЅРёР» Р°РІС‚РѕР»РѕРіРёРЅ, С‚РµРїРµСЂСЊ СЌС‚Рѕ Р°РІС‚РѕР·Р°РїРѕР»РЅРµРЅРёРµ
 	v1.2
-		Управление игрой через команды: !getplstats, !getplinfo, !send(а так же кнопки) 
-		Новое событие для отправки уведомления: при выходе из деморгана
-		Добавил флудер на 3 строки(если 2 или 3 строка не нужна оставьте её пустой)
+		РЈРїСЂР°РІР»РµРЅРёРµ РёРіСЂРѕР№ С‡РµСЂРµР· РєРѕРјР°РЅРґС‹: !getplstats, !getplinfo, !send(Р° С‚Р°Рє Р¶Рµ РєРЅРѕРїРєРё) 
+		РќРѕРІРѕРµ СЃРѕР±С‹С‚РёРµ РґР»СЏ РѕС‚РїСЂР°РІРєРё СѓРІРµРґРѕРјР»РµРЅРёСЏ: РїСЂРё РІС‹С…РѕРґРµ РёР· РґРµРјРѕСЂРіР°РЅР°
+		Р”РѕР±Р°РІРёР» С„Р»СѓРґРµСЂ РЅР° 3 СЃС‚СЂРѕРєРё(РµСЃР»Рё 2 РёР»Рё 3 СЃС‚СЂРѕРєР° РЅРµ РЅСѓР¶РЅР° РѕСЃС‚Р°РІСЊС‚Рµ РµС‘ РїСѓСЃС‚РѕР№)
 	v1.25 - Hotfix
-		Исправил краш при отправке уведомления о том что перс голоден
+		РСЃРїСЂР°РІРёР» РєСЂР°С€ РїСЂРё РѕС‚РїСЂР°РІРєРµ СѓРІРµРґРѕРјР»РµРЅРёСЏ Рѕ С‚РѕРј С‡С‚Рѕ РїРµСЂСЃ РіРѕР»РѕРґРµРЅ
 	v1.3
-		Добавил открытие донат сундука (внимательно читайте как сделать чтоб работало)
-		Для украинцев: добавил возможность вырубить VK Notifications и спокойно использовать скрипт
+		Р”РѕР±Р°РІРёР» РѕС‚РєСЂС‹С‚РёРµ РґРѕРЅР°С‚ СЃСѓРЅРґСѓРєР° (РІРЅРёРјР°С‚РµР»СЊРЅРѕ С‡РёС‚Р°Р№С‚Рµ РєР°Рє СЃРґРµР»Р°С‚СЊ С‡С‚РѕР± СЂР°Р±РѕС‚Р°Р»Рѕ)
+		Р”Р»СЏ СѓРєСЂР°РёРЅС†РµРІ: РґРѕР±Р°РІРёР» РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РІС‹СЂСѓР±РёС‚СЊ VK Notifications Рё СЃРїРѕРєРѕР№РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ СЃРєСЂРёРїС‚
 	v1.4
-		Пофиксил автооткрытие если игра свернута
+		РџРѕС„РёРєСЃРёР» Р°РІС‚РѕРѕС‚РєСЂС‹С‚РёРµ РµСЃР»Рё РёРіСЂР° СЃРІРµСЂРЅСѓС‚Р°
 	v1.5
-		Переписал функцию принятия уведомлений
-		Теперь автохилл не флудит
+		РџРµСЂРµРїРёСЃР°Р» С„СѓРЅРєС†РёСЋ РїСЂРёРЅСЏС‚РёСЏ СѓРІРµРґРѕРјР»РµРЅРёР№
+		РўРµРїРµСЂСЊ Р°РІС‚РѕС…РёР»Р» РЅРµ С„Р»СѓРґРёС‚
 	v1.6
-		Релиз на BlastHack
-		К каждой строке флудера добавлена своя задержка
-		Теперь, если вас убил игрок и включено уведомление о смерти, в уведомлении напишет кто вас убил
-		Прибрался в коде
+		Р РµР»РёР· РЅР° BlastHack
+		Рљ РєР°Р¶РґРѕР№ СЃС‚СЂРѕРєРµ С„Р»СѓРґРµСЂР° РґРѕР±Р°РІР»РµРЅР° СЃРІРѕСЏ Р·Р°РґРµСЂР¶РєР°
+		РўРµРїРµСЂСЊ, РµСЃР»Рё РІР°СЃ СѓР±РёР» РёРіСЂРѕРє Рё РІРєР»СЋС‡РµРЅРѕ СѓРІРµРґРѕРјР»РµРЅРёРµ Рѕ СЃРјРµСЂС‚Рё, РІ СѓРІРµРґРѕРјР»РµРЅРёРё РЅР°РїРёС€РµС‚ РєС‚Рѕ РІР°СЃ СѓР±РёР»
+		РџСЂРёР±СЂР°Р»СЃСЏ РІ РєРѕРґРµ
 	v1.6.1
-		Фикс VK Notifications
+		Р¤РёРєСЃ VK Notifications
 	v1.7
-		В VK Notifications добавлена кнопка "Голод" и команда !getplhun
-		Добавлена возможность выключить автообновление
-		Исправлены ложные уведомления на сообщения от администратора
+		Р’ VK Notifications РґРѕР±Р°РІР»РµРЅР° РєРЅРѕРїРєР° "Р“РѕР»РѕРґ" Рё РєРѕРјР°РЅРґР° !getplhun
+		Р”РѕР±Р°РІР»РµРЅР° РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РІС‹РєР»СЋС‡РёС‚СЊ Р°РІС‚РѕРѕР±РЅРѕРІР»РµРЅРёРµ
+		РСЃРїСЂР°РІР»РµРЅС‹ Р»РѕР¶РЅС‹Рµ СѓРІРµРґРѕРјР»РµРЅРёСЏ РЅР° СЃРѕРѕР±С‰РµРЅРёСЏ РѕС‚ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°
 	v1.8 
-		Обновил способ антиафк, вроде теперь у всех работает
-		Пофиксил если перс умрет
+		РћР±РЅРѕРІРёР» СЃРїРѕСЃРѕР± Р°РЅС‚РёР°С„Рє, РІСЂРѕРґРµ С‚РµРїРµСЂСЊ Сѓ РІСЃРµС… СЂР°Р±РѕС‚Р°РµС‚
+		РџРѕС„РёРєСЃРёР» РµСЃР»Рё РїРµСЂСЃ СѓРјСЂРµС‚
 	v1.8-fix
-		Фикс краша при реконнекте
+		Р¤РёРєСЃ РєСЂР°С€Р° РїСЂРё СЂРµРєРѕРЅРЅРµРєС‚Рµ
 	v1.9
-		Новый дизайн
-		Добавлен АвтоПиар
-		Добавлена проверка на /pm от админов(диалог + чат, 2 вида)
-		Фикс AutoBanScreen - теперь, скринит при появлении диалога о бане
+		РќРѕРІС‹Р№ РґРёР·Р°Р№РЅ
+		Р”РѕР±Р°РІР»РµРЅ РђРІС‚РѕРџРёР°СЂ
+		Р”РѕР±Р°РІР»РµРЅР° РїСЂРѕРІРµСЂРєР° РЅР° /pm РѕС‚ Р°РґРјРёРЅРѕРІ(РґРёР°Р»РѕРі + С‡Р°С‚, 2 РІРёРґР°)
+		Р¤РёРєСЃ AutoBanScreen - С‚РµРїРµСЂСЊ, СЃРєСЂРёРЅРёС‚ РїСЂРё РїРѕСЏРІР»РµРЅРёРё РґРёР°Р»РѕРіР° Рѕ Р±Р°РЅРµ
 	v1.9.1
-		Фикс хавки из дома
+		Р¤РёРєСЃ С…Р°РІРєРё РёР· РґРѕРјР°
 	v1.9.1.1
-		Фикс сохранения задержки для автооткрытия
+		Р¤РёРєСЃ СЃРѕС…СЂР°РЅРµРЅРёСЏ Р·Р°РґРµСЂР¶РєРё РґР»СЏ Р°РІС‚РѕРѕС‚РєСЂС‹С‚РёСЏ
 	v2.0.0
-		Пофикшены краши(вроде все) при реконнекте, использовании бота VK
-		Сменен дизайн на более приятный
-		В автозаполнение добавлена кнопка "Добавить аккаунт"
-		Добавлены команды /afkrec(рекон с секундами), /afksrec(стопает авторекон и рекон обычный)
+		РџРѕС„РёРєС€РµРЅС‹ РєСЂР°С€Рё(РІСЂРѕРґРµ РІСЃРµ) РїСЂРё СЂРµРєРѕРЅРЅРµРєС‚Рµ, РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРё Р±РѕС‚Р° VK
+		РЎРјРµРЅРµРЅ РґРёР·Р°Р№РЅ РЅР° Р±РѕР»РµРµ РїСЂРёСЏС‚РЅС‹Р№
+		Р’ Р°РІС‚РѕР·Р°РїРѕР»РЅРµРЅРёРµ РґРѕР±Р°РІР»РµРЅР° РєРЅРѕРїРєР° "Р”РѕР±Р°РІРёС‚СЊ Р°РєРєР°СѓРЅС‚"
+		Р”РѕР±Р°РІР»РµРЅС‹ РєРѕРјР°РЅРґС‹ /afkrec(СЂРµРєРѕРЅ СЃ СЃРµРєСѓРЅРґР°РјРё), /afksrec(СЃС‚РѕРїР°РµС‚ Р°РІС‚РѕСЂРµРєРѕРЅ Рё СЂРµРєРѕРЅ РѕР±С‹С‡РЅС‹Р№)
 ]]
 changelog2 = [[	v2.0.1
-		Фикс автооткрытия
+		Р¤РёРєСЃ Р°РІС‚РѕРѕС‚РєСЂС‹С‚РёСЏ
 	v2.0.2
-		Автоеда - Добавлен выбор проверки когда можно похавать(полоска голода с настройкой) 
-		Фикс крашей из-за пиара и др.
-		Добавлен Fastconnect
+		РђРІС‚РѕРµРґР° - Р”РѕР±Р°РІР»РµРЅ РІС‹Р±РѕСЂ РїСЂРѕРІРµСЂРєРё РєРѕРіРґР° РјРѕР¶РЅРѕ РїРѕС…Р°РІР°С‚СЊ(РїРѕР»РѕСЃРєР° РіРѕР»РѕРґР° СЃ РЅР°СЃС‚СЂРѕР№РєРѕР№) 
+		Р¤РёРєСЃ РєСЂР°С€РµР№ РёР·-Р·Р° РїРёР°СЂР° Рё РґСЂ.
+		Р”РѕР±Р°РІР»РµРЅ Fastconnect
 	v2.0.3
-		Фиксы багов
+		Р¤РёРєСЃС‹ Р±Р°РіРѕРІ
 	v2.0.4
-		Отключение автообновлений
-		В VK Notifications добавлена кнопка "SMS и Звонок"
+		РћС‚РєР»СЋС‡РµРЅРёРµ Р°РІС‚РѕРѕР±РЅРѕРІР»РµРЅРёР№
+		Р’ VK Notifications РґРѕР±Р°РІР»РµРЅР° РєРЅРѕРїРєР° "SMS Рё Р—РІРѕРЅРѕРє"
 	v2.0.5
-		В VK Notifications добавлена кнопка "КД мешка/рулеток", а также "Код с почты/ВК"
-		Добавлены команды !sendcode !sendvk для отправки кодов подтверждений из ВК в игру.
+		Р’ VK Notifications РґРѕР±Р°РІР»РµРЅР° РєРЅРѕРїРєР° "РљР” РјРµС€РєР°/СЂСѓР»РµС‚РѕРє", Р° С‚Р°РєР¶Рµ "РљРѕРґ СЃ РїРѕС‡С‚С‹/Р’Рљ"
+		Р”РѕР±Р°РІР»РµРЅС‹ РєРѕРјР°РЅРґС‹ !sendcode !sendvk РґР»СЏ РѕС‚РїСЂР°РІРєРё РєРѕРґРѕРІ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёР№ РёР· Р’Рљ РІ РёРіСЂСѓ.
 	v2.0.6
-		Добавлен Автоответчик, который сам возьмет трубку и попросит абонента написать в ВК.
-		Добавлена запись звонков, также можно разговаривать по телефону из ВК.
-		В ВК добавлены команды !p (принять звонок) и !h (сбросить звонок). Общаться можно через !send [текст].
+		Р”РѕР±Р°РІР»РµРЅ РђРІС‚РѕРѕС‚РІРµС‚С‡РёРє, РєРѕС‚РѕСЂС‹Р№ СЃР°Рј РІРѕР·СЊРјРµС‚ С‚СЂСѓР±РєСѓ Рё РїРѕРїСЂРѕСЃРёС‚ Р°Р±РѕРЅРµРЅС‚Р° РЅР°РїРёСЃР°С‚СЊ РІ Р’Рљ.
+		Р”РѕР±Р°РІР»РµРЅР° Р·Р°РїРёСЃСЊ Р·РІРѕРЅРєРѕРІ, С‚Р°РєР¶Рµ РјРѕР¶РЅРѕ СЂР°Р·РіРѕРІР°СЂРёРІР°С‚СЊ РїРѕ С‚РµР»РµС„РѕРЅСѓ РёР· Р’Рљ.
+		Р’ Р’Рљ РґРѕР±Р°РІР»РµРЅС‹ РєРѕРјР°РЅРґС‹ !p (РїСЂРёРЅСЏС‚СЊ Р·РІРѕРЅРѕРє) Рё !h (СЃР±СЂРѕСЃРёС‚СЊ Р·РІРѕРЅРѕРє). РћР±С‰Р°С‚СЊСЃСЏ РјРѕР¶РЅРѕ С‡РµСЂРµР· !send [С‚РµРєСЃС‚].
 	v2.0.7
-		Если в автопиаре используете /ad, то для этого добавлен Автоскип /ad (для обычных и маркетологов).
-		Пофиксил флуд в ВК "The server didn't respond".
-		Восстановление на БХ.
+		Р•СЃР»Рё РІ Р°РІС‚РѕРїРёР°СЂРµ РёСЃРїРѕР»СЊР·СѓРµС‚Рµ /ad, С‚Рѕ РґР»СЏ СЌС‚РѕРіРѕ РґРѕР±Р°РІР»РµРЅ РђРІС‚РѕСЃРєРёРї /ad (РґР»СЏ РѕР±С‹С‡РЅС‹С… Рё РјР°СЂРєРµС‚РѕР»РѕРіРѕРІ).
+		РџРѕС„РёРєСЃРёР» С„Р»СѓРґ РІ Р’Рљ "The server didn't respond".
+		Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ РЅР° Р‘РҐ.
 	v2.0.8
-		Добавил проверку при использовании команды !p, !h (раньше скрипт отправлял сообщения даже не взаимодействуя)
-		Теперь скрипт не рестартит при запросе кода с почты/ВК.
-		Переписан автоответчик, а также запись звонков.
-		Теперь есть 2 версии скрипта:
-			- С уже подключенным пабликом (для тех кто не умеет)
-			- Без подключенного паблика, подключать самому (для тех кто хочет быть крутым)
-		Добавлена команда !gauth для отправки кода из GAuthenticator
-		Если персонаж заспанится после логина, то придет уведомление
+		Р”РѕР±Р°РІРёР» РїСЂРѕРІРµСЂРєСѓ РїСЂРё РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРё РєРѕРјР°РЅРґС‹ !p, !h (СЂР°РЅСЊС€Рµ СЃРєСЂРёРїС‚ РѕС‚РїСЂР°РІР»СЏР» СЃРѕРѕР±С‰РµРЅРёСЏ РґР°Р¶Рµ РЅРµ РІР·Р°РёРјРѕРґРµР№СЃС‚РІСѓСЏ)
+		РўРµРїРµСЂСЊ СЃРєСЂРёРїС‚ РЅРµ СЂРµСЃС‚Р°СЂС‚РёС‚ РїСЂРё Р·Р°РїСЂРѕСЃРµ РєРѕРґР° СЃ РїРѕС‡С‚С‹/Р’Рљ.
+		РџРµСЂРµРїРёСЃР°РЅ Р°РІС‚РѕРѕС‚РІРµС‚С‡РёРє, Р° С‚Р°РєР¶Рµ Р·Р°РїРёСЃСЊ Р·РІРѕРЅРєРѕРІ.
+		РўРµРїРµСЂСЊ РµСЃС‚СЊ 2 РІРµСЂСЃРёРё СЃРєСЂРёРїС‚Р°:
+			- РЎ СѓР¶Рµ РїРѕРґРєР»СЋС‡РµРЅРЅС‹Рј РїР°Р±Р»РёРєРѕРј (РґР»СЏ С‚РµС… РєС‚Рѕ РЅРµ СѓРјРµРµС‚)
+			- Р‘РµР· РїРѕРґРєР»СЋС‡РµРЅРЅРѕРіРѕ РїР°Р±Р»РёРєР°, РїРѕРґРєР»СЋС‡Р°С‚СЊ СЃР°РјРѕРјСѓ (РґР»СЏ С‚РµС… РєС‚Рѕ С…РѕС‡РµС‚ Р±С‹С‚СЊ РєСЂСѓС‚С‹Рј)
+		Р”РѕР±Р°РІР»РµРЅР° РєРѕРјР°РЅРґР° !gauth РґР»СЏ РѕС‚РїСЂР°РІРєРё РєРѕРґР° РёР· GAuthenticator
+		Р•СЃР»Рё РїРµСЂСЃРѕРЅР°Р¶ Р·Р°СЃРїР°РЅРёС‚СЃСЏ РїРѕСЃР»Рµ Р»РѕРіРёРЅР°, С‚Рѕ РїСЂРёРґРµС‚ СѓРІРµРґРѕРјР»РµРЅРёРµ
 	v2.0.9
-		Теперь на автоответчик можно писать свой текст.
-		В ВК добавлена кнопка "Последние 10 строк с чата"
-		Добавлена функция переотправки сообщения в /vr из-за КД.
+		РўРµРїРµСЂСЊ РЅР° Р°РІС‚РѕРѕС‚РІРµС‚С‡РёРє РјРѕР¶РЅРѕ РїРёСЃР°С‚СЊ СЃРІРѕР№ С‚РµРєСЃС‚.
+		Р’ Р’Рљ РґРѕР±Р°РІР»РµРЅР° РєРЅРѕРїРєР° "РџРѕСЃР»РµРґРЅРёРµ 10 СЃС‚СЂРѕРє СЃ С‡Р°С‚Р°"
+		Р”РѕР±Р°РІР»РµРЅР° С„СѓРЅРєС†РёСЏ РїРµСЂРµРѕС‚РїСЂР°РІРєРё СЃРѕРѕР±С‰РµРЅРёСЏ РІ /vr РёР·-Р·Р° РљР”.
 
 
 ]]
 scriptinfo = [[
-	AFK Tools - скрипт, для прокачки аккаунта на Arizona Role Play
-	В данном разделе вы можете более подробно узнать о скрипте
+	AFK Tools - СЃРєСЂРёРїС‚, РґР»СЏ РїСЂРѕРєР°С‡РєРё Р°РєРєР°СѓРЅС‚Р° РЅР° Arizona Role Play
+	Р’ РґР°РЅРЅРѕРј СЂР°Р·РґРµР»Рµ РІС‹ РјРѕР¶РµС‚Рµ Р±РѕР»РµРµ РїРѕРґСЂРѕР±РЅРѕ СѓР·РЅР°С‚СЊ Рѕ СЃРєСЂРёРїС‚Рµ
 
-	Команды скрипта:
-		/afktools - открыть меню скрипта
-		/afkreload - перезагрузить скрипт 
-		/afkunload - выгрузить скрипт
-		/afkrec - реконнект с секундами
-		/afksrec - остановить реконнект(стандартный или авторекон) 
+	РљРѕРјР°РЅРґС‹ СЃРєСЂРёРїС‚Р°:
+		/afktools - РѕС‚РєСЂС‹С‚СЊ РјРµРЅСЋ СЃРєСЂРёРїС‚Р°
+		/afkreload - РїРµСЂРµР·Р°РіСЂСѓР·РёС‚СЊ СЃРєСЂРёРїС‚ 
+		/afkunload - РІС‹РіСЂСѓР·РёС‚СЊ СЃРєСЂРёРїС‚
+		/afkrec - СЂРµРєРѕРЅРЅРµРєС‚ СЃ СЃРµРєСѓРЅРґР°РјРё
+		/afksrec - РѕСЃС‚Р°РЅРѕРІРёС‚СЊ СЂРµРєРѕРЅРЅРµРєС‚(СЃС‚Р°РЅРґР°СЂС‚РЅС‹Р№ РёР»Рё Р°РІС‚РѕСЂРµРєРѕРЅ) 
 ]]
 
 
 howsetVK = [[
-Где взять Token?
-1. Создайте группу VK для уведомлений
-2. Зайдите в Управление -> Настройки -> Работа с API -> Ключи доступа
-3. Нажмите создать ключ
-4. Выберите 2 пункта:
-	Разрешить приложению доступ к управлению сообществом
-	Разрешить приложению доступ к сообщениям сообщества
-5. Нажмите "Создать"
-6. Если требуется подтвердите действие
-7. После этого у вас появится токен, скопируйте его и вставьте в поле "Токен"
+Р“РґРµ РІР·СЏС‚СЊ Token?
+1. РЎРѕР·РґР°Р№С‚Рµ РіСЂСѓРїРїСѓ VK РґР»СЏ СѓРІРµРґРѕРјР»РµРЅРёР№
+2. Р—Р°Р№РґРёС‚Рµ РІ РЈРїСЂР°РІР»РµРЅРёРµ -> РќР°СЃС‚СЂРѕР№РєРё -> Р Р°Р±РѕС‚Р° СЃ API -> РљР»СЋС‡Рё РґРѕСЃС‚СѓРїР°
+3. РќР°Р¶РјРёС‚Рµ СЃРѕР·РґР°С‚СЊ РєР»СЋС‡
+4. Р’С‹Р±РµСЂРёС‚Рµ 2 РїСѓРЅРєС‚Р°:
+	Р Р°Р·СЂРµС€РёС‚СЊ РїСЂРёР»РѕР¶РµРЅРёСЋ РґРѕСЃС‚СѓРї Рє СѓРїСЂР°РІР»РµРЅРёСЋ СЃРѕРѕР±С‰РµСЃС‚РІРѕРј
+	Р Р°Р·СЂРµС€РёС‚СЊ РїСЂРёР»РѕР¶РµРЅРёСЋ РґРѕСЃС‚СѓРї Рє СЃРѕРѕР±С‰РµРЅРёСЏРј СЃРѕРѕР±С‰РµСЃС‚РІР°
+5. РќР°Р¶РјРёС‚Рµ "РЎРѕР·РґР°С‚СЊ"
+6. Р•СЃР»Рё С‚СЂРµР±СѓРµС‚СЃСЏ РїРѕРґС‚РІРµСЂРґРёС‚Рµ РґРµР№СЃС‚РІРёРµ
+7. РџРѕСЃР»Рµ СЌС‚РѕРіРѕ Сѓ РІР°СЃ РїРѕСЏРІРёС‚СЃСЏ С‚РѕРєРµРЅ, СЃРєРѕРїРёСЂСѓР№С‚Рµ РµРіРѕ Рё РІСЃС‚Р°РІСЊС‚Рµ РІ РїРѕР»Рµ "РўРѕРєРµРЅ"
 
-Как настроить команды !getstats, !getinfo и др.?
+РљР°Рє РЅР°СЃС‚СЂРѕРёС‚СЊ РєРѕРјР°РЅРґС‹ !getstats, !getinfo Рё РґСЂ.?
 
-Переходим во вкладку "Long Poll API", в подвкладке "Настройки" включаем его, выбираем версию 5.80(вместо версии 5.50)
-Переходим в вкладку "Типы событий", там ставим галочку на входящее сообщение. Готово!
-Во вкладке "Сообщения" справа включаем сообщения сообщества и не забываем сразу же разрешить 
-	сообщения от сообщества с главной страницы группы(или же просто что-то пишем в сообщения группы).
-Теперь необходимо так же активировать возможности ботов в группе: 
-	Управление - Сообщения - Настройки ботов - Возможности ботов - Включены
-В скрипте нужно будет заполнить ID группы, которой мы создали выше.
-p.s если ID группы не в виде числа, вы можете его добыть в диалоге с группой
-	Например: ссылка на диалог: https://vk.com/im?sel=-194187813, где 194187813 это ID группы 
-p.s.s если у вас не было до этого ID группы, сохраните настройки и нажмите "Переподключение к серверам"  
+РџРµСЂРµС…РѕРґРёРј РІРѕ РІРєР»Р°РґРєСѓ "Long Poll API", РІ РїРѕРґРІРєР»Р°РґРєРµ "РќР°СЃС‚СЂРѕР№РєРё" РІРєР»СЋС‡Р°РµРј РµРіРѕ, РІС‹Р±РёСЂР°РµРј РІРµСЂСЃРёСЋ 5.80(РІРјРµСЃС‚Рѕ РІРµСЂСЃРёРё 5.50)
+РџРµСЂРµС…РѕРґРёРј РІ РІРєР»Р°РґРєСѓ "РўРёРїС‹ СЃРѕР±С‹С‚РёР№", С‚Р°Рј СЃС‚Р°РІРёРј РіР°Р»РѕС‡РєСѓ РЅР° РІС…РѕРґСЏС‰РµРµ СЃРѕРѕР±С‰РµРЅРёРµ. Р“РѕС‚РѕРІРѕ!
+Р’Рѕ РІРєР»Р°РґРєРµ "РЎРѕРѕР±С‰РµРЅРёСЏ" СЃРїСЂР°РІР° РІРєР»СЋС‡Р°РµРј СЃРѕРѕР±С‰РµРЅРёСЏ СЃРѕРѕР±С‰РµСЃС‚РІР° Рё РЅРµ Р·Р°Р±С‹РІР°РµРј СЃСЂР°Р·Сѓ Р¶Рµ СЂР°Р·СЂРµС€РёС‚СЊ 
+	СЃРѕРѕР±С‰РµРЅРёСЏ РѕС‚ СЃРѕРѕР±С‰РµСЃС‚РІР° СЃ РіР»Р°РІРЅРѕР№ СЃС‚СЂР°РЅРёС†С‹ РіСЂСѓРїРїС‹(РёР»Рё Р¶Рµ РїСЂРѕСЃС‚Рѕ С‡С‚Рѕ-С‚Рѕ РїРёС€РµРј РІ СЃРѕРѕР±С‰РµРЅРёСЏ РіСЂСѓРїРїС‹).
+РўРµРїРµСЂСЊ РЅРµРѕР±С…РѕРґРёРјРѕ С‚Р°Рє Р¶Рµ Р°РєС‚РёРІРёСЂРѕРІР°С‚СЊ РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё Р±РѕС‚РѕРІ РІ РіСЂСѓРїРїРµ: 
+	РЈРїСЂР°РІР»РµРЅРёРµ - РЎРѕРѕР±С‰РµРЅРёСЏ - РќР°СЃС‚СЂРѕР№РєРё Р±РѕС‚РѕРІ - Р’РѕР·РјРѕР¶РЅРѕСЃС‚Рё Р±РѕС‚РѕРІ - Р’РєР»СЋС‡РµРЅС‹
+Р’ СЃРєСЂРёРїС‚Рµ РЅСѓР¶РЅРѕ Р±СѓРґРµС‚ Р·Р°РїРѕР»РЅРёС‚СЊ ID РіСЂСѓРїРїС‹, РєРѕС‚РѕСЂРѕР№ РјС‹ СЃРѕР·РґР°Р»Рё РІС‹С€Рµ.
+p.s РµСЃР»Рё ID РіСЂСѓРїРїС‹ РЅРµ РІ РІРёРґРµ С‡РёСЃР»Р°, РІС‹ РјРѕР¶РµС‚Рµ РµРіРѕ РґРѕР±С‹С‚СЊ РІ РґРёР°Р»РѕРіРµ СЃ РіСЂСѓРїРїРѕР№
+	РќР°РїСЂРёРјРµСЂ: СЃСЃС‹Р»РєР° РЅР° РґРёР°Р»РѕРі: https://vk.com/im?sel=-194187813, РіРґРµ 194187813 СЌС‚Рѕ ID РіСЂСѓРїРїС‹ 
+p.s.s РµСЃР»Рё Сѓ РІР°СЃ РЅРµ Р±С‹Р»Рѕ РґРѕ СЌС‚РѕРіРѕ ID РіСЂСѓРїРїС‹, СЃРѕС…СЂР°РЅРёС‚Рµ РЅР°СЃС‚СЂРѕР№РєРё Рё РЅР°Р¶РјРёС‚Рµ "РџРµСЂРµРїРѕРґРєР»СЋС‡РµРЅРёРµ Рє СЃРµСЂРІРµСЂР°Рј"  
 
-Где взять VK ID?
-Самый простой способ
-1. Зайдите в "Настройки" вашего аккаунта
-2. В поле "Адрес страницы" нажмите "Изменить"
-3. Над кнопкой "Сохранить" будет текст - "Номер страницы - (цифры)". Эти цифры и есть ваш VK ID
-4. Перепишите эти цифры в поле "VK ID" 
+Р“РґРµ РІР·СЏС‚СЊ VK ID?
+РЎР°РјС‹Р№ РїСЂРѕСЃС‚РѕР№ СЃРїРѕСЃРѕР±
+1. Р—Р°Р№РґРёС‚Рµ РІ "РќР°СЃС‚СЂРѕР№РєРё" РІР°С€РµРіРѕ Р°РєРєР°СѓРЅС‚Р°
+2. Р’ РїРѕР»Рµ "РђРґСЂРµСЃ СЃС‚СЂР°РЅРёС†С‹" РЅР°Р¶РјРёС‚Рµ "РР·РјРµРЅРёС‚СЊ"
+3. РќР°Рґ РєРЅРѕРїРєРѕР№ "РЎРѕС…СЂР°РЅРёС‚СЊ" Р±СѓРґРµС‚ С‚РµРєСЃС‚ - "РќРѕРјРµСЂ СЃС‚СЂР°РЅРёС†С‹ - (С†РёС„СЂС‹)". Р­С‚Рё С†РёС„СЂС‹ Рё РµСЃС‚СЊ РІР°С€ VK ID
+4. РџРµСЂРµРїРёС€РёС‚Рµ СЌС‚Рё С†РёС„СЂС‹ РІ РїРѕР»Рµ "VK ID" 
 
-Сохраните
-Напишите что-то в вашу группу
-Теперь, вы можете проверить уведомления нажав кнопку "Проверить" 
+РЎРѕС…СЂР°РЅРёС‚Рµ
+РќР°РїРёС€РёС‚Рµ С‡С‚Рѕ-С‚Рѕ РІ РІР°С€Сѓ РіСЂСѓРїРїСѓ
+РўРµРїРµСЂСЊ, РІС‹ РјРѕР¶РµС‚Рµ РїСЂРѕРІРµСЂРёС‚СЊ СѓРІРµРґРѕРјР»РµРЅРёСЏ РЅР°Р¶Р°РІ РєРЅРѕРїРєСѓ "РџСЂРѕРІРµСЂРёС‚СЊ" 
 ]]
 local _message = {}
 
@@ -324,11 +324,11 @@ local checkopen = {
 }
 local onPlayerHungry = lua_thread.create_suspended(function()
 	if eat.eatmetod.v == 1 then
-		AFKMessage('Реагирую, кушаю')
+		AFKMessage('Р РµР°РіРёСЂСѓСЋ, РєСѓС€Р°СЋ')
 		gotoeatinhouse = true
 		sampSendChat('/home')
 	elseif eat.eatmetod.v == 3 then
-		AFKMessage('Реагирую, кушаю')
+		AFKMessage('Р РµР°РіРёСЂСѓСЋ, РєСѓС€Р°СЋ')
 		setVirtualKeyDown(0x12, false)
 		while not sampIsDialogActive() do wait(0) end
 		sampSendDialogResponse(1825, 1, 6, false)
@@ -340,7 +340,7 @@ local onPlayerHungry = lua_thread.create_suspended(function()
 		wait(500)
 		sampCloseCurrentDialogWithButton(0)
 	elseif eat.eatmetod.v == 2 then 
-		AFKMessage('Реагирую, кушаю')
+		AFKMessage('Р РµР°РіРёСЂСѓСЋ, РєСѓС€Р°СЋ')
 		if eat.setmetod.v == 0 then
 			for i = 1,30 do
 				sampSendChat('/cheeps')
@@ -369,13 +369,13 @@ local checkrulopen = lua_thread.create_suspended(function()
 	while true do
 		wait(0)
 		if aopen then
-			AFKMessage('Начинаем делать проверку')
+			AFKMessage('РќР°С‡РёРЅР°РµРј РґРµР»Р°С‚СЊ РїСЂРѕРІРµСЂРєСѓ')
 			checkopen.standart = true
 			checkopen.donate = roulette.donate.v and true or false
 			checkopen.platina = roulette.platina.v and true or false
 			sampSendChat('/invent')
 			wait(roulette.wait.v*1000)
-			AFKMessage('Перезапуск')
+			AFKMessage('РџРµСЂРµР·Р°РїСѓСЃРє')
 		end
 	end
 end)
@@ -422,20 +422,20 @@ end
 
 local checklist = {
 	u8('You are hungry!'),
-	u8('Полоска голода')
+	u8('РџРѕР»РѕСЃРєР° РіРѕР»РѕРґР°')
 }
 local metod = {
-	u8('Чипсы'),
-	u8('Рыба'),
-	u8('Оленина'),
+	u8('Р§РёРїСЃС‹'),
+	u8('Р С‹Р±Р°'),
+	u8('РћР»РµРЅРёРЅР°'),
 	u8('TextDraw'),
-	u8('Мешок')
+	u8('РњРµС€РѕРє')
 }
 local healmetod = {
-	u8('Аптечка'),
-	u8('Наркотики'),
-	u8('Андреналин'),
-	u8('Пиво'),
+	u8('РђРїС‚РµС‡РєР°'),
+	u8('РќР°СЂРєРѕС‚РёРєРё'),
+	u8('РђРЅРґСЂРµРЅР°Р»РёРЅ'),
+	u8('РџРёРІРѕ'),
 	u8('TextDraw')
 }
  
@@ -471,7 +471,7 @@ menufill = 0
 localvalue = 0
 local key, server, ts
 
-function threadHandle(runner, url, args, resolve, reject) -- обработка effil потока без блокировок
+function threadHandle(runner, url, args, resolve, reject) -- РѕР±СЂР°Р±РѕС‚РєР° effil РїРѕС‚РѕРєР° Р±РµР· Р±Р»РѕРєРёСЂРѕРІРѕРє
 	local t = runner(url, args)
 	local r = t:get(0)
 	while not r do
@@ -489,7 +489,7 @@ function threadHandle(runner, url, args, resolve, reject) -- обработка effil пот
 	end
 	t:cancel(0)
 end
-function requestRunner() -- создание effil потока с функцией https запроса
+function requestRunner() -- СЃРѕР·РґР°РЅРёРµ effil РїРѕС‚РѕРєР° СЃ С„СѓРЅРєС†РёРµР№ https Р·Р°РїСЂРѕСЃР°
 	return effil.thread(function(u, a)
 		local https = require 'ssl.https'
 		local ok, result = pcall(https.request, u, a)
@@ -505,7 +505,7 @@ function async_http_request(url, args, resolve, reject)
 	if not reject then reject = function() end end
 	lua_thread.create(threadHandle,runner, url, args, resolve, reject)
 end
-local vkerr, vkerrsend -- сообщение с текстом ошибки, nil если все ок
+local vkerr, vkerrsend -- СЃРѕРѕР±С‰РµРЅРёРµ СЃ С‚РµРєСЃС‚РѕРј РѕС€РёР±РєРё, nil РµСЃР»Рё РІСЃРµ РѕРє
 function tblfromstr(str)
 	local a = {}
 	for b in str:gmatch('%S+') do
@@ -516,7 +516,7 @@ end
 function longpollResolve(result)
 	if result then
 		if not result:sub(1,1) == '{' then
-			vkerr = 'Ошибка!\nПричина: Нет соединения с VK!'
+			vkerr = 'РћС€РёР±РєР°!\nРџСЂРёС‡РёРЅР°: РќРµС‚ СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ VK!'
 			return
 		end
 		local t = decodeJson(result)
@@ -547,7 +547,7 @@ function longpollResolve(result)
 							elseif pl.button == 'lastchat10' then
 								lastchatmessage(10,sendvknotf)
 							elseif pl.button == 'support' then
-								sendvknotf('Команды:\n!send - Отправить сообщение из VK в Игру\n!getplstats - получить статистику персонажа\n!getplhun - получить голод персонажа\n!getplinfo - получить информацию о персонаже\n!sendcode - отправить код с почты\n!sendvk - отправить код из ВК\n!gauth - отправить код из GAuth\n!p/!h - сбросить/принять вызов\nПоддержка: @sk33z')
+								sendvknotf('РљРѕРјР°РЅРґС‹:\n!send - РћС‚РїСЂР°РІРёС‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ РёР· VK РІ РРіСЂСѓ\n!getplstats - РїРѕР»СѓС‡РёС‚СЊ СЃС‚Р°С‚РёСЃС‚РёРєСѓ РїРµСЂСЃРѕРЅР°Р¶Р°\n!getplhun - РїРѕР»СѓС‡РёС‚СЊ РіРѕР»РѕРґ РїРµСЂСЃРѕРЅР°Р¶Р°\n!getplinfo - РїРѕР»СѓС‡РёС‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РїРµСЂСЃРѕРЅР°Р¶Рµ\n!sendcode - РѕС‚РїСЂР°РІРёС‚СЊ РєРѕРґ СЃ РїРѕС‡С‚С‹\n!sendvk - РѕС‚РїСЂР°РІРёС‚СЊ РєРѕРґ РёР· Р’Рљ\n!gauth - РѕС‚РїСЂР°РІРёС‚СЊ РєРѕРґ РёР· GAuth\n!p/!h - СЃР±СЂРѕСЃРёС‚СЊ/РїСЂРёРЅСЏС‚СЊ РІС‹Р·РѕРІ\nРџРѕРґРґРµСЂР¶РєР°: @sk33z')
 							elseif pl.button == 'openchest' then
 								openchestrulletVK(sendvknotf)
 							elseif pl.button == 'keyW' then
@@ -579,9 +579,9 @@ function longpollResolve(result)
 						if #args > 0 then
 							args = u8:decode(args)
 							sampProcessChatInput(args)
-							sendvknotf('Сообщение "' .. args .. '" было успешно отправлено в игру')
+							sendvknotf('РЎРѕРѕР±С‰РµРЅРёРµ "' .. args .. '" Р±С‹Р»Рѕ СѓСЃРїРµС€РЅРѕ РѕС‚РїСЂР°РІР»РµРЅРѕ РІ РёРіСЂСѓ')
 						else
-							sendvknotf('Неправильный аргумент! Пример: !send [строка]')
+							sendvknotf('РќРµРїСЂР°РІРёР»СЊРЅС‹Р№ Р°СЂРіСѓРјРµРЅС‚! РџСЂРёРјРµСЂ: !send [СЃС‚СЂРѕРєР°]')
 						end
 						elseif objsend[1] == '!sendcode' then
 						print('this')
@@ -589,9 +589,9 @@ function longpollResolve(result)
 						if #args > 0 then
 							args = u8:decode(args)
 							sampSendDialogResponse(8928, 1, false, (args))
-							sendvknotf('Код "' .. args .. '" был успешно отправлен в диалог')
+							sendvknotf('РљРѕРґ "' .. args .. '" Р±С‹Р» СѓСЃРїРµС€РЅРѕ РѕС‚РїСЂР°РІР»РµРЅ РІ РґРёР°Р»РѕРі')
 						else
-							sendvknotf('Неправильный аргумент! Пример: !sendcode [код]')
+							sendvknotf('РќРµРїСЂР°РІРёР»СЊРЅС‹Р№ Р°СЂРіСѓРјРµРЅС‚! РџСЂРёРјРµСЂ: !sendcode [РєРѕРґ]')
 						end
 						elseif objsend[1] == '!sendvk' then
 						print('this')
@@ -599,9 +599,9 @@ function longpollResolve(result)
 						if #args > 0 then
 							args = u8:decode(args)
 							sampSendDialogResponse(7782, 1, false, (args))
-							sendvknotf('Код "' .. args .. '" был успешно отправлен в диалог')
+							sendvknotf('РљРѕРґ "' .. args .. '" Р±С‹Р» СѓСЃРїРµС€РЅРѕ РѕС‚РїСЂР°РІР»РµРЅ РІ РґРёР°Р»РѕРі')
 						else
-							sendvknotf('Неправильный аргумент! Пример: !sendvk [код]')
+							sendvknotf('РќРµРїСЂР°РІРёР»СЊРЅС‹Р№ Р°СЂРіСѓРјРµРЅС‚! РџСЂРёРјРµСЂ: !sendvk [РєРѕРґ]')
 						end
 						elseif objsend[1] == '!gauth' then
 						print('this')
@@ -609,16 +609,16 @@ function longpollResolve(result)
 						if #args > 0 then
 							args = u8:decode(args)
 							sampSendDialogResponse(8929, 1, false, (args))
-							sendvknotf('Код "' .. args .. '" был успешно отправлен в диалог')
+							sendvknotf('РљРѕРґ "' .. args .. '" Р±С‹Р» СѓСЃРїРµС€РЅРѕ РѕС‚РїСЂР°РІР»РµРЅ РІ РґРёР°Р»РѕРі')
 						else
-							sendvknotf('Неправильный аргумент! Пример: !gauth [код]')
+							sendvknotf('РќРµРїСЂР°РІРёР»СЊРЅС‹Р№ Р°СЂРіСѓРјРµРЅС‚! РџСЂРёРјРµСЂ: !gauth [РєРѕРґ]')
 						end
 					elseif cmd == '!lastchat' then
 						local lines = tonumber(args)
 						if lines and lines < 52 and lines > 0 then
 							lastchatmessage(text,sendvknotf)
 						else
-							sendvknotf('Неверное значение! Аргумент должен быть больше 0 и меньше 52')
+							sendvknotf('РќРµРІРµСЂРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ! РђСЂРіСѓРјРµРЅС‚ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 0 Рё РјРµРЅСЊС€Рµ 52')
 						end
 						return
 					end
@@ -631,13 +631,13 @@ function longpollGetKey()
 	async_http_request('https://api.vk.com/method/groups.getLongPollServer?group_id=' .. vknotf.group_id.v .. '&access_token=' .. vknotf.token.v .. '&v=5.81', '', function (result)
 		if result then
 			if not result:sub(1,1) == '{' then
-				vkerr = 'Ошибка!\nПричина: Нет соединения с VK!'
+				vkerr = 'РћС€РёР±РєР°!\nРџСЂРёС‡РёРЅР°: РќРµС‚ СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ VK!'
 				return
 			end
 			local t = decodeJson(result)
 			if t then
 				if t.error then
-					vkerr = 'Ошибка!\nКод: ' .. t.error.error_code .. ' Причина: ' .. t.error.error_msg
+					vkerr = 'РћС€РёР±РєР°!\nРљРѕРґ: ' .. t.error.error_code .. ' РџСЂРёС‡РёРЅР°: ' .. t.error.error_msg
 					return
 				end
 				server = t.response.server
@@ -667,14 +667,14 @@ function sendvknotf(msg, host)
 				return
 			end
 			if t.error then
-				vkerrsend = 'Ошибка!\nКод: ' .. t.error.error_code .. ' Причина: ' .. t.error.error_msg
+				vkerrsend = 'РћС€РёР±РєР°!\nРљРѕРґ: ' .. t.error.error_code .. ' РџСЂРёС‡РёРЅР°: ' .. t.error.error_msg
 				return
 			end
 			vkerrsend = nil
 		end)
 	end
 end
-function vkKeyboard() --создает конкретную клавиатуру для бота VK, как сделать для более общих случаев пока не задумывался
+function vkKeyboard() --СЃРѕР·РґР°РµС‚ РєРѕРЅРєСЂРµС‚РЅСѓСЋ РєР»Р°РІРёР°С‚СѓСЂСѓ РґР»СЏ Р±РѕС‚Р° VK, РєР°Рє СЃРґРµР»Р°С‚СЊ РґР»СЏ Р±РѕР»РµРµ РѕР±С‰РёС… СЃР»СѓС‡Р°РµРІ РїРѕРєР° РЅРµ Р·Р°РґСѓРјС‹РІР°Р»СЃСЏ
 	local keyboard = {}
 	keyboard.one_time = false
 	keyboard.buttons = {}
@@ -693,37 +693,37 @@ function vkKeyboard() --создает конкретную клавиатуру для бота VK, как сделать д
 	row[1].color = 'positive'
 	row[1].action.type = 'text'
 	row[1].action.payload = '{"button": "getinfo"}'
-	row[1].action.label = 'Информация'
+	row[1].action.label = 'РРЅС„РѕСЂРјР°С†РёСЏ'
 	row[2] = {}
 	row[2].action = {}
 	row[2].color = 'positive'
 	row[2].action.type = 'text'
 	row[2].action.payload = '{"button": "getstats"}'
-	row[2].action.label = 'Статистика'
+	row[2].action.label = 'РЎС‚Р°С‚РёСЃС‚РёРєР°'
 	row[3] = {}
 	row[3].action = {}
 	row[3].color = 'positive'
 	row[3].action.type = 'text'
 	row[3].action.payload = '{"button": "gethun"}'
-	row[3].action.label = 'Голод'
+	row[3].action.label = 'Р“РѕР»РѕРґ'
 	row2[2] = {}
 	row2[2].action = {}
 	row2[2].color = 'positive'
 	row2[2].action.type = 'text'
 	row2[2].action.payload = '{"button": "lastchat10"}'
-	row2[2].action.label = 'Последние 10 строк с чата'
+	row2[2].action.label = 'РџРѕСЃР»РµРґРЅРёРµ 10 СЃС‚СЂРѕРє СЃ С‡Р°С‚Р°'
 	row2[1] = {}
 	row2[1].action = {}
 	row2[1].color = 'positive'
 	row2[1].action.type = 'text'
 	row2[1].action.payload = '{"button": "openchest"}'
-	row2[1].action.label = aopen and 'Выключить автооткрытие' or 'Включить автооткрытие'
+	row2[1].action.label = aopen and 'Р’С‹РєР»СЋС‡РёС‚СЊ Р°РІС‚РѕРѕС‚РєСЂС‹С‚РёРµ' or 'Р’РєР»СЋС‡РёС‚СЊ Р°РІС‚РѕРѕС‚РєСЂС‹С‚РёРµ'
 	row3[1] = {}
 	row3[1].action = {}
 	row3[1].color = 'positive'
 	row3[1].action.type = 'text'
 	row3[1].action.payload = '{"button": "support"}'
-	row3[1].action.label = 'Поддержка'
+	row3[1].action.label = 'РџРѕРґРґРµСЂР¶РєР°'
 	row4[1] = {}
 	row4[1].action = {}
 	row4[1].color = 'positive'
@@ -769,7 +769,7 @@ function getPlayerInfo()
 		response = response .. 'Coords: X: ' .. math.floor(x) .. ' | Y: ' .. math.floor(y) .. ' | Z: ' .. math.floor(z)
 		sendvknotf(response)
 	else
-		sendvknotf('Вы не подключены к серверу!')
+		sendvknotf('Р’С‹ РЅРµ РїРѕРґРєР»СЋС‡РµРЅС‹ Рє СЃРµСЂРІРµСЂСѓ!')
 	end
 end
 sendstatsstate = false
@@ -784,10 +784,10 @@ function getPlayerArzStats()
 				timesendrequest = 0
 			end 
 		end
-		sendvknotf(sendstatsstate == true and 'Ошибка! В течении 10 секунд скрипт не получил информацию!' or tostring(sendstatsstate))
+		sendvknotf(sendstatsstate == true and 'РћС€РёР±РєР°! Р’ С‚РµС‡РµРЅРёРё 10 СЃРµРєСѓРЅРґ СЃРєСЂРёРїС‚ РЅРµ РїРѕР»СѓС‡РёР» РёРЅС„РѕСЂРјР°С†РёСЋ!' or tostring(sendstatsstate))
 		sendstatsstate = false
 	else
-		sendvknotf('(error) Персонаж не заспавнен')
+		sendvknotf('(error) РџРµСЂСЃРѕРЅР°Р¶ РЅРµ Р·Р°СЃРїР°РІРЅРµРЅ')
 	end
 end
 function lastchatmessage(intchat, tochat)
@@ -800,7 +800,7 @@ function lastchatmessage(intchat, tochat)
 		end
 		sendvknotf(allchat)
 	else
-		sendvknotf('(error) Персонаж не заспавнен')
+		sendvknotf('(error) РџРµСЂСЃРѕРЅР°Р¶ РЅРµ Р·Р°СЃРїР°РІРЅРµРЅ')
 	end
 end
 function getPlayerArzHun()
@@ -814,10 +814,10 @@ function getPlayerArzHun()
 				timesendrequest = 0
 			end 
 		end
-		sendvknotf(gethunstate == true and 'Ошибка! В течении 10 секунд скрипт не получил информацию!' or tostring(gethunstate))
+		sendvknotf(gethunstate == true and 'РћС€РёР±РєР°! Р’ С‚РµС‡РµРЅРёРё 10 СЃРµРєСѓРЅРґ СЃРєСЂРёРїС‚ РЅРµ РїРѕР»СѓС‡РёР» РёРЅС„РѕСЂРјР°С†РёСЋ!' or tostring(gethunstate))
 		gethunstate = false
 	else
-		sendvknotf('(error) Персонаж не заспавнен')
+		sendvknotf('(error) РџРµСЂСЃРѕРЅР°Р¶ РЅРµ Р·Р°СЃРїР°РІРЅРµРЅ')
 	end
 end
 function PickUpPhone()
@@ -836,7 +836,7 @@ function PickDownPhone()
 end
 function setKeyFromVK(getkey)
 	if isSampLoaded() and isSampAvailable() and sampIsLocalPlayerSpawned() then
-		sendvknotf('Отправлено нажатие на клавишу '..getkey)
+		sendvknotf('РћС‚РїСЂР°РІР»РµРЅРѕ РЅР°Р¶Р°С‚РёРµ РЅР° РєР»Р°РІРёС€Сѓ '..getkey)
 		local timepress = os.time()
 		if getkey == 'go' then
 			print('key set go')
@@ -856,7 +856,7 @@ function setKeyFromVK(getkey)
 			setGameKeyState(0,0)
 		end
 	else
-		sendvknotf('Ваш персонаж не заспавнен!')
+		sendvknotf('Р’Р°С€ РїРµСЂСЃРѕРЅР°Р¶ РЅРµ Р·Р°СЃРїР°РІРЅРµРЅ!')
 	end
 end
 function openchestrulletVK()
@@ -869,19 +869,19 @@ function openchestrulletVK()
 			else 
 				lua_thread.terminate(checkrulopen) 
 			end
-			sendvknotf('Автооткрытие '..(aopen and 'включено!' or 'выключено!'))
+			sendvknotf('РђРІС‚РѕРѕС‚РєСЂС‹С‚РёРµ '..(aopen and 'РІРєР»СЋС‡РµРЅРѕ!' or 'РІС‹РєР»СЋС‡РµРЅРѕ!'))
 		else
-			sendvknotf("Включите сундук с рулетками!")
+			sendvknotf("Р’РєР»СЋС‡РёС‚Рµ СЃСѓРЅРґСѓРє СЃ СЂСѓР»РµС‚РєР°РјРё!")
 		end
 	else
-		sendvknotf('Ваш персонаж не заспавнен!')
+		sendvknotf('Р’Р°С€ РїРµСЂСЃРѕРЅР°Р¶ РЅРµ Р·Р°СЃРїР°РІРЅРµРЅ!')
 	end
 end
 function openchestrullet()
 	if sampIsLocalPlayerSpawned() then
 		if roulette.standart.v or roulette.donate.v or roulette.platina.v then
 			aopen = not aopen
-			AFKMessage('Автооткрытие '..(aopen and 'включено!' or 'выключено!'))
+			AFKMessage('РђРІС‚РѕРѕС‚РєСЂС‹С‚РёРµ '..(aopen and 'РІРєР»СЋС‡РµРЅРѕ!' or 'РІС‹РєР»СЋС‡РµРЅРѕ!'))
 			if aopen then 
 				checkrulopen:run()
 				afksets.v = false
@@ -889,10 +889,10 @@ function openchestrullet()
 				lua_thread.terminate(checkrulopen) 
 			end
 		else
-			AFKMessage("Включите сундук с рулетками!")
+			AFKMessage("Р’РєР»СЋС‡РёС‚Рµ СЃСѓРЅРґСѓРє СЃ СЂСѓР»РµС‚РєР°РјРё!")
 		end
 	else
-		AFKMessage("Ваш персонаж не заспавнен!")
+		AFKMessage("Р’Р°С€ РїРµСЂСЃРѕРЅР°Р¶ РЅРµ Р·Р°СЃРїР°РІРЅРµРЅ!")
 	end
 end
 bizpiaron = false
@@ -906,7 +906,7 @@ function vkget()
 	local runner = requestRunner()
 	while true do
 		while not key do wait(0) end
-		url = server .. '?act=a_check&key=' .. key .. '&ts=' .. ts .. '&wait=25' --меняем url каждый новый запрос потокa, так как server/key/ts могут изменяться
+		url = server .. '?act=a_check&key=' .. key .. '&ts=' .. ts .. '&wait=25' --РјРµРЅСЏРµРј url РєР°Р¶РґС‹Р№ РЅРѕРІС‹Р№ Р·Р°РїСЂРѕСЃ РїРѕС‚РѕРєa, С‚Р°Рє РєР°Рє server/key/ts РјРѕРіСѓС‚ РёР·РјРµРЅСЏС‚СЊСЃСЏ
 		threadHandle(runner, url, args, longpollResolve, reject)
 		wait(100)
 	end
@@ -963,13 +963,13 @@ function main()
 			while not sampIsLocalPlayerSpawned() do wait(0) end
 			bizpiaron = true
 			activatePiar(bizpiaron)
-			AFKMessage('[АвтоПиар] Пиар включен т.к прошло меньше чем '..piar.auto_piar_kd.v..' секунд после последней выгрузки')
+			AFKMessage('[РђРІС‚РѕРџРёР°СЂ] РџРёР°СЂ РІРєР»СЋС‡РµРЅ С‚.Рє РїСЂРѕС€Р»Рѕ РјРµРЅСЊС€Рµ С‡РµРј '..piar.auto_piar_kd.v..' СЃРµРєСѓРЅРґ РїРѕСЃР»Рµ РїРѕСЃР»РµРґРЅРµР№ РІС‹РіСЂСѓР·РєРё')
 		end)
 	end
-	local _a = [[Скрипт успешно запущен!
-Версия: %s
-Открыть меню: /afktools
-Автор: @sk33z]]
+	local _a = [[РЎРєСЂРёРїС‚ СѓСЃРїРµС€РЅРѕ Р·Р°РїСѓС‰РµРЅ!
+Р’РµСЂСЃРёСЏ: %s
+РћС‚РєСЂС‹С‚СЊ РјРµРЅСЋ: /afktools
+РђРІС‚РѕСЂ: @sk33z]]
 	AFKMessage(_a:format(thisScript().version))
 	sampRegisterChatCommand('eattest',function() gotoeatinhouse = true; sampSendChat('/home') end)
 	sampRegisterChatCommand('afktools',function() afksets.v = not afksets.v end)
@@ -979,16 +979,16 @@ function main()
 		if handle_aurc then
 			handle_aurc:terminate()
 			handle_aurc = nil
-			AFKMessage('Автореконнект остановлен!')
+			AFKMessage('РђРІС‚РѕСЂРµРєРѕРЅРЅРµРєС‚ РѕСЃС‚Р°РЅРѕРІР»РµРЅ!')
 		else
-			AFKMessage('Вы сейчас не ожидаете автореконнекта!')
+			AFKMessage('Р’С‹ СЃРµР№С‡Р°СЃ РЅРµ РѕР¶РёРґР°РµС‚Рµ Р°РІС‚РѕСЂРµРєРѕРЅРЅРµРєС‚Р°!')
 		end
 		if handle_rc then
 			handle_rc:terminate()
 			handle_rc = nil
-			AFKMessage('Реконнект остановлен!')
+			AFKMessage('Р РµРєРѕРЅРЅРµРєС‚ РѕСЃС‚Р°РЅРѕРІР»РµРЅ!')
 		else
-			AFKMessage('Вы сейчас не ожидаете реконнекта!')
+			AFKMessage('Р’С‹ СЃРµР№С‡Р°СЃ РЅРµ РѕР¶РёРґР°РµС‚Рµ СЂРµРєРѕРЅРЅРµРєС‚Р°!')
 		end
 	end)
 	sampRegisterChatCommand('afkrec',function(a)
@@ -1022,7 +1022,7 @@ end
 function convertImVec4ToU32(imvec)
 	return imgui.ImColor(imvec):GetU32()
 end
---рендер уведов
+--СЂРµРЅРґРµСЂ СѓРІРµРґРѕРІ
 function onRenderNotification()
 	local count = 0
 	for k, v in ipairs(_message) do
@@ -1063,96 +1063,96 @@ function onRenderNotification()
 	end
 	notfList = list:new()
 end
---imgui: элементы акков
+--imgui: СЌР»РµРјРµРЅС‚С‹ Р°РєРєРѕРІ
 function autofillelementsaccs()
-	if imgui.Button(u8('Временные данные')) then menufill = 1 end
+	if imgui.Button(u8('Р’СЂРµРјРµРЅРЅС‹Рµ РґР°РЅРЅС‹Рµ')) then menufill = 1 end
 	imgui.SameLine()
-	if imgui.Button(u8('Добавить аккаунт')) then
+	if imgui.Button(u8('Р”РѕР±Р°РІРёС‚СЊ Р°РєРєР°СѓРЅС‚')) then
 		imgui.OpenPopup('##addacc')
 	end
 	if imgui.BeginPopupModal('##addacc',true,imgui.WindowFlags.NoTitleBar + imgui.WindowFlags.NoMove + imgui.WindowFlags.NoResize + imgui.WindowFlags.AlwaysAutoResize) then
-		imgui.CenterText(u8('Добавить новый аккаунт'))
+		imgui.CenterText(u8('Р”РѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Р№ Р°РєРєР°СѓРЅС‚'))
 		imgui.Separator()
-		imgui.CenterText(u8('Ник'))
+		imgui.CenterText(u8('РќРёРє'))
 		imgui.Separator()
 		imgui.InputText('##nameadd',addnew.name)
 		imgui.Separator()
-		imgui.CenterText(u8('Пароль'))
+		imgui.CenterText(u8('РџР°СЂРѕР»СЊ'))
 		imgui.Separator()
 		imgui.InputText('##addpas',addnew.pass)
 		imgui.Separator()
-		imgui.CenterText(u8('ID Диалога'))
+		imgui.CenterText(u8('ID Р”РёР°Р»РѕРіР°'))
 		imgui.SameLine()
-		imgui.TextQuestion(u8('ID Диалога в который надо ввести пароль\nНесколько ID для Arizona RP\n	2 - Диалог ввода пароля\n	991 - Диалог PIN-Кода банка'))
+		imgui.TextQuestion(u8('ID Р”РёР°Р»РѕРіР° РІ РєРѕС‚РѕСЂС‹Р№ РЅР°РґРѕ РІРІРµСЃС‚Рё РїР°СЂРѕР»СЊ\nРќРµСЃРєРѕР»СЊРєРѕ ID РґР»СЏ Arizona RP\n	2 - Р”РёР°Р»РѕРі РІРІРѕРґР° РїР°СЂРѕР»СЏ\n	991 - Р”РёР°Р»РѕРі PIN-РљРѕРґР° Р±Р°РЅРєР°'))
 		imgui.Separator()
 		imgui.InputInt('##dialogudadd',addnew.dialogid)
 		imgui.Separator()
-		imgui.CenterText(u8('IP сервера'))
+		imgui.CenterText(u8('IP СЃРµСЂРІРµСЂР°'))
 		imgui.SameLine()
-		imgui.TextQuestion(u8('IP Сервера, на котором будет введен пароль\nПример: 185.169.134.171:7777'))
+		imgui.TextQuestion(u8('IP РЎРµСЂРІРµСЂР°, РЅР° РєРѕС‚РѕСЂРѕРј Р±СѓРґРµС‚ РІРІРµРґРµРЅ РїР°СЂРѕР»СЊ\nРџСЂРёРјРµСЂ: 185.169.134.171:7777'))
 		imgui.Separator()
 		imgui.InputText('##ipport',addnew.serverip)
 		imgui.Separator()
-		if imgui.Button(u8("Добавить"), imgui.ImVec2(-1, 20)) then
+		if imgui.Button(u8("Р”РѕР±Р°РІРёС‚СЊ"), imgui.ImVec2(-1, 20)) then
 			if addnew:save() then
 				imgui.CloseCurrentPopup()
 			end
 		end
-		if imgui.Button(u8("Закрыть"), imgui.ImVec2(-1, 20)) then
+		if imgui.Button(u8("Р—Р°РєСЂС‹С‚СЊ"), imgui.ImVec2(-1, 20)) then
 			imgui.CloseCurrentPopup()
 		end
 		imgui.EndPopup()
 	end
 	imgui.SameLine()
-	imgui.Checkbox(u8('Включить'),autologin.state); imgui.SameLine(); imgui.TextQuestion(u8('Включает автозаполнение в диалоги'))
+	imgui.Checkbox(u8('Р’РєР»СЋС‡РёС‚СЊ'),autologin.state); imgui.SameLine(); imgui.TextQuestion(u8('Р’РєР»СЋС‡Р°РµС‚ Р°РІС‚РѕР·Р°РїРѕР»РЅРµРЅРёРµ РІ РґРёР°Р»РѕРіРё'))
 	imgui.SameLine()
-	imgui.CenterText(u8'Автозаполнение'); imgui.SameLine()
+	imgui.CenterText(u8'РђРІС‚РѕР·Р°РїРѕР»РЅРµРЅРёРµ'); imgui.SameLine()
 	imgui.SameLine(838)
-	if imgui.Button(u8('Обновить')) then
+	if imgui.Button(u8('РћР±РЅРѕРІРёС‚СЊ')) then
 		local f = io.open(file_accs, "r")
 		if f then
 			savepass = decodeJson(f:read("a*"))
 			f:close()
 		end
-		AFKMessage('Подгруженны новые данные')
+		AFKMessage('РџРѕРґРіСЂСѓР¶РµРЅРЅС‹ РЅРѕРІС‹Рµ РґР°РЅРЅС‹Рµ')
 	end
 	imgui.Columns(3, _, true)
 	imgui.Separator()
-	imgui.SetColumnWidth(-1, 150); imgui.Text(u8"   Никнейм"); imgui.NextColumn()
-	imgui.SetColumnWidth(-1, 150); imgui.Text(u8"Сервер"); imgui.NextColumn()
-	imgui.SetColumnWidth(-1, 450); imgui.Text(u8"Пароли"); imgui.NextColumn()
+	imgui.SetColumnWidth(-1, 150); imgui.Text(u8"   РќРёРєРЅРµР№Рј"); imgui.NextColumn()
+	imgui.SetColumnWidth(-1, 150); imgui.Text(u8"РЎРµСЂРІРµСЂ"); imgui.NextColumn()
+	imgui.SetColumnWidth(-1, 450); imgui.Text(u8"РџР°СЂРѕР»Рё"); imgui.NextColumn()
 	for k, v in pairs(savepass) do
 		imgui.Separator()
 		if imgui.Selectable(u8('   '..v[1]..'##'..k), false, imgui.SelectableFlags.SpanAllColumns) then imgui.OpenPopup('##acc'..k) end
 		if imgui.BeginPopupModal('##acc'..k,true,imgui.WindowFlags.NoTitleBar + imgui.WindowFlags.NoResize + imgui.WindowFlags.AlwaysAutoResize) then
 			btnWidth2 = (imgui.GetWindowWidth() - 22)/2
 			imgui.CreatePaddingY(8)
-			imgui.CenterText(u8('Аккаунт '..v[1]))
+			imgui.CenterText(u8('РђРєРєР°СѓРЅС‚ '..v[1]))
 			imgui.Separator()
 			for f,t in pairs(v[3]) do
-				imgui.Text(u8('Диалог[ID]: '..v[3][f].id..' Введённые данные: '..v[3][f].text))
+				imgui.Text(u8('Р”РёР°Р»РѕРі[ID]: '..v[3][f].id..' Р’РІРµРґС‘РЅРЅС‹Рµ РґР°РЅРЅС‹Рµ: '..v[3][f].text))
 				if editpass.numedit == f then
 					imgui.PushItemWidth(-1)
 					imgui.InputText(u8'##pass'..f,editpass.input)
 					imgui.PopItemWidth()
-					if imgui.Button(u8("Подтвердить##"..f), imgui.ImVec2(-1, 20)) then
+					if imgui.Button(u8("РџРѕРґС‚РІРµСЂРґРёС‚СЊ##"..f), imgui.ImVec2(-1, 20)) then
 						v[3][f].text = editpass.input.v
 						editpass.input.v = ''
 						editpass.numedit = -1
 						saveaccounts()
 					end
 				elseif editpass.numedit == -1 then
-					if imgui.Button(u8("Сменить пароль##2"..f), imgui.ImVec2(-1, 20)) then
+					if imgui.Button(u8("РЎРјРµРЅРёС‚СЊ РїР°СЂРѕР»СЊ##2"..f), imgui.ImVec2(-1, 20)) then
 						editpass.input.v = v[3][f].text
 						editpass.numedit = f
 					end
 				end
-				if imgui.Button(u8("Скопировать##"..f), imgui.ImVec2(btnWidth2, 0)) then
+				if imgui.Button(u8("РЎРєРѕРїРёСЂРѕРІР°С‚СЊ##"..f), imgui.ImVec2(btnWidth2, 0)) then
 					setClipboardText(v[3][f].text)
 					imgui.CloseCurrentPopup()
 				end
 				imgui.SameLine()
-				if imgui.Button(u8("Удалить##"..f), imgui.ImVec2(btnWidth2, 0)) then
+				if imgui.Button(u8("РЈРґР°Р»РёС‚СЊ##"..f), imgui.ImVec2(btnWidth2, 0)) then
 					v[3][f] = nil
 					if #v[3] == 0 then
 						savepass[k] = nil
@@ -1161,16 +1161,16 @@ function autofillelementsaccs()
 				end
 				imgui.Separator()
 			end
-			if imgui.Button(u8("Подключиться"), imgui.ImVec2(-1, 20)) then
+			if imgui.Button(u8("РџРѕРґРєР»СЋС‡РёС‚СЊСЃСЏ"), imgui.ImVec2(-1, 20)) then
 				local ip2, port2 = string.match(v[2], "(.+)%:(%d+)")
 				reconname(v[1],ip2, tonumber(port2))
 			end
-			if imgui.Button(u8("Удалить все данные"), imgui.ImVec2(-1, 20)) then
+			if imgui.Button(u8("РЈРґР°Р»РёС‚СЊ РІСЃРµ РґР°РЅРЅС‹Рµ"), imgui.ImVec2(-1, 20)) then
 				savepass[k] = nil
 				imgui.CloseCurrentPopup()
 				saveaccounts()
 			end
-			if imgui.Button(u8("Закрыть##sdosodosdosd"), imgui.ImVec2(-1, 20)) then
+			if imgui.Button(u8("Р—Р°РєСЂС‹С‚СЊ##sdosodosdosd"), imgui.ImVec2(-1, 20)) then
 				imgui.CloseCurrentPopup()
 			end
 			imgui.CreatePaddingY(8)
@@ -1179,31 +1179,31 @@ function autofillelementsaccs()
 		imgui.NextColumn()
 		imgui.Text(tostring(v[2]))
 		imgui.NextColumn()
-		imgui.Text(u8('Кол-во паролей: '..#v[3]..'. Нажмите ЛКМ для управления паролями'))
+		imgui.Text(u8('РљРѕР»-РІРѕ РїР°СЂРѕР»РµР№: '..#v[3]..'. РќР°Р¶РјРёС‚Рµ Р›РљРњ РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ РїР°СЂРѕР»СЏРјРё'))
 		imgui.NextColumn()
 	end
 	imgui.Columns(1)
 	imgui.Separator()
 end
---imgui: элементы сейва
+--imgui: СЌР»РµРјРµРЅС‚С‹ СЃРµР№РІР°
 function autofillelementssave()
-	if imgui.Button(u8'< Аккаунты') then menufill = 0 end
+	if imgui.Button(u8'< РђРєРєР°СѓРЅС‚С‹') then menufill = 0 end
 	imgui.SameLine()
-	imgui.CenterText(u8'Автозаполнение')
+	imgui.CenterText(u8'РђРІС‚РѕР·Р°РїРѕР»РЅРµРЅРёРµ')
 	imgui.SameLine(838) 
-	if imgui.Button(u8('Очистка')) then temppass = {}; AFKMessage('Буфер временных паролей очищен!') end
+	if imgui.Button(u8('РћС‡РёСЃС‚РєР°')) then temppass = {}; AFKMessage('Р‘СѓС„РµСЂ РІСЂРµРјРµРЅРЅС‹С… РїР°СЂРѕР»РµР№ РѕС‡РёС‰РµРЅ!') end
 	imgui.Columns(5, _, true)
 	imgui.Separator()--710
-	imgui.SetColumnWidth(-1, 130); imgui.Text(u8"Диалог[ID]"); imgui.NextColumn()
-	imgui.SetColumnWidth(-1, 150); imgui.Text(u8"Никнейм"); imgui.NextColumn()
-	imgui.SetColumnWidth(-1, 140); imgui.Text(u8"Сервер"); imgui.NextColumn()
-	imgui.SetColumnWidth(-1, 170); imgui.Text(u8"Введенные данные"); imgui.NextColumn()
-	imgui.SetColumnWidth(-1, 140); imgui.Text(u8"Время"); imgui.NextColumn()
+	imgui.SetColumnWidth(-1, 130); imgui.Text(u8"Р”РёР°Р»РѕРі[ID]"); imgui.NextColumn()
+	imgui.SetColumnWidth(-1, 150); imgui.Text(u8"РќРёРєРЅРµР№Рј"); imgui.NextColumn()
+	imgui.SetColumnWidth(-1, 140); imgui.Text(u8"РЎРµСЂРІРµСЂ"); imgui.NextColumn()
+	imgui.SetColumnWidth(-1, 170); imgui.Text(u8"Р’РІРµРґРµРЅРЅС‹Рµ РґР°РЅРЅС‹Рµ"); imgui.NextColumn()
+	imgui.SetColumnWidth(-1, 140); imgui.Text(u8"Р’СЂРµРјСЏ"); imgui.NextColumn()
 	for k, v in pairs(temppass) do
 		if imgui.Selectable('   '..tostring(u8(string.gsub(v.title, "%{.*%}", "") .. "[" .. v.id .. "]")) .. "##" .. k, false, imgui.SelectableFlags.SpanAllColumns) then
 			saveacc(k)
 			saveaccounts()
-			AFKMessage('Пароль '..v.text..' для аккаунта '..v.nick..' на сервере '..v.ip..' сохранён!')
+			AFKMessage('РџР°СЂРѕР»СЊ '..v.text..' РґР»СЏ Р°РєРєР°СѓРЅС‚Р° '..v.nick..' РЅР° СЃРµСЂРІРµСЂРµ '..v.ip..' СЃРѕС…СЂР°РЅС‘РЅ!')
 		end
 		imgui.NextColumn()
 		imgui.Text(tostring(v.nick))
@@ -1242,12 +1242,12 @@ function imgui.OnDrawFrame()
 		imgui.Separator()
 		if menunum == 0 then
 			local buttons = {
-				{u8('Основные'),1,u8('Настройка основных функций')},
-				{u8('Автозаполнение'),2,u8('Автоввод текста в диалоги')},
-				{u8('VK Notifications'),3,u8('Уведомления в VK')},
-				{u8('Автоеда'),4,u8('Автоеда когда вы голодны')},
-				{u8('Информация'),5,u8('Полезная информация о скрипте')},
-				{u8('История обновлений'),6,u8('Список изменений которые\n	 произошли в скрипте')}
+				{u8('РћСЃРЅРѕРІРЅС‹Рµ'),1,u8('РќР°СЃС‚СЂРѕР№РєР° РѕСЃРЅРѕРІРЅС‹С… С„СѓРЅРєС†РёР№')},
+				{u8('РђРІС‚РѕР·Р°РїРѕР»РЅРµРЅРёРµ'),2,u8('РђРІС‚РѕРІРІРѕРґ С‚РµРєСЃС‚Р° РІ РґРёР°Р»РѕРіРё')},
+				{u8('VK Notifications'),3,u8('РЈРІРµРґРѕРјР»РµРЅРёСЏ РІ VK')},
+				{u8('РђРІС‚РѕРµРґР°'),4,u8('РђРІС‚РѕРµРґР° РєРѕРіРґР° РІС‹ РіРѕР»РѕРґРЅС‹')},
+				{u8('РРЅС„РѕСЂРјР°С†РёСЏ'),5,u8('РџРѕР»РµР·РЅР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ СЃРєСЂРёРїС‚Рµ')},
+				{u8('РСЃС‚РѕСЂРёСЏ РѕР±РЅРѕРІР»РµРЅРёР№'),6,u8('РЎРїРёСЃРѕРє РёР·РјРµРЅРµРЅРёР№ РєРѕС‚РѕСЂС‹Рµ\n	 РїСЂРѕРёР·РѕС€Р»Рё РІ СЃРєСЂРёРїС‚Рµ')}
 			}
 			local function renderbutton(i)
 				local name,set,desc,func = buttons[i][1],buttons[i][2],buttons[i][3],buttons[i][4]
@@ -1288,54 +1288,54 @@ function imgui.OnDrawFrame()
 			end
 			imgui.SetCursorPos(imgui.ImVec2(920/2 - 300/2,400))
 			imgui.BeginGroup()
-			if imgui.Button(u8('Сохранить настройки'),imgui.ImVec2(150,30)) then saveini() end
+			if imgui.Button(u8('РЎРѕС…СЂР°РЅРёС‚СЊ РЅР°СЃС‚СЂРѕР№РєРё'),imgui.ImVec2(150,30)) then saveini() end
 			imgui.SameLine()
-			if imgui.Button(u8('Перезагрузить скрипт'),imgui.ImVec2(150,30)) then thisScript():reload() end
+			if imgui.Button(u8('РџРµСЂРµР·Р°РіСЂСѓР·РёС‚СЊ СЃРєСЂРёРїС‚'),imgui.ImVec2(150,30)) then thisScript():reload() end
 			imgui.EndGroup()
 			
 		elseif menunum == 1 then
 			imgui.BeginChild('##ana',imgui.ImVec2(-1,-1),false)
-			imgui.CenterText(u8('Автореконнект'))
+			imgui.CenterText(u8('РђРІС‚РѕСЂРµРєРѕРЅРЅРµРєС‚'))
 			imgui.Separator()
-			imgui.Checkbox(u8('Включить автореконнект'), arec.state)
+			imgui.Checkbox(u8('Р’РєР»СЋС‡РёС‚СЊ Р°РІС‚РѕСЂРµРєРѕРЅРЅРµРєС‚'), arec.state)
 			if arec.state.v then
-				imgui.Checkbox(u8('Включить автореконнект при You are banned from this server'), arec.statebanned)
+				imgui.Checkbox(u8('Р’РєР»СЋС‡РёС‚СЊ Р°РІС‚РѕСЂРµРєРѕРЅРЅРµРєС‚ РїСЂРё You are banned from this server'), arec.statebanned)
 			    imgui.SameLine()
 			    imgui.PushItemWidth(80)
-			    imgui.InputInt(u8('Задержка(сек)###arec'),arec.wait)
+			    imgui.InputInt(u8('Р—Р°РґРµСЂР¶РєР°(СЃРµРє)###arec'),arec.wait)
 			    imgui.PopItemWidth()
 			end
 			imgui.Separator()
-			imgui.CenterText(u8('Автооткрытие рулеток'))
+			imgui.CenterText(u8('РђРІС‚РѕРѕС‚РєСЂС‹С‚РёРµ СЂСѓР»РµС‚РѕРє'))
 			imgui.Separator()
 			imgui.BeginGroup()
-			imgui.Text(u8('Внимание! Автооткрытие рулеток нормально работает только на англ. языке инвентаря'))
-			imgui.Checkbox(u8('Открывать стандарт сундук'),roulette.standart); imgui.SameLine() imgui.TextQuestion(u8('Для оптимизации открывания сундуков стандартный сундук должен быть в 1 слоте на 1 странице')) 
-			imgui.Checkbox(u8('Открывать донат сундук'),roulette.donate); imgui.SameLine() imgui.TextQuestion(u8('[Обязательно!] Донатный сундук должен быть в 2 слоте на 1 странице'))
-			imgui.Checkbox(u8('Открывать платина сундук'),roulette.platina); imgui.SameLine() imgui.TextQuestion(u8('[Обязательно!] Платиновый сундук должен быть в 3 слоте на 1 странице'))
+			imgui.Text(u8('Р’РЅРёРјР°РЅРёРµ! РђРІС‚РѕРѕС‚РєСЂС‹С‚РёРµ СЂСѓР»РµС‚РѕРє РЅРѕСЂРјР°Р»СЊРЅРѕ СЂР°Р±РѕС‚Р°РµС‚ С‚РѕР»СЊРєРѕ РЅР° Р°РЅРіР». СЏР·С‹РєРµ РёРЅРІРµРЅС‚Р°СЂСЏ'))
+			imgui.Checkbox(u8('РћС‚РєСЂС‹РІР°С‚СЊ СЃС‚Р°РЅРґР°СЂС‚ СЃСѓРЅРґСѓРє'),roulette.standart); imgui.SameLine() imgui.TextQuestion(u8('Р”Р»СЏ РѕРїС‚РёРјРёР·Р°С†РёРё РѕС‚РєСЂС‹РІР°РЅРёСЏ СЃСѓРЅРґСѓРєРѕРІ СЃС‚Р°РЅРґР°СЂС‚РЅС‹Р№ СЃСѓРЅРґСѓРє РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РІ 1 СЃР»РѕС‚Рµ РЅР° 1 СЃС‚СЂР°РЅРёС†Рµ')) 
+			imgui.Checkbox(u8('РћС‚РєСЂС‹РІР°С‚СЊ РґРѕРЅР°С‚ СЃСѓРЅРґСѓРє'),roulette.donate); imgui.SameLine() imgui.TextQuestion(u8('[РћР±СЏР·Р°С‚РµР»СЊРЅРѕ!] Р”РѕРЅР°С‚РЅС‹Р№ СЃСѓРЅРґСѓРє РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РІ 2 СЃР»РѕС‚Рµ РЅР° 1 СЃС‚СЂР°РЅРёС†Рµ'))
+			imgui.Checkbox(u8('РћС‚РєСЂС‹РІР°С‚СЊ РїР»Р°С‚РёРЅР° СЃСѓРЅРґСѓРє'),roulette.platina); imgui.SameLine() imgui.TextQuestion(u8('[РћР±СЏР·Р°С‚РµР»СЊРЅРѕ!] РџР»Р°С‚РёРЅРѕРІС‹Р№ СЃСѓРЅРґСѓРє РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РІ 3 СЃР»РѕС‚Рµ РЅР° 1 СЃС‚СЂР°РЅРёС†Рµ'))
 			imgui.PushItemWidth(100)
-			imgui.InputInt(u8('Задержка (в сек.)##wait'),roulette.wait)
+			imgui.InputInt(u8('Р—Р°РґРµСЂР¶РєР° (РІ СЃРµРє.)##wait'),roulette.wait)
 			imgui.SameLine()
-			imgui.TextQuestion(u8('Задержка перед чеком состояния рулеток(можно открыть или нет)'))
+			imgui.TextQuestion(u8('Р—Р°РґРµСЂР¶РєР° РїРµСЂРµРґ С‡РµРєРѕРј СЃРѕСЃС‚РѕСЏРЅРёСЏ СЂСѓР»РµС‚РѕРє(РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ РёР»Рё РЅРµС‚)'))
 			imgui.PopItemWidth()
-			if imgui.Button(u8('Включить/выключить автооткрытие сундуков')) then 
+			if imgui.Button(u8('Р’РєР»СЋС‡РёС‚СЊ/РІС‹РєР»СЋС‡РёС‚СЊ Р°РІС‚РѕРѕС‚РєСЂС‹С‚РёРµ СЃСѓРЅРґСѓРєРѕРІ')) then 
 			    openchestrullet()
 			end
 			imgui.EndGroup()
 			imgui.Separator()
-			imgui.CenterText(u8('Флудер'))
+			imgui.CenterText(u8('Р¤Р»СѓРґРµСЂ'))
 			imgui.Separator()
 			imgui.BeginGroup()
 			imgui.PushItemWidth(400)
-			imgui.InputText(u8('1 Строка'),piar.piar1)
+			imgui.InputText(u8('1 РЎС‚СЂРѕРєР°'),piar.piar1)
 			imgui.SameLine()
-			imgui.TextQuestion(u8('Обязательная строка'))
-			imgui.InputText(u8('2 Строка'),piar.piar2)
+			imgui.TextQuestion(u8('РћР±СЏР·Р°С‚РµР»СЊРЅР°СЏ СЃС‚СЂРѕРєР°'))
+			imgui.InputText(u8('2 РЎС‚СЂРѕРєР°'),piar.piar2)
 			imgui.SameLine()
-			imgui.TextQuestion(u8('Оставьте строку пустую если не хотите её использовать'))
-			imgui.InputText(u8('3 Строка'),piar.piar3)
+			imgui.TextQuestion(u8('РћСЃС‚Р°РІСЊС‚Рµ СЃС‚СЂРѕРєСѓ РїСѓСЃС‚СѓСЋ РµСЃР»Рё РЅРµ С…РѕС‚РёС‚Рµ РµС‘ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ'))
+			imgui.InputText(u8('3 РЎС‚СЂРѕРєР°'),piar.piar3)
 			imgui.SameLine()
-			imgui.TextQuestion(u8('Оставьте строку пустую если не хотите её использовать'))
+			imgui.TextQuestion(u8('РћСЃС‚Р°РІСЊС‚Рµ СЃС‚СЂРѕРєСѓ РїСѓСЃС‚СѓСЋ РµСЃР»Рё РЅРµ С…РѕС‚РёС‚Рµ РµС‘ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ'))
 			imgui.PopItemWidth()
 			imgui.EndGroup()
 		
@@ -1343,57 +1343,57 @@ function imgui.OnDrawFrame()
 		
 			imgui.BeginGroup()
 			imgui.PushItemWidth(80)
-			imgui.InputInt(u8('Задержка(сек.)##piar1'),piar.piarwait); 
-			imgui.InputInt(u8('Задержка(сек.)##piar2'),piar.piarwait2); 
-			imgui.InputInt(u8('Задержка(сек.)##piar3'),piar.piarwait3); 
+			imgui.InputInt(u8('Р—Р°РґРµСЂР¶РєР°(СЃРµРє.)##piar1'),piar.piarwait); 
+			imgui.InputInt(u8('Р—Р°РґРµСЂР¶РєР°(СЃРµРє.)##piar2'),piar.piarwait2); 
+			imgui.InputInt(u8('Р—Р°РґРµСЂР¶РєР°(СЃРµРє.)##piar3'),piar.piarwait3); 
 			imgui.PopItemWidth()
 			imgui.EndGroup()
-			if imgui.Button(u8('Активировать флудер')) then 
+			if imgui.Button(u8('РђРєС‚РёРІРёСЂРѕРІР°С‚СЊ С„Р»СѓРґРµСЂ')) then 
 			    bizpiaron = not bizpiaron
 			    activatePiar(bizpiaron)
-			    AFKMessage(bizpiaron and 'Пиар включён!' or 'Пиар выключен!',5)
+			    AFKMessage(bizpiaron and 'РџРёР°СЂ РІРєР»СЋС‡С‘РЅ!' or 'РџРёР°СЂ РІС‹РєР»СЋС‡РµРЅ!',5)
 			end
 			imgui.SameLine()
-			imgui.Checkbox(u8('АвтоПиар'),piar.auto_piar) 
+			imgui.Checkbox(u8('РђРІС‚РѕРџРёР°СЂ'),piar.auto_piar) 
 			imgui.SameLine()
-			imgui.TextQuestion(u8('Если после последнего выгружения скрипта пройдет меньше указанного(в настройках) времени, включиться автопиар'))
+			imgui.TextQuestion(u8('Р•СЃР»Рё РїРѕСЃР»Рµ РїРѕСЃР»РµРґРЅРµРіРѕ РІС‹РіСЂСѓР¶РµРЅРёСЏ СЃРєСЂРёРїС‚Р° РїСЂРѕР№РґРµС‚ РјРµРЅСЊС€Рµ СѓРєР°Р·Р°РЅРЅРѕРіРѕ(РІ РЅР°СЃС‚СЂРѕР№РєР°С…) РІСЂРµРјРµРЅРё, РІРєР»СЋС‡РёС‚СЊСЃСЏ Р°РІС‚РѕРїРёР°СЂ'))
 			if piar.auto_piar.v then
 			    imgui.SameLine()
 			    imgui.PushItemWidth(120)
-			    if imgui.InputInt(u8('Максимальное время для включения пиара(в сек.)##autpiar'),piar.auto_piar_kd) then
+			    if imgui.InputInt(u8('РњР°РєСЃРёРјР°Р»СЊРЅРѕРµ РІСЂРµРјСЏ РґР»СЏ РІРєР»СЋС‡РµРЅРёСЏ РїРёР°СЂР°(РІ СЃРµРє.)##autpiar'),piar.auto_piar_kd) then
 			        if piar.auto_piar_kd.v < 0 then piar.auto_piar_kd = 0 end
 			    end
 			    imgui.PopItemWidth()
 			end
-			imgui.CenterText(u8('Остальные настройки'))
+			imgui.CenterText(u8('РћСЃС‚Р°Р»СЊРЅС‹Рµ РЅР°СЃС‚СЂРѕР№РєРё'))
 			imgui.Separator()
 			imgui.BeginGroup()
 			if imgui.Checkbox(u8('Fastconnect'),fastconnect) then
 				sampFastConnect(fastconnect.v)
 			end
 			imgui.SameLine()
-			imgui.TextQuestion(u8('Быстрый вход на сервер'))
+			imgui.TextQuestion(u8('Р‘С‹СЃС‚СЂС‹Р№ РІС…РѕРґ РЅР° СЃРµСЂРІРµСЂ'))
 			if imgui.Checkbox(u8('AntiAFK'),antiafk) then workpaus(antiafk.v) end
 			imgui.SameLine()
-			imgui.TextQuestion(u8('Вы не будете стоять в AFK если свернете игру\nВнимание! Если AntiAFK включен и вы сохранили настройки то при следуещем заходе он автоматически включится! Учтите это!'))
+			imgui.TextQuestion(u8('Р’С‹ РЅРµ Р±СѓРґРµС‚Рµ СЃС‚РѕСЏС‚СЊ РІ AFK РµСЃР»Рё СЃРІРµСЂРЅРµС‚Рµ РёРіСЂСѓ\nР’РЅРёРјР°РЅРёРµ! Р•СЃР»Рё AntiAFK РІРєР»СЋС‡РµРЅ Рё РІС‹ СЃРѕС…СЂР°РЅРёР»Рё РЅР°СЃС‚СЂРѕР№РєРё С‚Рѕ РїСЂРё СЃР»РµРґСѓРµС‰РµРј Р·Р°С…РѕРґРµ РѕРЅ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РІРєР»СЋС‡РёС‚СЃСЏ! РЈС‡С‚РёС‚Рµ СЌС‚Рѕ!'))
 			imgui.Checkbox(u8('AutoScreenBan'),banscreen)
 			imgui.SameLine()
-			imgui.TextQuestion(u8('Если вас забанит админ то скрин сделается автоматически'))
-			imgui.Checkbox(u8('Скип диалога /ad'),autoad)
+			imgui.TextQuestion(u8('Р•СЃР»Рё РІР°СЃ Р·Р°Р±Р°РЅРёС‚ Р°РґРјРёРЅ С‚Рѕ СЃРєСЂРёРЅ СЃРґРµР»Р°РµС‚СЃСЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё'))
+			imgui.Checkbox(u8('РЎРєРёРї РґРёР°Р»РѕРіР° /ad'),autoad)
 			imgui.SameLine()
-			imgui.TextQuestion(u8('При использовании /ad [текст], будет запрашиваться выбор типа обьявления'))
-			imgui.Checkbox(u8('Скип диалога /ad для маркетологов'),autoadbiz)
+			imgui.TextQuestion(u8('РџСЂРё РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРё /ad [С‚РµРєСЃС‚], Р±СѓРґРµС‚ Р·Р°РїСЂР°С€РёРІР°С‚СЊСЃСЏ РІС‹Р±РѕСЂ С‚РёРїР° РѕР±СЊСЏРІР»РµРЅРёСЏ'))
+			imgui.Checkbox(u8('РЎРєРёРї РґРёР°Р»РѕРіР° /ad РґР»СЏ РјР°СЂРєРµС‚РѕР»РѕРіРѕРІ'),autoadbiz)
 			imgui.SameLine()
-			imgui.TextQuestion(u8('При использовании /ad [текст], будет выбираться тип для маркетологов'))
-			imgui.Checkbox(u8('Автоответчик'),autoo)
+			imgui.TextQuestion(u8('РџСЂРё РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРё /ad [С‚РµРєСЃС‚], Р±СѓРґРµС‚ РІС‹Р±РёСЂР°С‚СЊСЃСЏ С‚РёРї РґР»СЏ РјР°СЂРєРµС‚РѕР»РѕРіРѕРІ'))
+			imgui.Checkbox(u8('РђРІС‚РѕРѕС‚РІРµС‚С‡РёРє'),autoo)
 			imgui.SameLine()
-			imgui.TextQuestion(u8('Автоматически возьмет трубку, и попросит входящего написать в ВК.\nПеред использованием напишите свой ид вк в VK Notifications'))
-			imgui.InputText(u8('Текст автоответчика'),atext)
+			imgui.TextQuestion(u8('РђРІС‚РѕРјР°С‚РёС‡РµСЃРєРё РІРѕР·СЊРјРµС‚ С‚СЂСѓР±РєСѓ, Рё РїРѕРїСЂРѕСЃРёС‚ РІС…РѕРґСЏС‰РµРіРѕ РЅР°РїРёСЃР°С‚СЊ РІ Р’Рљ.\nРџРµСЂРµРґ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј РЅР°РїРёС€РёС‚Рµ СЃРІРѕР№ РёРґ РІРє РІ VK Notifications'))
+			imgui.InputText(u8('РўРµРєСЃС‚ Р°РІС‚РѕРѕС‚РІРµС‚С‡РёРєР°'),atext)
 			imgui.SameLine()
-			imgui.TextQuestion(u8('Введите текст'))
-			imgui.Checkbox(u8('Переотправить сообщение в /vr'),returnmessageforvr)
+			imgui.TextQuestion(u8('Р’РІРµРґРёС‚Рµ С‚РµРєСЃС‚'))
+			imgui.Checkbox(u8('РџРµСЂРµРѕС‚РїСЂР°РІРёС‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ РІ /vr'),returnmessageforvr)
 			imgui.SameLine()
-			imgui.TextQuestion(u8('Если вы или скрипт отправит серверу какое-то сообщение в /vr и в чате будет найдено сообщение "После последнего сообщения в этом чате нужно подождать 3 секунды" от сервера(не от игрока) то скрипт переотправит то сообщение что вы/скрипт отправил'))
+			imgui.TextQuestion(u8('Р•СЃР»Рё РІС‹ РёР»Рё СЃРєСЂРёРїС‚ РѕС‚РїСЂР°РІРёС‚ СЃРµСЂРІРµСЂСѓ РєР°РєРѕРµ-С‚Рѕ СЃРѕРѕР±С‰РµРЅРёРµ РІ /vr Рё РІ С‡Р°С‚Рµ Р±СѓРґРµС‚ РЅР°Р№РґРµРЅРѕ СЃРѕРѕР±С‰РµРЅРёРµ "РџРѕСЃР»Рµ РїРѕСЃР»РµРґРЅРµРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ РІ СЌС‚РѕРј С‡Р°С‚Рµ РЅСѓР¶РЅРѕ РїРѕРґРѕР¶РґР°С‚СЊ 3 СЃРµРєСѓРЅРґС‹" РѕС‚ СЃРµСЂРІРµСЂР°(РЅРµ РѕС‚ РёРіСЂРѕРєР°) С‚Рѕ СЃРєСЂРёРїС‚ РїРµСЂРµРѕС‚РїСЂР°РІРёС‚ С‚Рѕ СЃРѕРѕР±С‰РµРЅРёРµ С‡С‚Рѕ РІС‹/СЃРєСЂРёРїС‚ РѕС‚РїСЂР°РІРёР»'))
 			imgui.EndGroup()
 			imgui.EndChild()
 		elseif menunum == 2 then
@@ -1408,7 +1408,7 @@ function imgui.OnDrawFrame()
 			imgui.BeginChild('##ana',imgui.ImVec2(-1,-1),false)
 			imgui.CenterText('VK Notification')
 			imgui.Separator()
-			if imgui.Checkbox(u8('Включить уведомления'), vknotf.state) then
+			if imgui.Checkbox(u8('Р’РєР»СЋС‡РёС‚СЊ СѓРІРµРґРѕРјР»РµРЅРёСЏ'), vknotf.state) then
 				if vknotf.state.v then
 					longpollGetKey()
 				end
@@ -1416,140 +1416,140 @@ function imgui.OnDrawFrame()
 			if vknotf.state.v then
 				imgui.BeginGroup()
 				if vkerr then
-					imgui.Text(u8'Состояние приёма: ' .. u8(vkerr))
-					imgui.Text(u8'Для переподключения к серверам нажмите кнопку "Переподключиться к серверам"')
+					imgui.Text(u8'РЎРѕСЃС‚РѕСЏРЅРёРµ РїСЂРёС‘РјР°: ' .. u8(vkerr))
+					imgui.Text(u8'Р”Р»СЏ РїРµСЂРµРїРѕРґРєР»СЋС‡РµРЅРёСЏ Рє СЃРµСЂРІРµСЂР°Рј РЅР°Р¶РјРёС‚Рµ РєРЅРѕРїРєСѓ "РџРµСЂРµРїРѕРґРєР»СЋС‡РёС‚СЊСЃСЏ Рє СЃРµСЂРІРµСЂР°Рј"')
 				else
-					imgui.Text(u8'Состояние приёма: Активно!')
+					imgui.Text(u8'РЎРѕСЃС‚РѕСЏРЅРёРµ РїСЂРёС‘РјР°: РђРєС‚РёРІРЅРѕ!')
 				end
 				if vkerrsend then
-					imgui.Text(u8'Состояние отправки: ' .. u8(vkerrsend))
+					imgui.Text(u8'РЎРѕСЃС‚РѕСЏРЅРёРµ РѕС‚РїСЂР°РІРєРё: ' .. u8(vkerrsend))
 				else
-					imgui.Text(u8'Состояние отправки: Активно!')
+					imgui.Text(u8'РЎРѕСЃС‚РѕСЏРЅРёРµ РѕС‚РїСЂР°РІРєРё: РђРєС‚РёРІРЅРѕ!')
 				end
-				imgui.InputText(u8('Токен'), vknotf.token, showtoken and 0 or imgui.InputTextFlags.Password)
+				imgui.InputText(u8('РўРѕРєРµРЅ'), vknotf.token, showtoken and 0 or imgui.InputTextFlags.Password)
 				imgui.SameLine()
-				if imgui.Button(u8('Показать##1010')) then showtoken = not showtoken end
+				if imgui.Button(u8('РџРѕРєР°Р·Р°С‚СЊ##1010')) then showtoken = not showtoken end
 				imgui.InputText(u8('VK ID'), vknotf.user_id)
 				imgui.SameLine()
-				imgui.TextQuestion(u8('В цифрах!'))
-				imgui.InputText(u8('VK ID Группы'), vknotf.group_id)
+				imgui.TextQuestion(u8('Р’ С†РёС„СЂР°С…!'))
+				imgui.InputText(u8('VK ID Р“СЂСѓРїРїС‹'), vknotf.group_id)
 				imgui.SameLine()
-				imgui.TextQuestion(u8('В цифрах!'))
+				imgui.TextQuestion(u8('Р’ С†РёС„СЂР°С…!'))
 				imgui.SetNextWindowSize(imgui.ImVec2(900,530))
 				if imgui.BeginPopupModal('##howsetVK',true,imgui.WindowFlags.NoTitleBar + imgui.WindowFlags.NoResize) then
 					imgui.Text(u8(howsetVK))
 					imgui.SetCursorPosY(490)
 					local wid = imgui.GetWindowWidth()
 					imgui.SetCursorPosX(wid / 2 - 30)
-					if imgui.Button(u8'Закрыть', imgui.ImVec2(60,20)) then
+					if imgui.Button(u8'Р—Р°РєСЂС‹С‚СЊ', imgui.ImVec2(60,20)) then
 						imgui.CloseCurrentPopup()
 					end
 					imgui.EndPopup()
 				end
-				if imgui.Button(u8('Как настроить')) then imgui.OpenPopup('##howsetVK') end
+				if imgui.Button(u8('РљР°Рє РЅР°СЃС‚СЂРѕРёС‚СЊ')) then imgui.OpenPopup('##howsetVK') end
 				imgui.SameLine()
-				if imgui.Button(u8('Проверить уведомления')) then sendvknotf('Тестовое сообщение лол кек милота') end
+				if imgui.Button(u8('РџСЂРѕРІРµСЂРёС‚СЊ СѓРІРµРґРѕРјР»РµРЅРёСЏ')) then sendvknotf('РўРµСЃС‚РѕРІРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ Р»РѕР» РєРµРє РјРёР»РѕС‚Р°') end
 				imgui.SameLine()
-				if imgui.Button(u8('Переподключиться к серверам')) then longpollGetKey() end
+				if imgui.Button(u8('РџРµСЂРµРїРѕРґРєР»СЋС‡РёС‚СЊСЃСЏ Рє СЃРµСЂРІРµСЂР°Рј')) then longpollGetKey() end
 				imgui.EndGroup()
 				imgui.Separator()
-				imgui.CenterText(u8('События, при которых отправиться уведомление'))
+				imgui.CenterText(u8('РЎРѕР±С‹С‚РёСЏ, РїСЂРё РєРѕС‚РѕСЂС‹С… РѕС‚РїСЂР°РІРёС‚СЊСЃСЏ СѓРІРµРґРѕРјР»РµРЅРёРµ'))
 				imgui.Separator()
 				imgui.BeginGroup()
-				imgui.Checkbox(u8('Подключение'),vknotf.isinitgame); imgui.SameLine(); imgui.TextQuestion(u8('Если персонаж подключится к серверу'))
-				imgui.Checkbox(u8('Администрация'),vknotf.isadm); imgui.SameLine(); imgui.TextQuestion(u8('Если в строке будет слово "Администратор" + ваш ник + красная строка(искл.: окно /pm, чат /pm, ban тоже будут учитываться)'))
-				imgui.Checkbox(u8('Голод'),vknotf.ishungry); imgui.SameLine(); imgui.TextQuestion(u8('Если персонаж проголодается'))
-				imgui.Checkbox(u8('Кик'),vknotf.iscloseconnect); imgui.SameLine(); imgui.TextQuestion(u8('Если персонаж отключится от сервера'))
-				imgui.Checkbox(u8('Деморган'),vknotf.isdemorgan); imgui.SameLine(); imgui.TextQuestion(u8('Если персонаж выйдет из деморгана'))
-				imgui.Checkbox(u8('SMS и Звонок'),vknotf.issmscall); imgui.SameLine(); imgui.TextQuestion(u8('Если персонажу придет смс или позвонят'))
-				imgui.Checkbox(u8('Запись звонков'),vknotf.record); imgui.SameLine(); imgui.TextQuestion(u8('Запись звонка, отправляется в ВК. Работает с автоответчиком'))
+				imgui.Checkbox(u8('РџРѕРґРєР»СЋС‡РµРЅРёРµ'),vknotf.isinitgame); imgui.SameLine(); imgui.TextQuestion(u8('Р•СЃР»Рё РїРµСЂСЃРѕРЅР°Р¶ РїРѕРґРєР»СЋС‡РёС‚СЃСЏ Рє СЃРµСЂРІРµСЂСѓ'))
+				imgui.Checkbox(u8('РђРґРјРёРЅРёСЃС‚СЂР°С†РёСЏ'),vknotf.isadm); imgui.SameLine(); imgui.TextQuestion(u8('Р•СЃР»Рё РІ СЃС‚СЂРѕРєРµ Р±СѓРґРµС‚ СЃР»РѕРІРѕ "РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ" + РІР°С€ РЅРёРє + РєСЂР°СЃРЅР°СЏ СЃС‚СЂРѕРєР°(РёСЃРєР».: РѕРєРЅРѕ /pm, С‡Р°С‚ /pm, ban С‚РѕР¶Рµ Р±СѓРґСѓС‚ СѓС‡РёС‚С‹РІР°С‚СЊСЃСЏ)'))
+				imgui.Checkbox(u8('Р“РѕР»РѕРґ'),vknotf.ishungry); imgui.SameLine(); imgui.TextQuestion(u8('Р•СЃР»Рё РїРµСЂСЃРѕРЅР°Р¶ РїСЂРѕРіРѕР»РѕРґР°РµС‚СЃСЏ'))
+				imgui.Checkbox(u8('РљРёРє'),vknotf.iscloseconnect); imgui.SameLine(); imgui.TextQuestion(u8('Р•СЃР»Рё РїРµСЂСЃРѕРЅР°Р¶ РѕС‚РєР»СЋС‡РёС‚СЃСЏ РѕС‚ СЃРµСЂРІРµСЂР°'))
+				imgui.Checkbox(u8('Р”РµРјРѕСЂРіР°РЅ'),vknotf.isdemorgan); imgui.SameLine(); imgui.TextQuestion(u8('Р•СЃР»Рё РїРµСЂСЃРѕРЅР°Р¶ РІС‹Р№РґРµС‚ РёР· РґРµРјРѕСЂРіР°РЅР°'))
+				imgui.Checkbox(u8('SMS Рё Р—РІРѕРЅРѕРє'),vknotf.issmscall); imgui.SameLine(); imgui.TextQuestion(u8('Р•СЃР»Рё РїРµСЂСЃРѕРЅР°Р¶Сѓ РїСЂРёРґРµС‚ СЃРјСЃ РёР»Рё РїРѕР·РІРѕРЅСЏС‚'))
+				imgui.Checkbox(u8('Р—Р°РїРёСЃСЊ Р·РІРѕРЅРєРѕРІ'),vknotf.record); imgui.SameLine(); imgui.TextQuestion(u8('Р—Р°РїРёСЃСЊ Р·РІРѕРЅРєР°, РѕС‚РїСЂР°РІР»СЏРµС‚СЃСЏ РІ Р’Рљ. Р Р°Р±РѕС‚Р°РµС‚ СЃ Р°РІС‚РѕРѕС‚РІРµС‚С‡РёРєРѕРј'))
 				imgui.EndGroup()
 				imgui.SameLine(350)
 				imgui.BeginGroup()
-				imgui.Checkbox(u8('PayDay'),vknotf.ispayday); imgui.SameLine(); imgui.TextQuestion(u8('Если персонаж получит PayDay'))
-				imgui.Checkbox(u8('Смерть'),vknotf.islowhp); imgui.SameLine(); imgui.TextQuestion(u8('Если персонаж умрет(если вас кто-то убъет, напишет его ник)'))
-				imgui.Checkbox(u8('Краш скрипта'),vknotf.iscrashscript); imgui.SameLine(); imgui.TextQuestion(u8('Если скрипт выгрузится/крашнется(даже если перезагрузите через CTRL + R)'))
-				imgui.Checkbox(u8('Продажи'),vknotf.issellitem); imgui.SameLine(); imgui.TextQuestion(u8('Если персонаж продаст что-то на ЦР или АБ'))
-				imgui.Checkbox(u8('КД мешка/рулеток'),vknotf.ismeat); imgui.SameLine(); imgui.TextQuestion(u8('Если КД на мешок/сундук не прошло, или если выпадет рулетка то придет уведомление'))
-				imgui.Checkbox(u8('Код с почты/ВК'),vknotf.iscode); imgui.SameLine(); imgui.TextQuestion(u8('Если будет требоваться код с почты/ВК, то придет уведомление'))
+				imgui.Checkbox(u8('PayDay'),vknotf.ispayday); imgui.SameLine(); imgui.TextQuestion(u8('Р•СЃР»Рё РїРµСЂСЃРѕРЅР°Р¶ РїРѕР»СѓС‡РёС‚ PayDay'))
+				imgui.Checkbox(u8('РЎРјРµСЂС‚СЊ'),vknotf.islowhp); imgui.SameLine(); imgui.TextQuestion(u8('Р•СЃР»Рё РїРµСЂСЃРѕРЅР°Р¶ СѓРјСЂРµС‚(РµСЃР»Рё РІР°СЃ РєС‚Рѕ-С‚Рѕ СѓР±СЉРµС‚, РЅР°РїРёС€РµС‚ РµРіРѕ РЅРёРє)'))
+				imgui.Checkbox(u8('РљСЂР°С€ СЃРєСЂРёРїС‚Р°'),vknotf.iscrashscript); imgui.SameLine(); imgui.TextQuestion(u8('Р•СЃР»Рё СЃРєСЂРёРїС‚ РІС‹РіСЂСѓР·РёС‚СЃСЏ/РєСЂР°С€РЅРµС‚СЃСЏ(РґР°Р¶Рµ РµСЃР»Рё РїРµСЂРµР·Р°РіСЂСѓР·РёС‚Рµ С‡РµСЂРµР· CTRL + R)'))
+				imgui.Checkbox(u8('РџСЂРѕРґР°Р¶Рё'),vknotf.issellitem); imgui.SameLine(); imgui.TextQuestion(u8('Р•СЃР»Рё РїРµСЂСЃРѕРЅР°Р¶ РїСЂРѕРґР°СЃС‚ С‡С‚Рѕ-С‚Рѕ РЅР° Р¦Р  РёР»Рё РђР‘'))
+				imgui.Checkbox(u8('РљР” РјРµС€РєР°/СЂСѓР»РµС‚РѕРє'),vknotf.ismeat); imgui.SameLine(); imgui.TextQuestion(u8('Р•СЃР»Рё РљР” РЅР° РјРµС€РѕРє/СЃСѓРЅРґСѓРє РЅРµ РїСЂРѕС€Р»Рѕ, РёР»Рё РµСЃР»Рё РІС‹РїР°РґРµС‚ СЂСѓР»РµС‚РєР° С‚Рѕ РїСЂРёРґРµС‚ СѓРІРµРґРѕРјР»РµРЅРёРµ'))
+				imgui.Checkbox(u8('РљРѕРґ СЃ РїРѕС‡С‚С‹/Р’Рљ'),vknotf.iscode); imgui.SameLine(); imgui.TextQuestion(u8('Р•СЃР»Рё Р±СѓРґРµС‚ С‚СЂРµР±РѕРІР°С‚СЊСЃСЏ РєРѕРґ СЃ РїРѕС‡С‚С‹/Р’Рљ, С‚Рѕ РїСЂРёРґРµС‚ СѓРІРµРґРѕРјР»РµРЅРёРµ'))
 				imgui.EndGroup()
 			end
 			imgui.EndChild()
 		elseif menunum == 4 then
 			imgui.BeginChild('##ana',imgui.ImVec2(-1,-1),false)
-			imgui.CenterText(u8('Автоеда'))
+			imgui.CenterText(u8('РђРІС‚РѕРµРґР°'))
 			imgui.Separator()
 			imgui.BeginGroup()
-        	imgui.RadioButton(u8'Оффнуть',eat.eatmetod,0)
+        	imgui.RadioButton(u8'РћС„С„РЅСѓС‚СЊ',eat.eatmetod,0)
 			if eat.eatmetod.v > 0 then
 				imgui.SameLine()
 				imgui.PushItemWidth(140)
-				imgui.Combo(u8('Способ проверки голода'), eat.checkmethod, checklist, -1)
+				imgui.Combo(u8('РЎРїРѕСЃРѕР± РїСЂРѕРІРµСЂРєРё РіРѕР»РѕРґР°'), eat.checkmethod, checklist, -1)
 				if eat.checkmethod.v == 1 then
 					imgui.PushItemWidth(80)
 					imgui.SameLine()
-					imgui.InputInt(u8('При скольки процентах голода надо кушать'),eat.eat2met,0)
+					imgui.InputInt(u8('РџСЂРё СЃРєРѕР»СЊРєРё РїСЂРѕС†РµРЅС‚Р°С… РіРѕР»РѕРґР° РЅР°РґРѕ РєСѓС€Р°С‚СЊ'),eat.eat2met,0)
 				end
 				imgui.PopItemWidth()
 			end
-			imgui.RadioButton(u8'Кушать Дома',eat.eatmetod,1)
+			imgui.RadioButton(u8'РљСѓС€Р°С‚СЊ Р”РѕРјР°',eat.eatmetod,1)
         	imgui.SameLine()
-        	imgui.TextQuestion(u8'Ваш персонаж будет кушать дома из холодильника')
+        	imgui.TextQuestion(u8'Р’Р°С€ РїРµСЂСЃРѕРЅР°Р¶ Р±СѓРґРµС‚ РєСѓС€Р°С‚СЊ РґРѕРјР° РёР· С…РѕР»РѕРґРёР»СЊРЅРёРєР°')
         	imgui.BeginGroup()
-        	imgui.RadioButton(u8'Кушать вне Дома',eat.eatmetod,2)
+        	imgui.RadioButton(u8'РљСѓС€Р°С‚СЊ РІРЅРµ Р”РѕРјР°',eat.eatmetod,2)
         	imgui.SameLine()
-        	imgui.TextQuestion(u8'Ваш персонаж будет кушать вне дома способом из списка')
+        	imgui.TextQuestion(u8'Р’Р°С€ РїРµСЂСЃРѕРЅР°Р¶ Р±СѓРґРµС‚ РєСѓС€Р°С‚СЊ РІРЅРµ РґРѕРјР° СЃРїРѕСЃРѕР±РѕРј РёР· СЃРїРёСЃРєР°')
         	if eat.eatmetod.v == 2 then
-        	    imgui.Text(u8'Выбор метода еды:')
+        	    imgui.Text(u8'Р’С‹Р±РѕСЂ РјРµС‚РѕРґР° РµРґС‹:')
         	    imgui.PushItemWidth(100)
         	    imgui.Combo('##123123131231232', eat.setmetod, metod, -1)
         	    if eat.setmetod.v == 3 then
-        	        imgui.Text(u8("ID TextDraw'a Еды"))
+        	        imgui.Text(u8("ID TextDraw'a Р•РґС‹"))
         	        imgui.InputInt(u8"##eat", eat.arztextdrawid,0)      
         	    end    
         	    imgui.PopItemWidth()
         	end
         	imgui.EndGroup()
-        	imgui.RadioButton(u8'Кушать в Фам КВ',eat.eatmetod,3)
+        	imgui.RadioButton(u8'РљСѓС€Р°С‚СЊ РІ Р¤Р°Рј РљР’',eat.eatmetod,3)
         	imgui.SameLine()
-        	imgui.TextQuestion(u8'Ваш персонаж будет кушать из холодильника в семейной квартире. Для использования встаньте на место, где при нажатии ALT появится диалог с выбором еды')
+        	imgui.TextQuestion(u8'Р’Р°С€ РїРµСЂСЃРѕРЅР°Р¶ Р±СѓРґРµС‚ РєСѓС€Р°С‚СЊ РёР· С…РѕР»РѕРґРёР»СЊРЅРёРєР° РІ СЃРµРјРµР№РЅРѕР№ РєРІР°СЂС‚РёСЂРµ. Р”Р»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РІСЃС‚Р°РЅСЊС‚Рµ РЅР° РјРµСЃС‚Рѕ, РіРґРµ РїСЂРё РЅР°Р¶Р°С‚РёРё ALT РїРѕСЏРІРёС‚СЃСЏ РґРёР°Р»РѕРі СЃ РІС‹Р±РѕСЂРѕРј РµРґС‹')
         	imgui.EndGroup()
         	imgui.BeginGroup()
-        	imgui.Checkbox(u8'АвтоХил', eat.healstate)
+        	imgui.Checkbox(u8'РђРІС‚РѕРҐРёР»', eat.healstate)
         	-- imgui.SameLine()
         	if eat.healstate.v then
         	    imgui.PushItemWidth(40)
-        	    imgui.InputInt(u8'Уровень HP для Хила', eat.hplvl,0)
+        	    imgui.InputInt(u8'РЈСЂРѕРІРµРЅСЊ HP РґР»СЏ РҐРёР»Р°', eat.hplvl,0)
         	    imgui.PopItemWidth()
-        	    imgui.Text(u8 'Выбор метода хила:')
+        	    imgui.Text(u8 'Р’С‹Р±РѕСЂ РјРµС‚РѕРґР° С…РёР»Р°:')
         	    imgui.PushItemWidth(100)
 				imgui.Combo('##ban',eat.hpmetod,healmetod,-1)
 				if eat.hpmetod.v == 1 then
         	        imgui.PushItemWidth(30)
-        	        imgui.InputInt(u8"Кол-во нарко",eat.drugsquen,0)
+        	        imgui.InputInt(u8"РљРѕР»-РІРѕ РЅР°СЂРєРѕ",eat.drugsquen,0)
         	        imgui.PopItemWidth()
         	    end
         	    if eat.hpmetod.v == 4 then
-        	        imgui.Text(u8("ID TextDraw'a Хила"))
+        	        imgui.Text(u8("ID TextDraw'a РҐРёР»Р°"))
         	        imgui.InputInt(u8"##heal",eat.arztextdrawidheal,0)
         	    end
         	    imgui.PopItemWidth()
         	end
         	imgui.EndGroup()
         	imgui.SameLine(130)
-        	if imgui.Checkbox(u8('Включить отображение ID текстдравов'), imgui.ImBool(idsshow)) then
+        	if imgui.Checkbox(u8('Р’РєР»СЋС‡РёС‚СЊ РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ ID С‚РµРєСЃС‚РґСЂР°РІРѕРІ'), imgui.ImBool(idsshow)) then
         	    idsshow = not idsshow
         	end
 			imgui.EndChild()
 		elseif menunum == 5 then
 			imgui.BeginChild('##ana',imgui.ImVec2(-1,-1),false)
-			imgui.CenterText(u8('Информация'))
+			imgui.CenterText(u8('РРЅС„РѕСЂРјР°С†РёСЏ'))
 			imgui.Separator()
 			imgui.Text(u8(scriptinfo))
 			imgui.EndChild()
 		elseif menunum == 6 then
 			imgui.BeginChild('##ana',imgui.ImVec2(-1,-1),false)
-			imgui.CenterText(u8('История обновлений'))
+			imgui.CenterText(u8('РСЃС‚РѕСЂРёСЏ РѕР±РЅРѕРІР»РµРЅРёР№'))
 			imgui.Separator()
 			imgui.Text(u8(changelog))
 			imgui.Text(u8(changelog2))
@@ -1634,11 +1634,11 @@ function onScriptTerminate(scr,qgame)
 		mainIni.piar.last_time = os.time()
 		local saved = inicfg.save(mainIni,'afktools.ini')
 		if vknotf.iscrashscript.v then
-			sendvknotf('Скрипт умер :(')
+			sendvknotf('РЎРєСЂРёРїС‚ СѓРјРµСЂ :(')
 		end	
 	end
 end
---получить все текстдравы
+--РїРѕР»СѓС‡РёС‚СЊ РІСЃРµ С‚РµРєСЃС‚РґСЂР°РІС‹
 function sampGetAllTextDraws()
 	local tds = {}
 	pTd = sampGetTextdrawPoolPtr() + 9216
@@ -1650,7 +1650,7 @@ function sampGetAllTextDraws()
 	return tds
 end
 
---сделать скрин
+--СЃРґРµР»Р°С‚СЊ СЃРєСЂРёРЅ
 function takeScreen()
 	if isSampLoaded() then
 		memory.setuint8(sampGetBase() + 0x119CBC, 1)
@@ -1669,7 +1669,7 @@ function workpaus(bool)
 		memory.hex2bin('0F 84 7B 01 00 00', 7623723, 8)
 		memory.hex2bin('50 51 FF 15 00 83 85 00', 5499528, 6)
 	end
-	-- AFKMessage('AntiAFK '..(bool and 'работает' or 'не работает'))
+	-- AFKMessage('AntiAFK '..(bool and 'СЂР°Р±РѕС‚Р°РµС‚' or 'РЅРµ СЂР°Р±РѕС‚Р°РµС‚'))
 end
 function sampFastConnect(bool)
 	if bool then 
@@ -1678,7 +1678,7 @@ function sampFastConnect(bool)
 		writeMemory(sampGetBase() + 0x2D3C45, 2, 8228, true)
 	end
 end
--- автозаполнение
+-- Р°РІС‚РѕР·Р°РїРѕР»РЅРµРЅРёРµ
 function findDialog(id, dialog)
 	for k, v in pairs(savepass[id][3]) do
 		if v.id == dialog then
@@ -1703,7 +1703,7 @@ function getAcc()
 	return acc
 end
 
---хукиииииииииииииииииии
+--С…СѓРєРёРёРёРёРёРёРёРёРёРёРёРёРёРёРёРёРёРёРё
 function onReceivePacket(id, bitStream)
 	if (id == PACKET_DISCONNECTION_NOTIFICATION or id == PACKET_INVALID_PASSWORD) then
 		goaurc()
@@ -1774,7 +1774,7 @@ function sampev.onShowTextDraw(id,data)
 			end
 			if checkopen.standart then
 				if id == opentimerid.standart then
-					AFKMessage('[standart] пытаюсь открыть сундук')
+					AFKMessage('[standart] РїС‹С‚Р°СЋСЃСЊ РѕС‚РєСЂС‹С‚СЊ СЃСѓРЅРґСѓРє')
 					sampSendClickTextdraw(id - 1) 
 					sampSendClickTextdraw(2301)
 					if not checkopen.donate and not checkopen.platina then
@@ -1790,7 +1790,7 @@ function sampev.onShowTextDraw(id,data)
 			end
 			if checkopen.donate then
 				if id == opentimerid.donate then
-					AFKMessage('[donate] пытаюсь открыть сундук')
+					AFKMessage('[donate] РїС‹С‚Р°СЋСЃСЊ РѕС‚РєСЂС‹С‚СЊ СЃСѓРЅРґСѓРє')
 					sampSendClickTextdraw(id - 1) 
 					sampSendClickTextdraw(2302)
 					if not checkopen.standard and not checkopen.platina then
@@ -1806,7 +1806,7 @@ function sampev.onShowTextDraw(id,data)
 			end
 			if checkopen.platina then
 				if id == opentimerid.platina then
-					AFKMessage('[platina] пробую открыть сундук')
+					AFKMessage('[platina] РїСЂРѕР±СѓСЋ РѕС‚РєСЂС‹С‚СЊ СЃСѓРЅРґСѓРє')
 					sampSendClickTextdraw(id - 1) 
 					sampSendClickTextdraw(2302)
 					if not checkopen.standard and not checkopen.donate then
@@ -1841,14 +1841,14 @@ function sampev.onSendTakeDamage(playerId, damage, weapon, bodypart)
 	if vknotf.islowhp.v then
 		if sampGetPlayerHealth(select(2, sampGetPlayerIdByCharHandle(playerPed))) - damage <= 0 and sampIsLocalPlayerSpawned() then
 			if playerId > -1 and playerId < 1001 then
-				killer = '\nУбийца: '..sampGetPlayerNickname(playerId)..'['..playerId..']'
+				killer = '\nРЈР±РёР№С†Р°: '..sampGetPlayerNickname(playerId)..'['..playerId..']'
 			end
-			sendvknotf('Ваш персонаж умер'..killer)
+			sendvknotf('Р’Р°С€ РїРµСЂСЃРѕРЅР°Р¶ СѓРјРµСЂ'..killer)
 		end
 	end
 end
 function sampev.onShowDialog(dialogId, dialogStyle, dialogTitle, okButtonText, cancelButtonText, dialogText)
-	if dialogText:find('Вы получили бан аккаунта') then
+	if dialogText:find('Р’С‹ РїРѕР»СѓС‡РёР»Рё Р±Р°РЅ Р°РєРєР°СѓРЅС‚Р°') then
 		if banscreen.v then
 			createscreen:run()
 		end
@@ -1858,73 +1858,73 @@ function sampev.onShowDialog(dialogId, dialogStyle, dialogTitle, okButtonText, c
 			sendvknotf('(warning | dialog) '..svk)
 		end
 	end
-	if dialogText:find('Выберите тип объявления:') then
+	if dialogText:find('Р’С‹Р±РµСЂРёС‚Рµ С‚РёРї РѕР±СЉСЏРІР»РµРЅРёСЏ:') then
 		if autoad.v then
 			sampSendDialogResponse(15346, 1, 0, -1)
 		end
 	end
-	if dialogText:find('Проверьте указанные вами данные') then
+	if dialogText:find('РџСЂРѕРІРµСЂСЊС‚Рµ СѓРєР°Р·Р°РЅРЅС‹Рµ РІР°РјРё РґР°РЅРЅС‹Рµ') then
 		if autoad.v then
 			sampSendDialogResponse(15347, 1, 0, -1)
 		end
 	end
-	if dialogText:find('Ваше объявление еще не рассмотрено') then
+	if dialogText:find('Р’Р°С€Рµ РѕР±СЉСЏРІР»РµРЅРёРµ РµС‰Рµ РЅРµ СЂР°СЃСЃРјРѕС‚СЂРµРЅРѕ') then
 		if autoad.v then
 			sampSendDialogResponse(15379, 0, 0, -1)
 		end
 	end
-	if dialogText:find('Выберите тип объявления:') then
+	if dialogText:find('Р’С‹Р±РµСЂРёС‚Рµ С‚РёРї РѕР±СЉСЏРІР»РµРЅРёСЏ:') then
 		if autoadbiz.v then
 			sampSendDialogResponse(15346, 1, 2, -1)
 		end
 	end
-	if dialogText:find('Проверьте указанные вами данные') then
+	if dialogText:find('РџСЂРѕРІРµСЂСЊС‚Рµ СѓРєР°Р·Р°РЅРЅС‹Рµ РІР°РјРё РґР°РЅРЅС‹Рµ') then
 		if autoadbiz.v then
 			sampSendDialogResponse(15347, 1, 0, -1)
 		end
 	end
-	if dialogText:find('Ваше объявление еще не рассмотрено') then
+	if dialogText:find('Р’Р°С€Рµ РѕР±СЉСЏРІР»РµРЅРёРµ РµС‰Рµ РЅРµ СЂР°СЃСЃРјРѕС‚СЂРµРЅРѕ') then
 		if autoadbiz.v then
 			sampSendDialogResponse(15379, 0, 0, -1)
 		end
 	end
 	if vknotf.isadm.v then
-		if dialogText:find('Администратор (.+) ответил вам') then
+		if dialogText:find('РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ (.+) РѕС‚РІРµС‚РёР» РІР°Рј') then
 			local svk = dialogText:gsub('\n','') 
 			svk = svk:gsub('\t','') 
 			sendvknotf('(warning | dialog) '..svk)
 		end
 	end
 	if vknotf.iscode.v then
-		if dialogText:find('было отправлено') then
-			sendvknotf('Требуется код с почты.\nВвести код: !sendcode код')
+		if dialogText:find('Р±С‹Р»Рѕ РѕС‚РїСЂР°РІР»РµРЅРѕ') then
+			sendvknotf('РўСЂРµР±СѓРµС‚СЃСЏ РєРѕРґ СЃ РїРѕС‡С‚С‹.\nР’РІРµСЃС‚Рё РєРѕРґ: !sendcode РєРѕРґ')
 		end
 	end
 	if vknotf.iscode.v then
-		if dialogText:find('Через личное сообщение Вам на страницу') then
-			sendvknotf('Требуется код с ВК.\nВвести код: !sendvk код')
+		if dialogText:find('Р§РµСЂРµР· Р»РёС‡РЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ Р’Р°Рј РЅР° СЃС‚СЂР°РЅРёС†Сѓ') then
+			sendvknotf('РўСЂРµР±СѓРµС‚СЃСЏ РєРѕРґ СЃ Р’Рљ.\nР’РІРµСЃС‚Рё РєРѕРґ: !sendvk РєРѕРґ')
 		end
 	end
 	if vknotf.iscode.v then
-		if dialogText:find('К этому аккаунту подключено приложение') then
-			sendvknotf('Требуется код из GAuthenticator.\nВвести код: !gauth код')
+		if dialogText:find('Рљ СЌС‚РѕРјСѓ Р°РєРєР°СѓРЅС‚Сѓ РїРѕРґРєР»СЋС‡РµРЅРѕ РїСЂРёР»РѕР¶РµРЅРёРµ') then
+			sendvknotf('РўСЂРµР±СѓРµС‚СЃСЏ РєРѕРґ РёР· GAuthenticator.\nР’РІРµСЃС‚Рё РєРѕРґ: !gauth РєРѕРґ')
 		end
 	end
 	if vknotf.iscode.v then
-		if dialogText:find('Через личное сообщение Вам на страницу') then
-			sendvknotf('Требуется код с ВК.\nВвести код: !sendvk код')
+		if dialogText:find('Р§РµСЂРµР· Р»РёС‡РЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ Р’Р°Рј РЅР° СЃС‚СЂР°РЅРёС†Сѓ') then
+			sendvknotf('РўСЂРµР±СѓРµС‚СЃСЏ РєРѕРґ СЃ Р’Рљ.\nР’РІРµСЃС‚Рё РєРѕРґ: !sendvk РєРѕРґ')
 		end
 	end
 	if gotoeatinhouse then
 		local linelist = 0
 		for n in dialogText:gmatch('[^\r\n]+') do
-			if dialogId == 174 and n:find('Меню дома') then
+			if dialogId == 174 and n:find('РњРµРЅСЋ РґРѕРјР°') then
 				print('debug: 174 dialog')
 				sampSendDialogResponse(174, 1, linelist, false)
-			elseif dialogId == 2431 and n:find('Холодильник') then
+			elseif dialogId == 2431 and n:find('РҐРѕР»РѕРґРёР»СЊРЅРёРє') then
 				print('debug: 2431 dialog')
 				sampSendDialogResponse(2431, 1, linelist, false)
-			elseif dialogId == 185 and n:find('Комплексный Обед') then
+			elseif dialogId == 185 and n:find('РљРѕРјРїР»РµРєСЃРЅС‹Р№ РћР±РµРґ') then
 				print('debug: 185 dialog')
 				sampSendDialogResponse(185, 1, linelist-1, false)
 				gotoeatinhouse = false
@@ -1933,7 +1933,7 @@ function sampev.onShowDialog(dialogId, dialogStyle, dialogTitle, okButtonText, c
 		end
 		return false
 	end
-	if gethunstate and dialogId == 0 and dialogText:find('Ваша сытость') then
+	if gethunstate and dialogId == 0 and dialogText:find('Р’Р°С€Р° СЃС‹С‚РѕСЃС‚СЊ') then
 		sampSendDialogResponse(id,0,0,'')
 		gethunstate = dialogText
 		return false
@@ -1974,30 +1974,30 @@ end
 function sampev.onServerMessage(color,text)
 	-- print(text .. ' \\ ' .. color)
 	if gotoeatinhouse then
-		if text:find('электроэнергию') then
-			AFKMessage('Невозможно покушать! Оплатите комуналку!')
+		if text:find('СЌР»РµРєС‚СЂРѕСЌРЅРµСЂРіРёСЋ') then
+			AFKMessage('РќРµРІРѕР·РјРѕР¶РЅРѕ РїРѕРєСѓС€Р°С‚СЊ! РћРїР»Р°С‚РёС‚Рµ РєРѕРјСѓРЅР°Р»РєСѓ!')
 			gotoeatinhouse = false
 		end
 	end
 	if vknotf.issellitem.v then 
-		if color == -1347440641 and text:find('от продажи') and text:find('комиссия') then
+		if color == -1347440641 and text:find('РѕС‚ РїСЂРѕРґР°Р¶Рё') and text:find('РєРѕРјРёСЃСЃРёСЏ') then
 			sendvknotf(text)
 		end
-		if color == 1941201407 and text:find('Поздравляем с продажей транспортного средства') then
-			sendvknotf('Поздравляем с продажей транспортного средства')
+		if color == 1941201407 and text:find('РџРѕР·РґСЂР°РІР»СЏРµРј СЃ РїСЂРѕРґР°Р¶РµР№ С‚СЂР°РЅСЃРїРѕСЂС‚РЅРѕРіРѕ СЃСЂРµРґСЃС‚РІР°') then
+			sendvknotf('РџРѕР·РґСЂР°РІР»СЏРµРј СЃ РїСЂРѕРґР°Р¶РµР№ С‚СЂР°РЅСЃРїРѕСЂС‚РЅРѕРіРѕ СЃСЂРµРґСЃС‚РІР°')
 		end
 	end
-	if color == -10270721 and text:find('Вы можете выйти из психиатрической больницы') then
+	if color == -10270721 and text:find('Р’С‹ РјРѕР¶РµС‚Рµ РІС‹Р№С‚Рё РёР· РїСЃРёС…РёР°С‚СЂРёС‡РµСЃРєРѕР№ Р±РѕР»СЊРЅРёС†С‹') then
 		if vknotf.isdemorgan.v then
 			sendvknotf(text)
 		end
 	end
-	if text:find('^Администратор (.+) ответил вам') then
+	if text:find('^РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ (.+) РѕС‚РІРµС‚РёР» РІР°Рј') then
 		if vknotf.isadm.v then
 			sendvknotf('(warning | chat) '..text)
 		end
 	end
-	if color == -10270721 and text:find('Администратор') then
+	if color == -10270721 and text:find('РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ') then
 		local res, mid = sampGetPlayerIdByCharHandle(PLAYER_PED)
 		if res then 
 			local mname = sampGetPlayerNickname(mid)
@@ -2009,82 +2009,82 @@ function sampev.onServerMessage(color,text)
 		end
 	end
 	if vknotf.issmscall.v then
-		if text:find('Вам пришло новое сообщение!') then
-			sendvknotf('Вам написали СМС!')
+		if text:find('Р’Р°Рј РїСЂРёС€Р»Рѕ РЅРѕРІРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ!') then
+			sendvknotf('Р’Р°Рј РЅР°РїРёСЃР°Р»Рё РЎРњРЎ!')
 		end
 	end
 	if vknotf.issmscall.v then 
-		if text:find('для того, чтобы показать курсор управления или') then
-			sendvknotf('Вам звонят!')
+		if text:find('РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РїРѕРєР°Р·Р°С‚СЊ РєСѓСЂСЃРѕСЂ СѓРїСЂР°РІР»РµРЅРёСЏ РёР»Рё') then
+			sendvknotf('Р’Р°Рј Р·РІРѕРЅСЏС‚!')
 		end
 	end 
 	if autoo.v then 
-		if text:find('для того, чтобы показать курсор управления или') then
+		if text:find('РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РїРѕРєР°Р·Р°С‚СЊ РєСѓСЂСЃРѕСЂ СѓРїСЂР°РІР»РµРЅРёСЏ РёР»Рё') then
 			setVirtualKeyDown(89, true)
 			setVirtualKeyDown(89, false)
 			sampSendClickTextdraw(2108)
 		end
 	end
 	if autoo.v then
-		if text:find('Вы подняли трубку') then
+		if text:find('Р’С‹ РїРѕРґРЅСЏР»Рё С‚СЂСѓР±РєСѓ') then
 			sampSendChat(u8:decode(atext.v))
 		end
 	end
 	if vknotf.iscode.v then
-		if text:find('На сервере есть инвентарь, используйте клавишу Y для работы с ним.') then
-			sendvknotf('Персонаж заспавнен')
+		if text:find('РќР° СЃРµСЂРІРµСЂРµ РµСЃС‚СЊ РёРЅРІРµРЅС‚Р°СЂСЊ, РёСЃРїРѕР»СЊР·СѓР№С‚Рµ РєР»Р°РІРёС€Сѓ Y РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РЅРёРј.') then
+			sendvknotf('РџРµСЂСЃРѕРЅР°Р¶ Р·Р°СЃРїР°РІРЅРµРЅ')
 		end
 	end		
 	if vknotf.ismeat.v then
-		if text:find('Использовать мешок с мясом можно раз в 30 минут!') then
+		if text:find('РСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РјРµС€РѕРє СЃ РјСЏСЃРѕРј РјРѕР¶РЅРѕ СЂР°Р· РІ 30 РјРёРЅСѓС‚!') then
 			sendvknotf(text)
 		end
 	end
 	if vknotf.record.v then
-		if text:find('%[Тел%]%:') then
+		if text:find('%[РўРµР»%]%:') then
 			sendvknotf(text)
 		end
 	end
 	if vknotf.record.v then
-		if text:find('Вы подняли трубку') then
+		if text:find('Р’С‹ РїРѕРґРЅСЏР»Рё С‚СЂСѓР±РєСѓ') then
 			sendvknotf(text)
 		end
 	end
 	if vknotf.record.v then
-		if text:find('Вы отменили звонок') then
+		if text:find('Р’С‹ РѕС‚РјРµРЅРёР»Рё Р·РІРѕРЅРѕРє') then
 			sendvknotf(text)
 		end
 	end
 	if vknotf.record.v then
-		if text:find('Звонок окончен! Время разговора') then
+		if text:find('Р—РІРѕРЅРѕРє РѕРєРѕРЅС‡РµРЅ! Р’СЂРµРјСЏ СЂР°Р·РіРѕРІРѕСЂР°') then
 			sendvknotf(text)
 		end
 	end
 	if vknotf.ismeat.v then
-		if text:find('Время после прошлого использования ещё не прошло!') then
+		if text:find('Р’СЂРµРјСЏ РїРѕСЃР»Рµ РїСЂРѕС€Р»РѕРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РµС‰С‘ РЅРµ РїСЂРѕС€Р»Рѕ!') then
 			sendvknotf(text)
 		end
 	end
 	if vknotf.ismeat.v then
-		if text:find('сундук с рулетками и получили') then
+		if text:find('СЃСѓРЅРґСѓРє СЃ СЂСѓР»РµС‚РєР°РјРё Рё РїРѕР»СѓС‡РёР»Рё') then
 			sendvknotf(text)
 		end
 	end
 	if vknotf.ispayday.v then
-		if text:find('Банковский чек') and color == 1941201407 then
+		if text:find('Р‘Р°РЅРєРѕРІСЃРєРёР№ С‡РµРє') and color == 1941201407 then
 			vknotf.ispaydaystate = true
 			vknotf.ispaydaytext = ''
 		end
 		if vknotf.ispaydaystate then
-			if text:find('Депозит в банке') then 
+			if text:find('Р”РµРїРѕР·РёС‚ РІ Р±Р°РЅРєРµ') then 
 				vknotf.ispaydaytext = vknotf.ispaydaytext..'\n'..text
-			elseif text:find('Сумма к выплате') then
+			elseif text:find('РЎСѓРјРјР° Рє РІС‹РїР»Р°С‚Рµ') then
 				vknotf.ispaydaytext = vknotf.ispaydaytext..'\n'..text 
-			elseif text:find('Текущая сумма в банке') then
+			elseif text:find('РўРµРєСѓС‰Р°СЏ СЃСѓРјРјР° РІ Р±Р°РЅРєРµ') then
 				vknotf.ispaydaytext = vknotf.ispaydaytext..'\n'..text
-			elseif text:find('Текущая сумма на депозите') then
+			elseif text:find('РўРµРєСѓС‰Р°СЏ СЃСѓРјРјР° РЅР° РґРµРїРѕР·РёС‚Рµ') then
 				vknotf.ispaydaytext = vknotf.ispaydaytext..'\n'..text
-			elseif text:find('В данный момент у вас') then
+			elseif text:find('Р’ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ Сѓ РІР°СЃ') then
 				vknotf.ispaydaytext = vknotf.ispaydaytext..'\n'..text
 				sendvknotf(vknotf.ispaydaytext)
 				vknotf.ispaydaystate = false
@@ -2093,8 +2093,8 @@ function sampev.onServerMessage(color,text)
 		end
 	end
 	if returnmessageforvr.v then
-		if text:find('После последнего сообщения в этом чате нужно подождать 3 секунды') or text:find('Для возможности повторной отправки сообщения в этот чат осталось') then
-			sampAddChatMessage("[ReSend /vr]{ffffff} Переотправляю...",-10270721)
+		if text:find('РџРѕСЃР»Рµ РїРѕСЃР»РµРґРЅРµРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ РІ СЌС‚РѕРј С‡Р°С‚Рµ РЅСѓР¶РЅРѕ РїРѕРґРѕР¶РґР°С‚СЊ 3 СЃРµРєСѓРЅРґС‹') or text:find('Р”Р»СЏ РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РїРѕРІС‚РѕСЂРЅРѕР№ РѕС‚РїСЂР°РІРєРё СЃРѕРѕР±С‰РµРЅРёСЏ РІ СЌС‚РѕС‚ С‡Р°С‚ РѕСЃС‚Р°Р»РѕСЃСЊ') then
+			sampAddChatMessage("[ReSend /vr]{ffffff} РџРµСЂРµРѕС‚РїСЂР°РІР»СЏСЋ...",-10270721)
 			lua_thread.create(function() 
 				wait(1000)
 				sampSendChat(lastvrmessage)
@@ -2104,7 +2104,7 @@ function sampev.onServerMessage(color,text)
 end
 function sampev.onInitGame(playerId, hostName, settings, vehicleModels, unknown)
 	if vknotf.isinitgame.v then
-		sendvknotf('Вы подключились к серверу!', hostName)
+		sendvknotf('Р’С‹ РїРѕРґРєР»СЋС‡РёР»РёСЃСЊ Рє СЃРµСЂРІРµСЂСѓ!', hostName)
 	end
 end
 function sampev.onDisplayGameText(style, time, text)
@@ -2112,7 +2112,7 @@ function sampev.onDisplayGameText(style, time, text)
 	if eat.checkmethod.v == 0 then
 		if text == ('You are hungry!') or text == ('~r~You are very hungry!') then
 			if vknotf.ishungry.v then
-				sendvknotf('Вы проголодались!')
+				sendvknotf('Р’С‹ РїСЂРѕРіРѕР»РѕРґР°Р»РёСЃСЊ!')
 			end
 			onPlayerHungry:run()
 		end
@@ -2134,18 +2134,18 @@ function sampev.onSendDialogResponse(dialogid, button, list, text)
 		dialogChecker.title = ""
 	end
 end	
--- реконы 
--- рекон стандарт 
+-- СЂРµРєРѕРЅС‹ 
+-- СЂРµРєРѕРЅ СЃС‚Р°РЅРґР°СЂС‚ 
 function reconstandart(timewait,bool_close)
 	if handle_aurc then
 		handle_aurc:terminate()
 		handle_aurc = nil
-		AFKMessage('Автореконнект остановлен т.к вы использовали обычный реконнект')
+		AFKMessage('РђРІС‚РѕСЂРµРєРѕРЅРЅРµРєС‚ РѕСЃС‚Р°РЅРѕРІР»РµРЅ С‚.Рє РІС‹ РёСЃРїРѕР»СЊР·РѕРІР°Р»Рё РѕР±С‹С‡РЅС‹Р№ СЂРµРєРѕРЅРЅРµРєС‚')
 	end
 	if handle_rc then
 		handle_rc:terminate()
 		handle_rc = nil
-		AFKMessage('Предыдущий реконнект был остановлен')
+		AFKMessage('РџСЂРµРґС‹РґСѓС‰РёР№ СЂРµРєРѕРЅРЅРµРєС‚ Р±С‹Р» РѕСЃС‚Р°РЅРѕРІР»РµРЅ')
 	end
 	handle_rc = lua_thread.create(function(timewait2, bclose)
 		bclose = bclose or true
@@ -2156,68 +2156,68 @@ function reconstandart(timewait,bool_close)
 		if timewait2 then	
 			if timewait2 >= 0 then
 				recwaitim = timewait2*1000
-				AFKMessage('Реконнект через '..timewait2..' секунд')
+				AFKMessage('Р РµРєРѕРЅРЅРµРєС‚ С‡РµСЂРµР· '..timewait2..' СЃРµРєСѓРЅРґ')
 				wait(recwaitim)
 				sampConnectToServer(sampGetCurrentServerAddress())
 			end
 		else
-			AFKMessage('Реконнект...')
+			AFKMessage('Р РµРєРѕРЅРЅРµРєС‚...')
 			sampConnectToServer(sampGetCurrentServerAddress())
 		end  
 		handle_rc = nil
 	end,timewait, bool_close)
 end
---рекон с ником 
+--СЂРµРєРѕРЅ СЃ РЅРёРєРѕРј 
 function reconname(playername,ips,ports)
 	if handle_aurc then
 		handle_aurc:terminate()
 		handle_aurc = nil
-		AFKMessage('Автореконнект остановлен т.к вы использовали реконнект с ником')
+		AFKMessage('РђРІС‚РѕСЂРµРєРѕРЅРЅРµРєС‚ РѕСЃС‚Р°РЅРѕРІР»РµРЅ С‚.Рє РІС‹ РёСЃРїРѕР»СЊР·РѕРІР°Р»Рё СЂРµРєРѕРЅРЅРµРєС‚ СЃ РЅРёРєРѕРј')
 	end
 	if handle_rc then
 		handle_rc:terminate()
 		handle_rc = nil
-		AFKMessage('Предыдущий реконнект был остановлен')
+		AFKMessage('РџСЂРµРґС‹РґСѓС‰РёР№ СЂРµРєРѕРЅРЅРµРєС‚ Р±С‹Р» РѕСЃС‚Р°РЅРѕРІР»РµРЅ')
 	end
 	handle_rc = lua_thread.create(function()
 		if #playername == 0 then
-			AFKMessage('Введите ник для реконнекта')
+			AFKMessage('Р’РІРµРґРёС‚Рµ РЅРёРє РґР»СЏ СЂРµРєРѕРЅРЅРµРєС‚Р°')
 		else
 			closeConnect()
 			sampSetLocalPlayerName(playername)
-			AFKMessage('Реконнект с новым ником\n'..playername)
+			AFKMessage('Р РµРєРѕРЅРЅРµРєС‚ СЃ РЅРѕРІС‹Рј РЅРёРєРѕРј\n'..playername)
 			local ip, port = sampGetCurrentServerAddress()
 			ips,ports = ips or ip, ports or port
 			sampConnectToServer(ips,ports)
 		end 
 	end)
 end
--- создать autorecon
+-- СЃРѕР·РґР°С‚СЊ autorecon
 function goaurc()
 	if vknotf.iscloseconnect.v then
-		sendvknotf('Потеряно соединение с сервером')
+		sendvknotf('РџРѕС‚РµСЂСЏРЅРѕ СЃРѕРµРґРёРЅРµРЅРёРµ СЃ СЃРµСЂРІРµСЂРѕРј')
 	end
 	if arec.state.v then
 		if handle_aurc then
 			handle_aurc:terminate()
 			handle_aurc = nil
-			AFKMessage('Предыдущий автореконнект был остановлен')
+			AFKMessage('РџСЂРµРґС‹РґСѓС‰РёР№ Р°РІС‚РѕСЂРµРєРѕРЅРЅРµРєС‚ Р±С‹Р» РѕСЃС‚Р°РЅРѕРІР»РµРЅ')
 		end
 		if handle_rc then
 			handle_rc:terminate()
 			handle_rc = nil
-			AFKMessage('Обычный автореконнект был остановлен т.к сработал автореконнект')
+			AFKMessage('РћР±С‹С‡РЅС‹Р№ Р°РІС‚РѕСЂРµРєРѕРЅРЅРµРєС‚ Р±С‹Р» РѕСЃС‚Р°РЅРѕРІР»РµРЅ С‚.Рє СЃСЂР°Р±РѕС‚Р°Р» Р°РІС‚РѕСЂРµРєРѕРЅРЅРµРєС‚')
 		end
 		handle_aurc = lua_thread.create(function()
 			local ip, port = sampGetCurrentServerAddress()
-			AFKMessage('Соединение потеряно. Реконнект через '..arec.wait.v..' секунд')
+			AFKMessage('РЎРѕРµРґРёРЅРµРЅРёРµ РїРѕС‚РµСЂСЏРЅРѕ. Р РµРєРѕРЅРЅРµРєС‚ С‡РµСЂРµР· '..arec.wait.v..' СЃРµРєСѓРЅРґ')
 			wait(arec.wait.v * 1000)
 			sampConnectToServer(ip,port)
 			handle_aurc = nil
 		end)
 	end
 end
---закрыть соединение
+--Р·Р°РєСЂС‹С‚СЊ СЃРѕРµРґРёРЅРµРЅРёРµ
 function closeConnect()
 	raknetEmulPacketReceiveBitStream(PACKET_DISCONNECTION_NOTIFICATION, raknetNewBitStream())
 	raknetDeleteBitStream(raknetNewBitStream())
@@ -2285,7 +2285,7 @@ function saveini()
 	mainIni.eat.drugsquen = eat.drugsquen.v
 	mainIni.eat.hpmetod = eat.hpmetod.v
 	local saved = inicfg.save(mainIni,'afktools.ini')
-	AFKMessage('Настройки INI сохранены '..(saved and 'успешно!' or 'с ошибкой!'))
+	AFKMessage('РќР°СЃС‚СЂРѕР№РєРё INI СЃРѕС…СЂР°РЅРµРЅС‹ '..(saved and 'СѓСЃРїРµС€РЅРѕ!' or 'СЃ РѕС€РёР±РєРѕР№!'))
 end
 function saveacc(...)
 	local a = {...}
@@ -2336,7 +2336,7 @@ function saveaccounts()
 	end
 	print('[Accounts] Saved!')
 end
--- // система автообновления
+-- // СЃРёСЃС‚РµРјР° Р°РІС‚РѕРѕР±РЅРѕРІР»РµРЅРёСЏ
 updates = {}
 updates.data = {
 	result = false,
@@ -2349,29 +2349,29 @@ updates.data = {
 function updates:download()
 	if self.data.result and #self.data.relevant_version > 0  then
 		if self.data.relevant_version ~= thisScript().version then
-			self.data.status = 'Пытаюсь обновиться c '..thisScript().version..' на '..self.data.relevant_version
+			self.data.status = 'РџС‹С‚Р°СЋСЃСЊ РѕР±РЅРѕРІРёС‚СЊСЃСЏ c '..thisScript().version..' РЅР° '..self.data.relevant_version
 			AFKMessage(self.data.status)
 			int_scr_download = downloadUrlToFile(self.data.url_update, thisScript().path, function(id3, status1, p13, p23)
 				if status1 == dlstatus.STATUS_ENDDOWNLOADDATA and int_scr_download == id3 then
-					AFKMessage('Загрузка обновления завершена.')
-					AFKMessage('Обновление завершено!')
+					AFKMessage('Р—Р°РіСЂСѓР·РєР° РѕР±РЅРѕРІР»РµРЅРёСЏ Р·Р°РІРµСЂС€РµРЅР°.')
+					AFKMessage('РћР±РЅРѕРІР»РµРЅРёРµ Р·Р°РІРµСЂС€РµРЅРѕ!')
 					goupdatestatus = true          
 					lua_thread.create(function() wait(500) thisScript():reload() end)
 				end
 				if status1 == dlstatus.STATUSEX_ENDDOWNLOAD and int_scr_download == id3 then
 					if goupdatestatus == nil then
-						self.data.status = 'Обновление прошло неудачно. Запущена старая версия.'
+						self.data.status = 'РћР±РЅРѕРІР»РµРЅРёРµ РїСЂРѕС€Р»Рѕ РЅРµСѓРґР°С‡РЅРѕ. Р—Р°РїСѓС‰РµРЅР° СЃС‚Р°СЂР°СЏ РІРµСЂСЃРёСЏ.'
 						AFKMessage(self.data.status)
 					end
 				end
 			end)
 		else
-			self.data.status = 'Обновление не требуется.'
+			self.data.status = 'РћР±РЅРѕРІР»РµРЅРёРµ РЅРµ С‚СЂРµР±СѓРµС‚СЃСЏ.'
 			AFKMessage(self.data.status)
 		end
 	end
 end
---// стиль, тема и лого
+--// СЃС‚РёР»СЊ, С‚РµРјР° Рё Р»РѕРіРѕ
 function esstyle()
 	imgui.SwitchContext()
 	local style = imgui.GetStyle()
