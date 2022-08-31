@@ -1534,7 +1534,7 @@ function imgui.OnDrawFrame()
 					imgui.Text(u8'Состояние приёма: ' .. u8(vkerr))
 					imgui.Text(u8'Для переподключения к серверам нажмите кнопку "Переподключиться к серверам"')
 				else
-					imgui.Text(u8'Состояние приёма: Активно!')
+					imgui.Text(u8'Состояние приёма: Активно!') --
 				end
 				if vkerrsend then
 					imgui.Text(u8'Состояние отправки: ' .. u8(vkerrsend))
