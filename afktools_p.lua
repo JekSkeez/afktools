@@ -1541,13 +1541,7 @@ function imgui.OnDrawFrame()
 				else
 					imgui.Text(u8'Состояние отправки: Активно!')
 				end
-				imgui.InputText(u8('Токен'), vknotf.token, showtoken and 0 or imgui.InputTextFlags.Password)
-				imgui.SameLine()
-				if imgui.Button(u8('Показать##1010')) then showtoken = not showtoken end
 				imgui.InputText(u8('VK ID'), vknotf.user_id)
-				imgui.SameLine()
-				imgui.TextQuestion(u8('В цифрах!'))
-				imgui.InputText(u8('VK ID Группы'), vknotf.group_id)
 				imgui.SameLine()
 				imgui.TextQuestion(u8('В цифрах!'))
 				imgui.SetNextWindowSize(imgui.ImVec2(900,530))
