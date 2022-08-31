@@ -1,6 +1,6 @@
 script_name('AFK Tools (upd)') -- iphone
 script_author("skeez")
-script_version('2.0.9.2p')
+script_version('2.1.0p')
 script_properties('work-in-pause')
 local dlstatus = require("moonloader").download_status
 local imgui = require('imgui')
@@ -18,6 +18,13 @@ end
 
 local path = getWorkingDirectory() .. "\\config"
 
+local function closeDialog()
+	sampSetDialogClientside(true)
+	sampCloseCurrentDialogWithButton(0)
+	sampSetDialogClientside(false)
+end
+local fix = false
+local use = false
 local mainIni = inicfg.load({
 	autologin = {
 		state = false
@@ -31,6 +38,8 @@ local mainIni = inicfg.load({
 		standart = false,
 		donate = false,
 		platina = false,
+		mask = false,
+		tainik = false,
 		wait = 1000
 	},
 	vknotf = {
@@ -50,7 +59,8 @@ local mainIni = inicfg.load({
 		issellitem = false,
 		issmscall = false,
 		record = false,
-		ismeat = false
+		ismeat = false,
+		dienable = false
 	},
 	piar = {
 		piar1 = '',
@@ -179,7 +189,8 @@ changelog2 = [[	v2.0.1
 			- Без подключенного паблика, подключать самому (для тех кто хочет быть крутым)
 		Добавлена команда !gauth для отправки кода из GAuthenticator
 		Если персонаж заспанится после логина, то придет уведомление
-	v2.0.9
+]]
+changelog3 = [[v2.0.9
 		Теперь на автоответчик можно писать свой текст.
 		В ВК добавлена кнопка "Последние 10 строк с чата"
 		Добавлена функция переотправки сообщения в /vr из-за КД.
@@ -190,7 +201,14 @@ changelog2 = [[	v2.0.1
 	v2.0.9.2
 		Переписан полностью автоответчик и ответ на звонки с ВК.
 		Исправлены баги.
-
+	v2.1.0
+		Исправлена работа Автоскипа диалога /vr.
+		Теперь можно включать отправку всех диалогов в ВК.
+		Добавлено взаимодействие с диалогами в игре через !d [пункт или текст] и !dc (закрывает диалог).
+		Теперь отправлять команды в игру можно без !send, но отправлять текст в чат через него все же нужно.
+		Приподнял кнопки в главном меню для красоты.
+		Прибрался в основных настройках.
+		Пофиксил автооткрытие, добавил доп. сундуки.
 
 
 ]]
@@ -249,6 +267,8 @@ local roulette = {
 	standart = imgui.ImBool(mainIni.roulette.standart),
 	donate = imgui.ImBool(mainIni.roulette.donate),
 	platina = imgui.ImBool(mainIni.roulette.platina),
+	mask = imgui.ImBool(mainIni.roulette.mask),
+	tainik = imgui.ImBool(mainIni.roulette.tainik),
 	wait = imgui.ImInt(mainIni.roulette.wait)
 }
 local vknotf = {
@@ -261,6 +281,7 @@ local vknotf = {
 	issmscall = imgui.ImBool(mainIni.vknotf.issmscall),
 	record = imgui.ImBool(mainIni.vknotf.record),
 	ismeat = imgui.ImBool(mainIni.vknotf.ismeat),
+	dienable = imgui.ImBool(mainIni.vknotf.dienable),
 	iscloseconnect = imgui.ImBool(mainIni.vknotf.iscloseconnect),
 	isadm = imgui.ImBool(mainIni.vknotf.isadm),
 	iscode = imgui.ImBool(mainIni.vknotf.iscode),
@@ -306,11 +327,16 @@ local aopen = false
 local opentimerid = {
 	standart = -1,
 	donate = -1,
-	platina = -1
+	platina = -1,
+	mask = -1,
+	tainik = -1
 }
 local checkopen = {
 	standart = false,
-	donate = false
+	donate = false,
+	platina = false,
+	mask = false,
+	tainik = false
 }
 local onPlayerHungry = lua_thread.create_suspended(function()
 	if eat.eatmetod.v == 1 then
@@ -359,12 +385,20 @@ local checkrulopen = lua_thread.create_suspended(function()
 	while true do
 		wait(0)
 		if aopen then
+			sampSendClickTextdraw(65535)
+            wait(355)
+            fix = true
+            sampSendChat("/donate")
+            wait(2000)
+            fix = false
 			AFKMessage('Начинаем делать проверку')
 			checkopen.standart = true
 			checkopen.donate = roulette.donate.v and true or false
 			checkopen.platina = roulette.platina.v and true or false
+			checkopen.mask = roulette.mask.v and true or false
+			checkopen.tainik = roulette.tainik.v and true or false
 			sampSendChat('/invent')
-			wait(roulette.wait.v*1000)
+			wait(roulette.wait.v*60000)
 			AFKMessage('Перезапуск')
 		end
 	end
@@ -547,6 +581,8 @@ function longpollResolve(result)
 								sendvknotf('Команды:\n!send - Отправить сообщение из VK в Игру\n!getplstats - получить статистику персонажа\n!getplhun - получить голод персонажа\n!getplinfo - получить информацию о персонаже\n!sendcode - отправить код с почты\n!sendvk - отправить код из ВК\n!gauth - отправить код из GAuth\n!p/!h - сбросить/принять вызов\nПоддержка: @sk33z')
 							elseif pl.button == 'openchest' then
 								openchestrulletVK(sendvknotf)
+							elseif pl.button == 'activedia' then
+								sendDialog(sendvknotf)
 							elseif pl.button == 'keyW' then
 								setKeyFromVK('go',sendvknotf)
 							elseif pl.button == 'keyA' then
@@ -560,6 +596,7 @@ function longpollResolve(result)
 						return
 					end
 					local objsend = tblfromstr(v.object.text)
+					local diasend = v.object.text .. ' '
 					if objsend[1] == '!getplstats' then
 						getPlayerArzStats()
 					elseif objsend[1] == '!getplinfo' then
@@ -580,7 +617,7 @@ function longpollResolve(result)
 						else
 							sendvknotf('Неправильный аргумент! Пример: !send [строка]')
 						end
-						elseif objsend[1] == '!sendcode' then
+					elseif objsend[1] == '!sendcode' then
 						print('this')
 						local args = table.concat(objsend, " ", 2, #objsend) 
 						if #args > 0 then
@@ -589,8 +626,8 @@ function longpollResolve(result)
 							sendvknotf('Код "' .. args .. '" был успешно отправлен в диалог')
 						else
 							sendvknotf('Неправильный аргумент! Пример: !sendcode [код]')
-						end
-						elseif objsend[1] == '!sendvk' then
+					end
+					elseif objsend[1] == '!sendvk' then
 						print('this')
 						local args = table.concat(objsend, " ", 2, #objsend) 
 						if #args > 0 then
@@ -599,8 +636,8 @@ function longpollResolve(result)
 							sendvknotf('Код "' .. args .. '" был успешно отправлен в диалог')
 						else
 							sendvknotf('Неправильный аргумент! Пример: !sendvk [код]')
-						end
-						elseif objsend[1] == '!gauth' then
+					end
+					elseif objsend[1] == '!gauth' then
 						print('this')
 						local args = table.concat(objsend, " ", 2, #objsend) 
 						if #args > 0 then
@@ -609,16 +646,29 @@ function longpollResolve(result)
 							sendvknotf('Код "' .. args .. '" был успешно отправлен в диалог')
 						else
 							sendvknotf('Неправильный аргумент! Пример: !gauth [код]')
-						end
-					elseif cmd == '!lastchat' then
-						local lines = tonumber(args)
-						if lines and lines < 52 and lines > 0 then
-							lastchatmessage(text,sendvknotf)
+					end
+					elseif diasend:match('^!d ') then
+						diasend = diasend:sub(1, diasend:len() - 1)
+						local style = sampGetCurrentDialogType()
+						if style == 2 or style > 3 and diasend:match('^!d (%d*)') then
+							sampSendDialogResponse(sampGetCurrentDialogId(), 1, tonumber(u8:decode(diasend:match('^!d (%d*)'))) - 1, -1)
+						elseif style == 1 or style == 3 then
+							sampSendDialogResponse(sampGetCurrentDialogId(), 1, -1, u8:decode(diasend:match('^!d (.*)')))
 						else
-							sendvknotf('Неверное значение! Аргумент должен быть больше 0 и меньше 52')
+							sampSendDialogResponse(sampGetCurrentDialogId(), 1, -1, -1) -- да
+						end
+						closeDialog()
+					elseif diasend:match('^!dc ') then
+						sampSendDialogResponse(sampGetCurrentDialogId(), 0, -1, -1) -- нет
+						sampCloseCurrentDialogWithButton(0)
+					else
+						if diasend and diasend:sub(1, 1) == '/' then
+							diasend = diasend:sub(1, diasend:len() - 1)
+							sampProcessChatInput(u8:decode(diasend))
 						end
 						return
 					end
+
 				end
 			end
 		end
@@ -719,8 +769,14 @@ function vkKeyboard() --создает конкретную клавиатуру для бота VK, как сделать д
 	row3[1].action = {}
 	row3[1].color = 'positive'
 	row3[1].action.type = 'text'
-	row3[1].action.payload = '{"button": "support"}'
-	row3[1].action.label = 'Поддержка'
+	row3[1].action.payload = '{"button": "activedia"}'
+	row3[1].action.label = activedia and 'Не отправлять диалоги' or 'Отправлять диалоги'
+	row3[2] = {}
+	row3[2].action = {}
+	row3[2].color = 'positive'
+	row3[2].action.type = 'text'
+	row3[2].action.payload = '{"button": "support"}'
+	row3[2].action.label = 'Поддержка'
 	row4[1] = {}
 	row4[1].action = {}
 	row4[1].color = 'positive'
@@ -886,7 +942,7 @@ function setKeyFromVK(getkey)
 end
 function openchestrulletVK()
 	if isSampLoaded() and isSampAvailable() and sampIsLocalPlayerSpawned() then
-		if roulette.standart.v or roulette.donate.v or roulette.platina.v then
+		if roulette.standart.v or roulette.donate.v or roulette.platina.v or roulette.mask.v or roulette.tainik.v then
 			aopen = not aopen
 			if aopen then 
 				checkrulopen:run()
@@ -902,9 +958,19 @@ function openchestrulletVK()
 		sendvknotf('Ваш персонаж не заспавнен!')
 	end
 end
+function sendDialog()
+	activedia = not activedia
+	if activedia then 
+	vknotf.dienable.v = true
+	sendvknotf('Отправка диалогов в VK включена.')
+	else
+	vknotf.dienable.v = false
+	sendvknotf('Отправка диалогов в VK отключена.')
+	end
+end
 function openchestrullet()
 	if sampIsLocalPlayerSpawned() then
-		if roulette.standart.v or roulette.donate.v or roulette.platina.v then
+		if roulette.standart.v or roulette.donate.v or roulette.platina.v or roulette.mask.v or roulette.tainik.v then
 			aopen = not aopen
 			AFKMessage('Автооткрытие '..(aopen and 'включено!' or 'выключено!'))
 			if aopen then 
@@ -1313,7 +1379,7 @@ function imgui.OnDrawFrame()
 			end
 			imgui.CreatePaddingY(20)
 			local cc = 1
-			local startY = 140 
+			local startY = 120 
 			for i = 1, #buttons do
 				local poss = {
 					80,
@@ -1351,12 +1417,16 @@ function imgui.OnDrawFrame()
 			imgui.CenterText(u8('Автооткрытие рулеток'))
 			imgui.Separator()
 			imgui.BeginGroup()
-			imgui.Text(u8('Внимание! Автооткрытие рулеток нормально работает только на англ. языке инвентаря'))
-			imgui.Checkbox(u8('Открывать стандарт сундук'),roulette.standart); imgui.SameLine() imgui.TextQuestion(u8('Для оптимизации открывания сундуков стандартный сундук должен быть в 1 слоте на 1 странице')) 
-			imgui.Checkbox(u8('Открывать донат сундук'),roulette.donate); imgui.SameLine() imgui.TextQuestion(u8('[Обязательно!] Донатный сундук должен быть в 2 слоте на 1 странице'))
-			imgui.Checkbox(u8('Открывать платина сундук'),roulette.platina); imgui.SameLine() imgui.TextQuestion(u8('[Обязательно!] Платиновый сундук должен быть в 3 слоте на 1 странице'))
+			imgui.Checkbox(u8('Открывать стандарт сундук'),roulette.standart); imgui.SameLine() imgui.TextQuestion(u8('Для оптимизации открывания сундуков стандартный сундук должен быть на любом слоте на 1 странице')) 
+			imgui.Checkbox(u8('Открывать донат сундук'),roulette.donate); imgui.SameLine() imgui.TextQuestion(u8('[Обязательно!] Донатный сундук должен быть на любом слоте на 1 странице'))
+			imgui.Checkbox(u8('Открывать платина сундук'),roulette.platina); imgui.SameLine() imgui.TextQuestion(u8('[Обязательно!] Платиновый сундук должен быть на любом слоте на 1 странице'))
+			imgui.EndGroup()
+			imgui.SameLine(350)
+			imgui.BeginGroup()
+			imgui.Checkbox(u8('Открывать сундук Маска'),roulette.mask); imgui.SameLine() imgui.TextQuestion(u8('[Обязательно!] Сундук Маска должен быть на любом слоте на 1 странице'))
+			imgui.Checkbox(u8('Открывать тайник Сантоса'),roulette.tainik); imgui.SameLine() imgui.TextQuestion(u8('[Обязательно!] Тайник Сантоса должен быть на любом слоте на 1 странице'))
 			imgui.PushItemWidth(100)
-			imgui.InputInt(u8('Задержка (в сек.)##wait'),roulette.wait)
+			imgui.InputInt(u8('Задержка (в минутах.)##wait'),roulette.wait)
 			imgui.SameLine()
 			imgui.TextQuestion(u8('Задержка перед чеком состояния рулеток(можно открыть или нет)'))
 			imgui.PopItemWidth()
@@ -1424,11 +1494,15 @@ function imgui.OnDrawFrame()
 			imgui.Checkbox(u8('Скип диалога /ad'),autoad)
 			imgui.SameLine()
 			imgui.TextQuestion(u8('При использовании /ad [текст], будет запрашиваться выбор типа обьявления'))
+			imgui.EndGroup()
+			imgui.SameLine(350)
+			imgui.BeginGroup()
 			imgui.Checkbox(u8('Скип диалога /ad для маркетологов'),autoadbiz)
 			imgui.SameLine()
 			imgui.TextQuestion(u8('При использовании /ad [текст], будет выбираться тип для маркетологов'))
 			imgui.Checkbox(u8('Скип диалога /vr'),autovr)
 			imgui.SameLine()
+			imgui.TextQuestion(u8('Если включено - отправляется текст как реклама. Если отключено - отправляется как обычное сообщение.'))
 			imgui.Checkbox(u8('Переотправить сообщение в /vr'),returnmessageforvr)
 			imgui.SameLine()
 			imgui.TextQuestion(u8('Если вы или скрипт отправит серверу какое-то сообщение в /vr и в чате будет найдено сообщение "После последнего сообщения в этом чате нужно подождать 3 секунды" от сервера(не от игрока) то скрипт переотправит то сообщение что вы/скрипт отправил'))
@@ -1467,7 +1541,13 @@ function imgui.OnDrawFrame()
 				else
 					imgui.Text(u8'Состояние отправки: Активно!')
 				end
+				imgui.InputText(u8('Токен'), vknotf.token, showtoken and 0 or imgui.InputTextFlags.Password)
+				imgui.SameLine()
+				if imgui.Button(u8('Показать##1010')) then showtoken = not showtoken end
 				imgui.InputText(u8('VK ID'), vknotf.user_id)
+				imgui.SameLine()
+				imgui.TextQuestion(u8('В цифрах!'))
+				imgui.InputText(u8('VK ID Группы'), vknotf.group_id)
 				imgui.SameLine()
 				imgui.TextQuestion(u8('В цифрах!'))
 				imgui.SetNextWindowSize(imgui.ImVec2(900,530))
@@ -1507,6 +1587,7 @@ function imgui.OnDrawFrame()
 				imgui.Checkbox(u8('Продажи'),vknotf.issellitem); imgui.SameLine(); imgui.TextQuestion(u8('Если персонаж продаст что-то на ЦР или АБ'))
 				imgui.Checkbox(u8('КД мешка/рулеток'),vknotf.ismeat); imgui.SameLine(); imgui.TextQuestion(u8('Если КД на мешок/сундук не прошло, или если выпадет рулетка то придет уведомление'))
 				imgui.Checkbox(u8('Код с почты/ВК'),vknotf.iscode); imgui.SameLine(); imgui.TextQuestion(u8('Если будет требоваться код с почты/ВК, то придет уведомление'))
+				imgui.Checkbox(u8('Отправка всех диалогов'),vknotf.dienable); imgui.SameLine(); imgui.TextQuestion(u8('Скрипт отправляет все серверные диалоги по типу /mm, /stats в вашу беседу в VK.'))
 				imgui.EndGroup()
 			end
 			imgui.EndChild()
@@ -1588,6 +1669,7 @@ function imgui.OnDrawFrame()
 			imgui.Separator()
 			imgui.Text(u8(changelog))
 			imgui.Text(u8(changelog2))
+			imgui.Text(u8(changelog3))
 			imgui.EndChild()
 		elseif menunum == 7 then
 			imgui.BeginChild('##ana',imgui.ImVec2(-1,-1),false)
@@ -1811,6 +1893,7 @@ function sampev.onShowTextDraw(id,data)
 		end
 	end
 	if aopen then -- state
+	 lua_thread.create(function()
 		if roulette.standart.v then --standard
 			if data.modelId == 19918 then --standart model
 				opentimerid.standart = id + 1
@@ -1818,15 +1901,22 @@ function sampev.onShowTextDraw(id,data)
 			if checkopen.standart then
 				if id == opentimerid.standart then
 					AFKMessage('[standart] пытаюсь открыть сундук')
-					sampSendClickTextdraw(id - 1) 
-					sampSendClickTextdraw(2301)
-					if not checkopen.donate and not checkopen.platina then
+					wait(500)
+					sampSendClickTextdraw(id - 1)
+					use = true
+					wait(500)
+					if use then
+      					sampSendClickTextdraw(2302)
+        				use = false
+      				end
+					if not checkopen.donate and not checkopen.platina and not checkopen.mask and not checkopen.tainik then
 						sendcloseinventory()
 					end
 					checkopen.standart = false
 				end
 			end
 		end
+		wait(1000)
 		if roulette.donate.v then
 			if data.modelId == 19613 then --standart model
 				opentimerid.donate = id + 1
@@ -1834,15 +1924,22 @@ function sampev.onShowTextDraw(id,data)
 			if checkopen.donate then
 				if id == opentimerid.donate then
 					AFKMessage('[donate] пытаюсь открыть сундук')
-					sampSendClickTextdraw(id - 1) 
-					sampSendClickTextdraw(2302)
-					if not checkopen.standard and not checkopen.platina then
+					wait(500)
+					sampSendClickTextdraw(id - 1)
+					use = true
+					wait(500)
+					if use then
+      					sampSendClickTextdraw(2302)
+        				use = false
+      				end
+					if not checkopen.standart and not checkopen.platina and not checkopen.mask and not checkopen.tainik then
 						sendcloseinventory()
 					end
 					checkopen.donate = false
 				end
 			end
 		end
+		wait(1000)
 		if roulette.platina.v then
 			if data.modelId == 1353 then --standart model
 				opentimerid.platina = id + 1
@@ -1850,17 +1947,70 @@ function sampev.onShowTextDraw(id,data)
 			if checkopen.platina then
 				if id == opentimerid.platina then
 					AFKMessage('[platina] пробую открыть сундук')
-					sampSendClickTextdraw(id - 1) 
-					sampSendClickTextdraw(2302)
-					if not checkopen.standard and not checkopen.donate then
+					wait(500)
+					sampSendClickTextdraw(id - 1)
+					use = true
+					wait(500)
+					if use then
+      					sampSendClickTextdraw(2302)
+        				use = false
+      				end
+					if not checkopen.standart and not checkopen.donate and not checkopen.mask and not checkopen.tainik then
 						sendcloseinventory()
 					end
 					checkopen.platina = false
 				end
 			end
 		end
+		wait(1000)
+		if roulette.mask.v then
+			if data.modelId == 1733 then --standart model
+				opentimerid.mask = id + 1
+			end
+			if checkopen.mask then
+				if id == opentimerid.mask then
+					AFKMessage('[mask] пробую открыть сундук')
+					wait(500)
+					sampSendClickTextdraw(id - 1)
+					use = true
+					wait(500)
+					if use then
+      					sampSendClickTextdraw(2302)
+        				use = false
+      				end
+					if not checkopen.standart and not checkopen.donate and not checkopen.platina and not checkopen.tainik then
+						sendcloseinventory()
+					end
+					checkopen.mask = false
+				end
+			end
+		end
+		wait(1000)
+		if roulette.tainik.v then
+			if data.modelId == 2887 then --standart model
+				opentimerid.tainik = id + 1
+			end
+			if checkopen.tainik then
+				if id == opentimerid.tainik then
+					AFKMessage('[tainik] пробую открыть тайник')
+					wait(500)
+					sampSendClickTextdraw(id - 1)
+					use = true
+					wait(500)
+					if use then
+      					sampSendClickTextdraw(2302)
+        				use = false
+      				end
+					if not checkopen.standart and not checkopen.donate and not checkopen.platina and not checkopen.mask then
+						sendcloseinventory()
+					end
+					checkopen.tainik = false
+				end
+			end
+		end
+	 end)
 	end
-	-- print('ID = %s, ModelID = %s',id,data.modelId)
+	--print('ID = %s, ModelID = %s, text = %s',id,data.modelId, data.text)
 end
 function sampev.onSetPlayerHealth(healthfloat)
 	if eat.healstate.v and sampIsLocalPlayerSpawned() then
@@ -1901,6 +2051,11 @@ function sampev.onShowDialog(dialogId, dialogStyle, dialogTitle, okButtonText, c
 			sendvknotf('(warning | dialog) '..svk)
 		end
 	end
+	if fix and dialogText:find("Курс пополнения счета") then
+		sampSendDialogResponse(dialogId, 0, 0, "")
+		sampAddChatMessage("{ffffff} inventory {ff0000}fixed{ffffff}!",-1)   
+		return false
+	end
 	if dialogId == 15346 then
 		if autoad.v then
 			sampSendDialogResponse(15346, 1, 0, -1)
@@ -1908,6 +2063,9 @@ function sampev.onShowDialog(dialogId, dialogStyle, dialogTitle, okButtonText, c
 	end
 	if dialogId == 25627 then
 		if autovr.v then
+			sampSendDialogResponse(25627, 1, 0, -1)
+		end
+		if autovr then
 			sampSendDialogResponse(25627, 0, 0, -1)
 		end
 	end
@@ -1946,6 +2104,17 @@ function sampev.onShowDialog(dialogId, dialogStyle, dialogTitle, okButtonText, c
 			sampSendDialogResponse(15379, 0, 0, -1)
 		end
 	end
+	if vknotf.dienable.v then
+		if dialogStyle == 1 or dialogStyle == 3 then
+			sendvknotf('' .. dialogTitle .. '\n' .. dialogText .. '\n\n[______________]\n\n[' .. okButtonText .. '] | [' .. cancelButtonText .. ']' )
+		else
+			if dialogStyle == 0 then
+				sendvknotf('' .. dialogTitle .. '\n' .. dialogText .. '\n\n[' .. okButtonText .. '] | [' .. cancelButtonText .. ']' )
+			else
+				sendvknotf('' .. dialogTitle .. '\n' .. dialogText .. '\n\n[' .. okButtonText .. '] | [' .. cancelButtonText .. ']' )
+			end
+        end
+    end
 	if vknotf.isadm.v then
 		if dialogText:find('Администратор (.+) ответил вам') then
 			local svk = dialogText:gsub('\n','') 
@@ -2303,7 +2472,10 @@ function saveini()
 	mainIni.arec.wait = arec.wait.v
 	--roulette
 	mainIni.roulette.standart = roulette.standart.v
+	mainIni.roulette.platina = roulette.platina.v
 	mainIni.roulette.donate = roulette.donate.v
+	mainIni.roulette.mask = roulette.mask.v
+	mainIni.roulette.tainik = roulette.tainik.v
 	mainIni.roulette.wait = roulette.wait.v
 	--vk.notf
 	mainIni.vknotf.state = vknotf.state.v
@@ -2315,6 +2487,7 @@ function saveini()
 	mainIni.vknotf.issmscall = vknotf.issmscall.v
 	mainIni.vknotf.record = vknotf.record.v
 	mainIni.vknotf.ismeat = vknotf.ismeat.v
+	mainIni.vknotf.dienable = vknotf.dienable.v
 	mainIni.vknotf.isinitgame = vknotf.isinitgame.v	
 	mainIni.vknotf.iscloseconnect = vknotf.iscloseconnect.v
 	mainIni.vknotf.ishungry = vknotf.ishungry.v
@@ -2338,6 +2511,7 @@ function saveini()
 	mainIni.config.autoupdate = autoupdateState.v
 	mainIni.config.fastconnect = fastconnect.v
 	mainIni.config.autoad = autoad.v
+	mainIni.config.autovr = autovr.v
 	mainIni.config.autoadbiz = autoadbiz.v
 	mainIni.config.autoo = autoo.v
 	mainIni.config.atext = atext.v
