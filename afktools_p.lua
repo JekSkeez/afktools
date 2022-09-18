@@ -1,6 +1,6 @@
 script_name('AFK Tools (upd)') -- iphone
 script_author("skeez")
-script_version('2.1.0p')
+script_version('2.2p')
 script_properties('work-in-pause')
 local dlstatus = require("moonloader").download_status
 local imgui = require('imgui')
@@ -9,6 +9,8 @@ local sampev = require("samp.events")
 local memory = require("memory")
 local effil = require("effil")
 local inicfg = require("inicfg")
+local ffi = require("ffi")
+local requests = require("requests")
 encoding.default = 'CP1251'
 u8 = encoding.UTF8
 
@@ -58,6 +60,7 @@ local mainIni = inicfg.load({
 		iscrashscript = false,
 		issellitem = false,
 		issmscall = false,
+		bank = false,
 		record = false,
 		ismeat = false,
 		dienable = false
@@ -101,6 +104,187 @@ local mainIni = inicfg.load({
 		fastconnect = false
 	}
 },'afktools.ini')
+
+ffi.cdef[[
+    typedef unsigned long DWORD;
+
+    struct d3ddeviceVTBL {
+        void *QueryInterface;
+        void *AddRef;
+        void *Release;
+        void *TestCooperativeLevel;
+        void *GetAvailableTextureMem;
+        void *EvictManagedResources;
+        void *GetDirect3D;
+        void *GetDeviceCaps;
+        void *GetDisplayMode;
+        void *GetCreationParameters;
+        void *SetCursorProperties;
+        void *SetCursorPosition;
+        void *ShowCursor;
+        void *CreateAdditionalSwapChain;
+        void *GetSwapChain;
+        void *GetNumberOfSwapChains;
+        void *Reset;
+        void *Present;
+        void *GetBackBuffer;
+        void *GetRasterStatus;
+        void *SetDialogBoxMode;
+        void *SetGammaRamp;
+        void *GetGammaRamp;
+        void *CreateTexture;
+        void *CreateVolumeTexture;
+        void *CreateCubeTexture;
+        void *CreateVertexBuffer;
+        void *CreateIndexBuffer;
+        void *CreateRenderTarget;
+        void *CreateDepthStencilSurface;
+        void *UpdateSurface;
+        void *UpdateTexture;
+        void *GetRenderTargetData;
+        void *GetFrontBufferData;
+        void *StretchRect;
+        void *ColorFill;
+        void *CreateOffscreenPlainSurface;
+        void *SetRenderTarget;
+        void *GetRenderTarget;
+        void *SetDepthStencilSurface;
+        void *GetDepthStencilSurface;
+        void *BeginScene;
+        void *EndScene;
+        void *Clear;
+        void *SetTransform;
+        void *GetTransform;
+        void *MultiplyTransform;
+        void *SetViewport;
+        void *GetViewport;
+        void *SetMaterial;
+        void *GetMaterial;
+        void *SetLight;
+        void *GetLight;
+        void *LightEnable;
+        void *GetLightEnable;
+        void *SetClipPlane;
+        void *GetClipPlane;
+        void *SetRenderState;
+        void *GetRenderState;
+        void *CreateStateBlock;
+        void *BeginStateBlock;
+        void *EndStateBlock;
+        void *SetClipStatus;
+        void *GetClipStatus;
+        void *GetTexture;
+        void *SetTexture;
+        void *GetTextureStageState;
+        void *SetTextureStageState;
+        void *GetSamplerState;
+        void *SetSamplerState;
+        void *ValidateDevice;
+        void *SetPaletteEntries;
+        void *GetPaletteEntries;
+        void *SetCurrentTexturePalette;
+        void *GetCurrentTexturePalette;
+        void *SetScissorRect;
+        void *GetScissorRect;
+        void *SetSoftwareVertexProcessing;
+        void *GetSoftwareVertexProcessing;
+        void *SetNPatchMode;
+        void *GetNPatchMode;
+        void *DrawPrimitive;
+        void* DrawIndexedPrimitive;
+        void *DrawPrimitiveUP;
+        void *DrawIndexedPrimitiveUP;
+        void *ProcessVertices;
+        void *CreateVertexDeclaration;
+        void *SetVertexDeclaration;
+        void *GetVertexDeclaration;
+        void *SetFVF;
+        void *GetFVF;
+        void *CreateVertexShader;
+        void *SetVertexShader;
+        void *GetVertexShader;
+        void *SetVertexShaderConstantF;
+        void *GetVertexShaderConstantF;
+        void *SetVertexShaderConstantI;
+        void *GetVertexShaderConstantI;
+        void *SetVertexShaderConstantB;
+        void *GetVertexShaderConstantB;
+        void *SetStreamSource;
+        void *GetStreamSource;
+        void *SetStreamSourceFreq;
+        void *GetStreamSourceFreq;
+        void *SetIndices;
+        void *GetIndices;
+        void *CreatePixelShader;
+        void *SetPixelShader;
+        void *GetPixelShader;
+        void *SetPixelShaderConstantF;
+        void *GetPixelShaderConstantF;
+        void *SetPixelShaderConstantI;
+        void *GetPixelShaderConstantI;
+        void *SetPixelShaderConstantB;
+        void *GetPixelShaderConstantB;
+        void *DrawRectPatch;
+        void *DrawTriPatch;
+        void *DeletePatch;
+    };
+
+    struct d3ddevice {
+        struct d3ddeviceVTBL** vtbl;
+    };
+    
+    struct RECT {
+        long left;
+        long top;
+        long right;
+        long bottom;
+    };
+    
+    struct POINT {
+        long x;
+        long y;
+    };
+    
+    int __stdcall GetSystemMetrics(
+      int nIndex
+    );
+    
+    int __stdcall GetClientRect(
+        int   hWnd,
+        struct RECT* lpRect
+    );
+    
+    int __stdcall ClientToScreen(
+        int    hWnd,
+        struct POINT* lpPoint
+    );
+    
+    int __stdcall D3DXSaveSurfaceToFileA(
+        const char*          pDestFile,
+        int DestFormat,
+        void*       pSrcSurface,
+        void*        pSrcPalette,
+        struct RECT                 *pSrcRect
+    );
+	
+	short GetKeyState(int nVirtKey);
+	bool GetKeyboardLayoutNameA(char* pwszKLID);
+	int GetLocaleInfoA(int Locale, int LCType, char* lpLCData, int cchData);
+	
+	void* __stdcall ShellExecuteA(void* hwnd, const char* op, const char* file, const char* params, const char* dir, int show_cmd);
+	uint32_t __stdcall CoInitializeEx(void*, uint32_t);
+
+	int __stdcall GetVolumeInformationA(
+    const char* lpRootPathName,
+    char* lpVolumeNameBuffer,
+    uint32_t nVolumeNameSize,
+    uint32_t* lpVolumeSerialNumber,
+    uint32_t* lpMaximumComponentLength,
+    uint32_t* lpFileSystemFlags,
+    char* lpFileSystemNameBuffer,
+    uint32_t nFileSystemNameSize
+);
+]]
 
 if not doesFileExist('moonloader/config/afktools.ini') then
 	inicfg.save(mainIni,'afktools.ini')
@@ -209,6 +393,23 @@ changelog3 = [[v2.0.9
 		Приподнял кнопки в главном меню для красоты.
 		Прибрался в основных настройках.
 		Пофиксил автооткрытие, добавил доп. сундуки.
+	v2.2
+		Теперь скриншот из игры можно получать в ВК.
+		Добавил несколько кнопок для скачивания библиотек/других скриптов:
+			• Автооткрытие от bakhusse
+			• AntiAFK by AIR
+			• Библиотеки для работы !screen
+		Уменьшил размеры окон "Как настроить" и "Как исправить !screen" в VK Notifications.
+		Исправил автообновление в версии с пабликом.
+		Добавлены кнопки:
+			• OK и Cancel для диалоговых окон
+			• ALT
+			• ESC для закрытия TextDraw
+		Добавил уведомление от получения или отправления банковского перевода.
+		В кнопку "Поддержка" были добавлены новые команды.
+		Переписан текст в "Как настроить" в VK Notifications.
+		Теперь при включенной функции "Отправка всех диалогов" сообщения не отправляются по 2 раза.
+		Добавлен показатель онлайна на сервере в "Информация"
 
 
 ]]
@@ -228,14 +429,26 @@ scriptinfo = [[
 howsetVK = [[
 Где взять VK ID?
 Самый простой способ
-1. Зайдите в "Настройки" вашего аккаунта
-2. В поле "Адрес страницы" нажмите "Изменить"
-3. Над кнопкой "Сохранить" будет текст - "Номер страницы - (цифры)". Эти цифры и есть ваш VK ID
+1. Зайдите в группу vk.com/notify.arizona
+2. Нажмите "Мне нужен ID VK"
+3. Бот вам даст цифры - это ваш ID VK
 4. Перепишите эти цифры в поле "VK ID" 
 
 Сохраните
-Напишите что-то в группу vk.com/notify.arizona
-Теперь, вы можете проверить уведомления нажав кнопку "Проверить" 
+Теперь, вы можете проверить уведомления нажав кнопку "Проверить"
+
+Если у вас ошибка "Can't send messages for users without permission", 
+то напишите в группу vk.com/notify.arizona, и проверьте снова.
+]]
+howscreen = [[
+Команда !screen работает следующим образом:
+• Если игра свёрнута - произойдет краш скрипта
+• Если игра на весь экран - придёт просто белый скриншот. 
+• Чтобы сработало идеально - нужно сделать игру в оконный режим 
+  и растянуть на весь экран (на лаунчере можно просто в настройках
+  лаунчера включить оконный режим).
+• Для работы команды нужно скачать необходимые
+  библиотеки (скачать можно в меню VK Notifications)
 ]]
 local _message = {}
 
@@ -279,6 +492,7 @@ local vknotf = {
 	isinitgame = imgui.ImBool(mainIni.vknotf.isinitgame),
 	ishungry = imgui.ImBool(mainIni.vknotf.ishungry),
 	issmscall = imgui.ImBool(mainIni.vknotf.issmscall),
+	bank = imgui.ImBool(mainIni.vknotf.bank),
 	record = imgui.ImBool(mainIni.vknotf.record),
 	ismeat = imgui.ImBool(mainIni.vknotf.ismeat),
 	dienable = imgui.ImBool(mainIni.vknotf.dienable),
@@ -578,7 +792,7 @@ function longpollResolve(result)
 							elseif pl.button == 'lastchat10' then
 								lastchatmessage(10,sendvknotf)
 							elseif pl.button == 'support' then
-								sendvknotf('Команды:\n!send - Отправить сообщение из VK в Игру\n!getplstats - получить статистику персонажа\n!getplhun - получить голод персонажа\n!getplinfo - получить информацию о персонаже\n!sendcode - отправить код с почты\n!sendvk - отправить код из ВК\n!gauth - отправить код из GAuth\n!p/!h - сбросить/принять вызов\nПоддержка: @sk33z')
+								sendvknotf('Команды:\n!send - Отправить сообщение из VK в Игру\n!getplstats - получить статистику персонажа\n!getplhun - получить голод персонажа\n!getplinfo - получить информацию о персонаже\n!sendcode - отправить код с почты\n!sendvk - отправить код из ВК\n!gauth - отправить код из GAuth\n!p/!h - сбросить/принять вызов\n!d [пункт или текст] - ответить на диалоговое окно\n!dc - закрыть диалог\n!screen - сделать скриншот (ОБЯЗАТЕЛЬНО ПРОЧИТАТЬ !helpscreen)\n!helpscreen - помощь по команде !screen\nПоддержка: @sk33z')
 							elseif pl.button == 'openchest' then
 								openchestrulletVK(sendvknotf)
 							elseif pl.button == 'activedia' then
@@ -591,6 +805,16 @@ function longpollResolve(result)
 								setKeyFromVK('back',sendvknotf)
 							elseif pl.button == 'keyD' then
 								setKeyFromVK('right',sendvknotf)
+							elseif pl.button == 'keyALT' then
+								sendkeyALT()
+							elseif pl.button == 'keyESC' then
+								sendkeyESC()
+							elseif pl.button == 'primary_dialog' then
+								sampSendDialogResponse(sampGetCurrentDialogId(), 1, -1, -1)
+								sampCloseCurrentDialogWithButton(0)
+							elseif pl.button == 'secondary_dialog' then
+								sampSendDialogResponse(sampGetCurrentDialogId(), 0, -1, -1)
+								sampCloseCurrentDialogWithButton(0)
 							end
 						end
 						return
@@ -607,6 +831,10 @@ function longpollResolve(result)
 						PickUpPhone()
 					elseif objsend[1] == '!h' then
 						PickDownPhone()
+					elseif objsend[1] == '!screen' then
+						sendscreen()
+					elseif objsend[1] == '!helpscreen' then
+						sendhelpscreen()
 					elseif objsend[1] == '!send' then
 						print('this')
 						local args = table.concat(objsend, " ", 2, #objsend) 
@@ -721,6 +949,15 @@ function sendvknotf(msg, host)
 		end)
 	end
 end
+function getOnline()
+	local countvers = 0
+	for i = 0, 999 do
+		if sampIsPlayerConnected(i) then
+			countvers = countvers + 1
+		end
+	end
+	return countvers
+end
 function vkKeyboard() --создает конкретную клавиатуру для бота VK, как сделать для более общих случаев пока не задумывался
 	local keyboard = {}
 	keyboard.one_time = false
@@ -779,10 +1016,28 @@ function vkKeyboard() --создает конкретную клавиатуру для бота VK, как сделать д
 	row3[2].action.label = 'Поддержка'
 	row4[1] = {}
 	row4[1].action = {}
-	row4[1].color = 'positive'
+	row4[1].color = 'negative'
 	row4[1].action.type = 'text'
-	row4[1].action.payload = '{"button": "keyW"}'
-	row4[1].action.label = 'W'
+	row4[1].action.payload = '{"button": "primary_dialog"}'
+	row4[1].action.label = 'OK'
+	row4[2] = {}
+	row4[2].action = {}
+	row4[2].color = 'positive'
+	row4[2].action.type = 'text'
+	row4[2].action.payload = '{"button": "keyW"}'
+	row4[2].action.label = 'W'
+	row4[3] = {}
+	row4[3].action = {}
+	row4[3].color = 'negative'
+	row4[3].action.type = 'text'
+    row4[3].action.payload = '{"button": "secondary_dialog"}'
+	row4[3].action.label = 'Cancel'
+	row4[4] = {}
+	row4[4].action = {}
+	row4[4].color = 'negative'
+	row4[4].action.type = 'text'
+    row4[4].action.payload = '{"button": "keyALT"}'
+	row4[4].action.label = 'ALT'
 	row5[1] = {}
 	row5[1].action = {}
 	row5[1].color = 'positive'
@@ -801,12 +1056,18 @@ function vkKeyboard() --создает конкретную клавиатуру для бота VK, как сделать д
 	row5[3].action.type = 'text'
 	row5[3].action.payload = '{"button": "keyD"}'
 	row5[3].action.label = 'D'
+	row5[4] = {}
+	row5[4].action = {}
+	row5[4].color = 'negative'
+	row5[4].action.type = 'text'
+	row5[4].action.payload = '{"button": "keyESC"}'
+	row5[4].action.label = 'ESC'
 	return encodeJson(keyboard)
 end
 function char_to_hex(str)
 	return string.format("%%%02X", string.byte(str))
   end
-  
+
 function url_encode(str)
     local str = string.gsub(str, "\\", "\\")
     local str = string.gsub(str, "([^%w])", char_to_hex)
@@ -818,6 +1079,7 @@ function getPlayerInfo()
 		response = response .. 'HP: ' .. getCharHealth(PLAYER_PED) .. '\n'
 		response = response .. 'Armor: ' .. getCharArmour(PLAYER_PED) .. '\n'
 		response = response .. 'Money: ' .. getPlayerMoney(PLAYER_HANDLE) .. '\n'
+		response = response .. 'Online: ' .. getOnline() .. '\n'
 		local x, y, z = getCharCoordinates(PLAYER_PED)
 		response = response .. 'Coords: X: ' .. math.floor(x) .. ' | Y: ' .. math.floor(y) .. ' | Z: ' .. math.floor(z)
 		sendvknotf(response)
@@ -837,7 +1099,7 @@ function getPlayerArzStats()
 				timesendrequest = 0
 			end 
 		end
-		sendvknotf(sendstatsstate == true and 'Ошибка! В течении 10 секунд скрипт не получил информацию!' or tostring(sendstatsstate))
+		if not vknotf.dienable.v then sendvknotf(sendstatsstate == true and 'Ошибка! В течении 10 секунд скрипт не получил информацию!' or tostring(sendstatsstate)) end
 		sendstatsstate = false
 	else
 		sendvknotf('(error) Персонаж не заспавнен')
@@ -867,10 +1129,74 @@ function getPlayerArzHun()
 				timesendrequest = 0
 			end 
 		end
-		sendvknotf(gethunstate == true and 'Ошибка! В течении 10 секунд скрипт не получил информацию!' or tostring(gethunstate))
+		if not vknotf.dienable.v then sendvknotf(gethunstate == true and 'Ошибка! В течении 10 секунд скрипт не получил информацию!' or tostring(gethunstate)) end
 		gethunstate = false
 	else
 		sendvknotf('(error) Персонаж не заспавнен')
+	end
+end
+function randomInt() 
+    math.randomseed(os.time() + os.clock())
+    return math.random(-2147483648, 2147483648)
+end 
+function sendhelpscreen()
+	sendvknotf('Инструкция по наладке команды "!screen":\n\nКоманда !screen работает следующим образом:\n• Если игра свёрнута - произойдет краш скрипта\n• Если игра на весь экран - придёт просто белый скриншот.\n• Чтобы сработало идеально - нужно сделать игру в оконный режим и растянуть на весь экран (на лаунчере можно просто в настройках лаунчера включить оконный режим).\n• Для работы команды нужно скачать необходимые библиотеки (скачать можно в меню VK Notifications)')
+end
+function sendscreen()
+	if vknotf.state.v then 
+	local d3dx9_43 = ffi.load('d3dx9_43.dll')
+    local pDevice = ffi.cast("struct d3ddevice*", 0xC97C28)
+    local CreateOffscreenPlainSurface =  ffi.cast("long(__stdcall*)(void*, unsigned long, unsigned long, unsigned long, unsigned long, void**, void*)", pDevice.vtbl[0].CreateOffscreenPlainSurface)
+    local GetFrontBufferData =  ffi.cast("long(__stdcall*)(void*, unsigned long, void*)", pDevice.vtbl[0].GetFrontBufferData)
+    local pSurface = ffi.cast("void**", ffi.new('unsigned long[1]'))
+    local sx = ffi.C.GetSystemMetrics(0);
+    local sy = ffi.C.GetSystemMetrics(1);
+    CreateOffscreenPlainSurface(pDevice, sx, sy, 21, 3, pSurface, ffi.cast("void*", 0))
+    if GetFrontBufferData(pDevice, 0, pSurface[0]) < 0 then
+    else
+        local Point = ffi.new("struct POINT[1]")
+        local Rect = ffi.new("struct RECT[1]")
+        local HWND = ffi.cast("int*", 0xC97C1C)[0]
+        ffi.C.ClientToScreen(HWND, Point)
+        ffi.C.GetClientRect(HWND, Rect)
+        Rect[0].left = Rect[0].left + Point[0].x
+        Rect[0].right = Rect[0].right + Point[0].x
+        Rect[0].top = Rect[0].top + Point[0].y
+        Rect[0].bottom = Rect[0].bottom + Point[0].y
+        d3dx9_43.D3DXSaveSurfaceToFileA("1.png", 3, pSurface[0], ffi.cast("void*", 0), Rect) -- second parameter(3) is D3DXIMAGE_FILEFORMAT, checkout https://docs.microsoft.com/en-us/windows/win32/direct3d9/d3dximage-fileformat
+        sendPhoto(getGameDirectory()..'/1.png') -- отправка фотки после скрина
+		end
+	end
+end
+function uploadPhoto(filename, uploadUrl) 
+	if vknotf.state.v then 
+    local fileHandle = io.open(filename,"rb") 
+    if (fileHandle) then 
+      local fileContent = fileHandle:read( "*a" )
+      fileHandle:close()
+      local boundary = 'abcd'
+      local header_b = 'Content-Disposition: form-data; name="file"; filename="' .. filename .. '"\r\nContent-Type: image/png\r\n'
+      local fileContent =  '--' ..boundary .. '\r\n' ..header_b ..'\r\n'.. fileContent .. '\r\n--' .. boundary ..'--\r\n'
+      local resp = requests.post(uploadUrl, {
+        headers = {
+          ["Content-Length"] =  fileContent:len(), 
+          ['Content-Type'] = 'multipart/form-data; boundary=' .. boundary    
+        },
+        data = fileContent
+      })
+      return resp.json()
+		end
+    end
+end
+function sendPhoto(path) 
+	if vknotf.state.v then 
+    local upResponse = requests.post(("https://api.vk.com/method/photos.getMessagesUploadServer?peer_id=%d&access_token=%s&v=5.131"):format(vknotf.user_id.v, vknotf.token.v)).json()
+    local uploadedResponse = uploadPhoto(path, upResponse.response.upload_url)
+    local saveResponse = requests.post(("https://api.vk.com/method/photos.saveMessagesPhoto?server=%d&photo=%s&hash=%s&access_token=%s&v=5.131"):format(uploadedResponse.server,uploadedResponse.photo,uploadedResponse.hash, vknotf.token.v)).json()
+    local image = saveResponse.response[1]
+    local att_image = ("photo%d_%d_%s"):format(image.owner_id, image.id, image.access_key)
+    os.remove(getGameDirectory()..'/1.png') -- Удаление фотки с глаз долой 
+    return requests.post(("https://api.vk.com/method/messages.send?peer_id=%d&attachment=%s&access_token=%s&random_id=%d&v=5.131"):format(vknotf.user_id.v, att_image, vknotf.token.v, randomInt()))
 	end
 end
 function PickUpPhone()
@@ -893,6 +1219,12 @@ function PickUpPhone()
 			sampSendClickTextdraw(2109)
 		end
 	end
+end
+function sendkeyALT()
+	sendKey(1024)
+end
+function sendkeyESC()
+	sampSendClickTextdraw(65535)
 end
 function PickDownPhone()
 	if sampIsLocalPlayerSpawned() then
@@ -1420,6 +1752,13 @@ function imgui.OnDrawFrame()
 			imgui.Checkbox(u8('Открывать стандарт сундук'),roulette.standart); imgui.SameLine() imgui.TextQuestion(u8('Для оптимизации открывания сундуков стандартный сундук должен быть на любом слоте на 1 странице')) 
 			imgui.Checkbox(u8('Открывать донат сундук'),roulette.donate); imgui.SameLine() imgui.TextQuestion(u8('[Обязательно!] Донатный сундук должен быть на любом слоте на 1 странице'))
 			imgui.Checkbox(u8('Открывать платина сундук'),roulette.platina); imgui.SameLine() imgui.TextQuestion(u8('[Обязательно!] Платиновый сундук должен быть на любом слоте на 1 странице'))
+			if imgui.Button(u8('Скачать Автооткрытие отдельно')) then
+				downloadUrlToFile('https://raw.githubusercontent.com/JekSkeez/afktools/main/open_roulettes.lua',
+                   'moonloader\\open_roulettes.lua', 
+                   'open_roulettes.lua')
+            end
+            imgui.SameLine()
+			imgui.TextQuestion(u8('После скачивания рекомендую перезагрузить moonloader комбинацией Ctrl+R\nСкрипт рекомендуется использовать в том случае, если автооткрытие в данном скрипте работает некорректно.\nАктивация: /boxset'))
 			imgui.EndGroup()
 			imgui.SameLine(350)
 			imgui.BeginGroup()
@@ -1488,6 +1827,12 @@ function imgui.OnDrawFrame()
 			if imgui.Checkbox(u8('AntiAFK'),antiafk) then workpaus(antiafk.v) end
 			imgui.SameLine()
 			imgui.TextQuestion(u8('Вы не будете стоять в AFK если свернете игру\nВнимание! Если AntiAFK включен и вы сохранили настройки то при следуещем заходе он автоматически включится! Учтите это!'))
+			if imgui.Button(u8('Скачать AntiAFK для лаунчера')) then
+				downloadUrlToFile('https://raw.githubusercontent.com/JekSkeez/afktools/main/AntiAFK_1.4_byAIR.asi',
+                getGameDirectory()..'\\AntiAFK_1.4_byAIR.asi',
+                'AntiAFK_1.4_byAIR.asi')
+				sampAddChatMessage("{FF8000}[AFKTOOLS]{FFFFFF} Анти-Афк успешно загружен! Перезайдите полностью в игру, чтобы он заработал.", -1)
+            end
 			imgui.Checkbox(u8('AutoScreenBan'),banscreen)
 			imgui.SameLine()
 			imgui.TextQuestion(u8('Если вас забанит админ то скрин сделается автоматически'))
@@ -1544,10 +1889,10 @@ function imgui.OnDrawFrame()
 				imgui.InputText(u8('VK ID'), vknotf.user_id)
 				imgui.SameLine()
 				imgui.TextQuestion(u8('В цифрах!'))
-				imgui.SetNextWindowSize(imgui.ImVec2(900,530))
+				imgui.SetNextWindowSize(imgui.ImVec2(600,230))
 				if imgui.BeginPopupModal('##howsetVK',true,imgui.WindowFlags.NoTitleBar + imgui.WindowFlags.NoResize) then
 					imgui.Text(u8(howsetVK))
-					imgui.SetCursorPosY(490)
+					imgui.SetCursorPosY(200)
 					local wid = imgui.GetWindowWidth()
 					imgui.SetCursorPosX(wid / 2 - 30)
 					if imgui.Button(u8'Закрыть', imgui.ImVec2(60,20)) then
@@ -1557,9 +1902,37 @@ function imgui.OnDrawFrame()
 				end
 				if imgui.Button(u8('Как настроить')) then imgui.OpenPopup('##howsetVK') end
 				imgui.SameLine()
-				if imgui.Button(u8('Проверить уведомления')) then sendvknotf('Тестовое сообщение лол кек милота') end
+				if imgui.Button(u8('Проверить уведомления')) then sendvknotf('Скрипт работает!') end
 				imgui.SameLine()
 				if imgui.Button(u8('Переподключиться к серверам')) then longpollGetKey() end
+				imgui.SameLine()
+				if imgui.Button(u8('Скачать нужные библиотеки')) then
+					downloadUrlToFile('https://raw.githubusercontent.com/JekSkeez/afktools/main/dkjson.lua',
+                    'moonloader\\lib\\dkjson.lua', 
+                    'dkjson.lua')
+					downloadUrlToFile('https://raw.githubusercontent.com/JekSkeez/afktools/main/effil.lua',
+                    'moonloader\\lib\\effil.lua', 
+                    'effil.lua')
+					downloadUrlToFile('https://raw.githubusercontent.com/JekSkeez/afktools/main/multipart-post.lua',
+                    'moonloader\\lib\\multipart-post.lua', 
+                    'multipart-post.lua')
+					downloadUrlToFile('https://raw.githubusercontent.com/JekSkeez/afktools/main/requests.lua',
+                    'moonloader\\lib\\requests.lua', 
+                    'requests.lua')
+					AFKMessage('Библиотеки успешно загружены!')
+                end
+                imgui.SetNextWindowSize(imgui.ImVec2(600,200))
+                if imgui.BeginPopupModal('##howscreen',true,imgui.WindowFlags.NoTitleBar + imgui.WindowFlags.NoResize) then
+					imgui.Text(u8(howscreen))
+					imgui.SetCursorPosY(150)
+					local wid = imgui.GetWindowWidth()
+					imgui.SetCursorPosX(wid / 2 - 30)
+					if imgui.Button(u8'Закрыть', imgui.ImVec2(60,20)) then
+						imgui.CloseCurrentPopup()
+					end
+					imgui.EndPopup()
+				end
+                if imgui.Button(u8('Как исправить !screen')) then imgui.OpenPopup('##howscreen') end
 				imgui.EndGroup()
 				imgui.Separator()
 				imgui.CenterText(u8('События, при которых отправиться уведомление'))
@@ -1572,6 +1945,7 @@ function imgui.OnDrawFrame()
 				imgui.Checkbox(u8('Деморган'),vknotf.isdemorgan); imgui.SameLine(); imgui.TextQuestion(u8('Если персонаж выйдет из деморгана'))
 				imgui.Checkbox(u8('SMS и Звонок'),vknotf.issmscall); imgui.SameLine(); imgui.TextQuestion(u8('Если персонажу придет смс или позвонят'))
 				imgui.Checkbox(u8('Запись звонков'),vknotf.record); imgui.SameLine(); imgui.TextQuestion(u8('Запись звонка, отправляется в ВК. Работает с автоответчиком'))
+				imgui.Checkbox(u8('Входящие и исходящие переводы'),vknotf.bank); imgui.SameLine(); imgui.TextQuestion(u8('При получении или отправлении перевода придет уведомление'))
 				imgui.EndGroup()
 				imgui.SameLine(350)
 				imgui.BeginGroup()
@@ -2055,12 +2429,12 @@ function sampev.onShowDialog(dialogId, dialogStyle, dialogTitle, okButtonText, c
 			sampSendDialogResponse(15346, 1, 0, -1)
 		end
 	end
-	if dialogId == 25627 then
+	if dialogId == 25626 then
 		if autovr.v then
-			sampSendDialogResponse(25627, 1, 0, -1)
+			sampSendDialogResponse(25626, 1, 0, -1)
 		end
 		if autovr then
-			sampSendDialogResponse(25627, 0, 0, -1)
+			sampSendDialogResponse(25626, 0, 0, -1)
 		end
 	end
 	if dialogId == 25473 then
@@ -2116,26 +2490,9 @@ function sampev.onShowDialog(dialogId, dialogStyle, dialogTitle, okButtonText, c
 			sendvknotf('(warning | dialog) '..svk)
 		end
 	end
-	if vknotf.iscode.v then
-		if dialogText:find('было отправлено') then
-			sendvknotf('Требуется код с почты.\nВвести код: !sendcode код')
-		end
-	end
-	if vknotf.iscode.v then
-		if dialogText:find('Через личное сообщение Вам на страницу') then
-			sendvknotf('Требуется код с ВК.\nВвести код: !sendvk код')
-		end
-	end
-	if vknotf.iscode.v then
-		if dialogText:find('К этому аккаунту подключено приложение') then
-			sendvknotf('Требуется код из GAuthenticator.\nВвести код: !gauth код')
-		end
-	end
-	if vknotf.iscode.v then
-		if dialogText:find('Через личное сообщение Вам на страницу') then
-			sendvknotf('Требуется код с ВК.\nВвести код: !sendvk код')
-		end
-	end
+	if vknotf.iscode.v and dialogText:find('было отправлено') then sendvknotf('Требуется код с почты.\nВвести код: !sendcode код') end
+	if vknotf.iscode.v and dialogText:find('Через личное сообщение Вам на страницу') then sendvknotf('Требуется код с ВК.\nВвести код: !sendvk код') end
+	if vknotf.iscode.v and dialogText:find('К этому аккаунту подключено приложение') then sendvknotf('Требуется код из GAuthenticator.\nВвести код: !gauth код') end
 	if gotoeatinhouse then
 		local linelist = 0
 		for n in dialogText:gmatch('[^\r\n]+') do
@@ -2229,56 +2586,13 @@ function sampev.onServerMessage(color,text)
 			end
 		end
 	end
-	if vknotf.issmscall.v then
-		if text:find('Вам пришло новое сообщение!') then
-			sendvknotf('Вам написали СМС!')
-		end
-	end
-	if autoo.v then
-		if text:find('Вы подняли трубку') then
-			sampSendChat(u8:decode(atext.v))
-		end
-	end
-	if vknotf.iscode.v then
-		if text:find('На сервере есть инвентарь, используйте клавишу Y для работы с ним.') then
-			sendvknotf('Персонаж заспавнен')
-		end
-	end		
-	if vknotf.ismeat.v then
-		if text:find('Использовать мешок с мясом можно раз в 30 минут!') then
-			sendvknotf(text)
-		end
-	end
-	if vknotf.record.v then
-		if text:find('%[Тел%]%:') then
-			sendvknotf(text)
-		end
-	end
-	if vknotf.record.v then
-		if text:find('Вы подняли трубку') then
-			sendvknotf(text)
-		end
-	end
-	if vknotf.record.v then
-		if text:find('Вы отменили звонок') then
-			sendvknotf(text)
-		end
-	end
-	if vknotf.record.v then
-		if text:find('Звонок окончен! Время разговора') then
-			sendvknotf(text)
-		end
-	end
-	if vknotf.ismeat.v then
-		if text:find('Время после прошлого использования ещё не прошло!') then
-			sendvknotf(text)
-		end
-	end
-	if vknotf.ismeat.v then
-		if text:find('сундук с рулетками и получили') then
-			sendvknotf(text)
-		end
-	end
+	if vknotf.issmscall.v and text:find('Вам пришло новое сообщение!') then sendvknotf('Вам написали СМС!') end
+	if vknotf.bank.v and text:match("Вы перевели") then sendvknotf(text) end
+	if vknotf.bank.v and text:match("Вам поступил перевод на ваш счет в размере") then sendvknotf(text) end
+	if autoo.v and text:find('Вы подняли трубку') then sampSendChat(u8:decode(atext.v)) end
+	if vknotf.iscode.v and text:find('На сервере есть инвентарь, используйте клавишу Y для работы с ним.') then sendvknotf('Персонаж заспавнен') end
+	if vknotf.ismeat.v and (text:find('Использовать мешок с мясом можно раз в 30 минут!') or text:find('Время после прошлого использования ещё не прошло!') or text:find('сундук с рулетками и получили')) then sendvknotf(text) end
+	if vknotf.record.v and (text:find('%[Тел%]%:') or text:find('Вы подняли трубку') or text:find('Вы отменили звонок') or text:find('Звонок окончен! Время разговора')) then sendvknotf(text) end
 	if vknotf.ispayday.v then
 		if text:find('Банковский чек') and color == 1941201407 then
 			vknotf.ispaydaystate = true
@@ -2479,6 +2793,7 @@ function saveini()
 	mainIni.vknotf.isadm = vknotf.isadm.v
 	mainIni.vknotf.iscode = vknotf.iscode.v
 	mainIni.vknotf.issmscall = vknotf.issmscall.v
+	mainIni.vknotf.bank = vknotf.bank.v
 	mainIni.vknotf.record = vknotf.record.v
 	mainIni.vknotf.ismeat = vknotf.ismeat.v
 	mainIni.vknotf.dienable = vknotf.dienable.v
