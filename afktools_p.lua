@@ -1,6 +1,6 @@
 script_name('AFK Tools (upd)') -- iphone
-script_author("skeez")
-script_version('2.2p')
+script_author("bakhusse")
+script_version('2.3p')
 script_properties('work-in-pause')
 local dlstatus = require("moonloader").download_status
 local imgui = require('imgui')
@@ -27,6 +27,8 @@ local function closeDialog()
 end
 local fix = false
 local use = false
+local delplayeractive = imgui.ImBool(false)
+local npc, infnpc = {}, {}
 local mainIni = inicfg.load({
 	autologin = {
 		state = false
@@ -63,7 +65,30 @@ local mainIni = inicfg.load({
 		bank = false,
 		record = false,
 		ismeat = false,
-		dienable = false
+		dienable = false,
+	},
+	find = {
+		vkfind = false,
+		vkfindtext = false,
+		vkfindtext2 = false,
+		vkfindtext3 = false,
+		vkfindtext4 = false,
+		vkfindtext5 = false,
+		vkfindtext6 = false,
+		vkfindtext7 = false,
+		vkfindtext8 = false,
+		vkfindtext9 = false,
+		vkfindtext10 = false,
+		inputfindvk = '',
+		inputfindvk2 = '',
+		inputfindvk3 = '',
+		inputfindvk4 = '',
+		inputfindvk5 = '',
+		inputfindvk6 = '',
+		inputfindvk7 = '',
+		inputfindvk8 = '',
+		inputfindvk9 = '',
+		inputfindvk10 = '',
 	},
 	piar = {
 		piar1 = '',
@@ -94,14 +119,14 @@ local mainIni = inicfg.load({
 		autoupdate = true,
 		antiafk = false,
 		autoad = false,
-		autovr = false,
 		autoo = false,
 		atext = '',
 		aphone = 0,
-		lastvrmessage = '',
-		returnmessageforvr = false,
 		autoadbiz = false,
 		fastconnect = false
+	},
+	buttons = {
+		binfo = true
 	}
 },'afktools.ini')
 
@@ -372,9 +397,9 @@ changelog2 = [[	v2.0.1
 			- С уже подключенным пабликом (для тех кто не умеет)
 			- Без подключенного паблика, подключать самому (для тех кто хочет быть крутым)
 		Добавлена команда !gauth для отправки кода из GAuthenticator
-		Если персонаж заспанится после логина, то придет уведомление
-]]
-changelog3 = [[v2.0.9
+		Если персонаж заспанится после логина, то придет уведомление]]
+changelog3 = [[
+	v2.0.9
 		Теперь на автоответчик можно писать свой текст.
 		В ВК добавлена кнопка "Последние 10 строк с чата"
 		Добавлена функция переотправки сообщения в /vr из-за КД.
@@ -410,6 +435,20 @@ changelog3 = [[v2.0.9
 		Переписан текст в "Как настроить" в VK Notifications.
 		Теперь при включенной функции "Отправка всех диалогов" сообщения не отправляются по 2 раза.
 		Добавлен показатель онлайна на сервере в "Информация"
+]]
+changelog4 = [[
+	v2.3
+		Теперь кнопки управления игрой отдельны от основной клавиатуры.
+		Исправил краш игры от кнопки ALT из ВК.
+		Заменил кнопки Переотправка /vr и Скип /vr на кнопку скачивания скрипта от Cosmo.
+		Добавлена отправка найденного текста в ВК.
+		Добавил ссылки на группу ВК, ВК Разработчика, Telegram-канал.
+		При отправке диалоговых окон кнопки будут в сообщении 
+			(для тех диалогов без выбора строки и ввода текста).
+		Теперь через ВК можно выключить игру и компьютер(с таймером на 30 сек.)
+		Вырезана функция скип диалога /ad на доработку.
+		Добавил функцию "Убрать людей в радиусе".
+		Добавил доп. совет для использования !screen.
 
 
 ]]
@@ -449,6 +488,8 @@ howscreen = [[
   лаунчера включить оконный режим).
 • Для работы команды нужно скачать необходимые
   библиотеки (скачать можно в меню VK Notifications)
+• Чтобы получать скрины корректно, советую сперва использовать
+  комбинацию Alt + Enter, после Win + стрелка вверх.
 ]]
 local _message = {}
 
@@ -462,12 +503,11 @@ local antiafk = imgui.ImBool(mainIni.config.antiafk)
 local banscreen = imgui.ImBool(mainIni.config.banscreen)
 local autoupdateState = imgui.ImBool(mainIni.config.autoupdate)
 local autoad = imgui.ImBool(mainIni.config.autoad)
-local autovr = imgui.ImBool(mainIni.config.autovr)
 local autoo = imgui.ImBool(mainIni.config.autoo)
-local returnmessageforvr = imgui.ImBool(mainIni.config.returnmessageforvr)
 local atext = imgui.ImBuffer(''..mainIni.config.atext,300)
 local aphone = imgui.ImInt(mainIni.config.aphone)
 local autoadbiz = imgui.ImBool(mainIni.config.autoadbiz)
+local binfo = imgui.ImBool(mainIni.buttons.binfo)
 local autologin = {
 	state = imgui.ImBool(mainIni.autologin.state)
 }
@@ -519,6 +559,29 @@ local piar = {
 	auto_piar = imgui.ImBool(mainIni.piar.auto_piar),
 	auto_piar_kd = imgui.ImInt(mainIni.piar.auto_piar_kd),
 	last_time = mainIni.piar.last_time
+}
+local find = {
+	vkfind = imgui.ImBool(mainIni.find.vkfind),
+	vkfindtext = imgui.ImBool(mainIni.find.vkfindtext),
+	vkfindtext2 = imgui.ImBool(mainIni.find.vkfindtext2),
+	vkfindtext3 = imgui.ImBool(mainIni.find.vkfindtext3),
+	vkfindtext4 = imgui.ImBool(mainIni.find.vkfindtext4),
+	vkfindtext5 = imgui.ImBool(mainIni.find.vkfindtext5),
+	vkfindtext6 = imgui.ImBool(mainIni.find.vkfindtext6),
+	vkfindtext7 = imgui.ImBool(mainIni.find.vkfindtext7),
+	vkfindtext8 = imgui.ImBool(mainIni.find.vkfindtext8),
+	vkfindtext9 = imgui.ImBool(mainIni.find.vkfindtext9),
+	vkfindtext10 = imgui.ImBool(mainIni.find.vkfindtext10),
+	inputfindvk = imgui.ImBuffer(u8(mainIni.find.inputfindvk), 1000),
+	inputfindvk2 = imgui.ImBuffer(u8(mainIni.find.inputfindvk2), 1000),
+	inputfindvk3 = imgui.ImBuffer(u8(mainIni.find.inputfindvk3), 1000),
+	inputfindvk4 = imgui.ImBuffer(u8(mainIni.find.inputfindvk4), 1000),
+	inputfindvk5 = imgui.ImBuffer(u8(mainIni.find.inputfindvk5), 1000),
+	inputfindvk6 = imgui.ImBuffer(u8(mainIni.find.inputfindvk6), 1000),
+	inputfindvk7 = imgui.ImBuffer(u8(mainIni.find.inputfindvk7), 1000),
+	inputfindvk8 = imgui.ImBuffer(u8(mainIni.find.inputfindvk8), 1000),
+	inputfindvk9 = imgui.ImBuffer(u8(mainIni.find.inputfindvk9), 1000),
+	inputfindvk10 = imgui.ImBuffer(u8(mainIni.find.inputfindvk10), 1000)
 }
 local eat = {
 	checkmethod = imgui.ImInt(mainIni.eat.checkmethod),
@@ -734,6 +797,212 @@ function threadHandle(runner, url, args, resolve, reject) -- обработка effil пот
 	end
 	t:cancel(0)
 end
+local function send_player_stream(id, i)
+	if i then
+		local bs = raknetNewBitStream()
+		raknetBitStreamWriteInt16(bs, id)
+		raknetBitStreamWriteInt8(bs, i[1])
+		raknetBitStreamWriteInt32(bs, i[2])
+		raknetBitStreamWriteFloat(bs, i[3].x)
+		raknetBitStreamWriteFloat(bs, i[3].y)
+		raknetBitStreamWriteFloat(bs, i[3].z)
+		raknetBitStreamWriteFloat(bs, i[4])
+		raknetBitStreamWriteInt32(bs, i[5])
+		raknetBitStreamWriteInt8(bs, i[6])
+		raknetEmulRpcReceiveBitStream(32, bs)
+	end
+end
+function emul_rpc(hook, parameters)
+    local bs_io = require 'samp.events.bitstream_io'
+    local handler = require 'samp.events.handlers'
+    local extra_types = require 'samp.events.extra_types'
+    local hooks = {
+
+        --[[ Outgoing rpcs
+        ['onSendEnterVehicle'] = { 'int16', 'bool8', 26 },
+        ['onSendClickPlayer'] = { 'int16', 'int8', 23 },
+        ['onSendClientJoin'] = { 'int32', 'int8', 'string8', 'int32', 'string8', 'string8', 'int32', 25 },
+        ['onSendEnterEditObject'] = { 'int32', 'int16', 'int32', 'vector3d', 27 },
+        ['onSendCommand'] = { 'string32', 50 },
+        ['onSendSpawn'] = { 52 },
+        ['onSendDeathNotification'] = { 'int8', 'int16', 53 },
+        ['onSendDialogResponse'] = { 'int16', 'int8', 'int16', 'string8', 62 },
+        ['onSendClickTextDraw'] = { 'int16', 83 },
+        ['onSendVehicleTuningNotification'] = { 'int32', 'int32', 'int32', 'int32', 96 },
+        ['onSendChat'] = { 'string8', 101 },
+        ['onSendClientCheckResponse'] = { 'int8', 'int32', 'int8', 103 },
+        ['onSendVehicleDamaged'] = { 'int16', 'int32', 'int32', 'int8', 'int8', 106 },
+        ['onSendEditAttachedObject'] = { 'int32', 'int32', 'int32', 'int32', 'vector3d', 'vector3d', 'vector3d', 'int32', 'int32', 116 },
+        ['onSendEditObject'] = { 'bool', 'int16', 'int32', 'vector3d', 'vector3d', 117 },
+        ['onSendInteriorChangeNotification'] = { 'int8', 118 },
+        ['onSendMapMarker'] = { 'vector3d', 119 },
+        ['onSendRequestClass'] = { 'int32', 128 },
+        ['onSendRequestSpawn'] = { 129 },
+        ['onSendPickedUpPickup'] = { 'int32', 131 },
+        ['onSendMenuSelect'] = { 'int8', 132 },
+        ['onSendVehicleDestroyed'] = { 'int16', 136 },
+        ['onSendQuitMenu'] = { 140 },
+        ['onSendExitVehicle'] = { 'int16', 154 },
+        ['onSendUpdateScoresAndPings'] = { 155 },
+        ['onSendGiveDamage'] = { 'int16', 'float', 'int32', 'int32', 115 },
+        ['onSendTakeDamage'] = { 'int16', 'float', 'int32', 'int32', 115 },]]
+
+        -- Incoming rpcs
+        ['onInitGame'] = { 139 },
+        ['onPlayerJoin'] = { 'int16', 'int32', 'bool8', 'string8', 137 },
+        ['onPlayerQuit'] = { 'int16', 'int8', 138 },
+        ['onRequestClassResponse'] = { 'bool8', 'int8', 'int32', 'int8', 'vector3d', 'float', 'Int32Array3', 'Int32Array3', 128 },
+        ['onRequestSpawnResponse'] = { 'bool8', 129 },
+        ['onSetPlayerName'] = { 'int16', 'string8', 'bool8', 11 },
+        ['onSetPlayerPos'] = { 'vector3d', 12 },
+        ['onSetPlayerPosFindZ'] = { 'vector3d', 13 },
+        ['onSetPlayerHealth'] = { 'float', 14 },
+        ['onTogglePlayerControllable'] = { 'bool8', 15 },
+        ['onPlaySound'] = { 'int32', 'vector3d', 16 },
+        ['onSetWorldBounds'] = { 'float', 'float', 'float', 'float', 17 },
+        ['onGivePlayerMoney'] = { 'int32', 18 },
+        ['onSetPlayerFacingAngle'] = { 'float', 19 },
+        --['onResetPlayerMoney'] = { 20 },
+        --['onResetPlayerWeapons'] = { 21 },
+        ['onGivePlayerWeapon'] = { 'int32', 'int32', 22 },
+        --['onCancelEdit'] = { 28 },
+        ['onSetPlayerTime'] = { 'int8', 'int8', 29 },
+        ['onSetToggleClock'] = { 'bool8', 30 },
+        ['onPlayerStreamIn'] = { 'int16', 'int8', 'int32', 'vector3d', 'float', 'int32', 'int8', 32 },
+        ['onSetShopName'] = { 'string256', 33 },
+        ['onSetPlayerSkillLevel'] = { 'int16', 'int32', 'int16', 34 },
+        ['onSetPlayerDrunk'] = { 'int32', 35 },
+        ['onCreate3DText'] = { 'int16', 'int32', 'vector3d', 'float', 'bool8', 'int16', 'int16', 'encodedString4096', 36 },
+        --['onDisableCheckpoint'] = { 37 },
+        ['onSetRaceCheckpoint'] = { 'int8', 'vector3d', 'vector3d', 'float', 38 },
+        --['onDisableRaceCheckpoint'] = { 39 },
+        --['onGamemodeRestart'] = { 40 },
+        ['onPlayAudioStream'] = { 'string8', 'vector3d', 'float', 'bool8', 41 },
+        --['onStopAudioStream'] = { 42 },
+        ['onRemoveBuilding'] = { 'int32', 'vector3d', 'float', 43 },
+        ['onCreateObject'] = { 44 },
+        ['onSetObjectPosition'] = { 'int16', 'vector3d', 45 },
+        ['onSetObjectRotation'] = { 'int16', 'vector3d', 46 },
+        ['onDestroyObject'] = { 'int16', 47 },
+        ['onPlayerDeathNotification'] = { 'int16', 'int16', 'int8', 55 },
+        ['onSetMapIcon'] = { 'int8', 'vector3d', 'int8', 'int32', 'int8', 56 },
+        ['onRemoveVehicleComponent'] = { 'int16', 'int16', 57 },
+        ['onRemove3DTextLabel'] = { 'int16', 58 },
+        ['onPlayerChatBubble'] = { 'int16', 'int32', 'float', 'int32', 'string8', 59 },
+        ['onUpdateGlobalTimer'] = { 'int32', 60 },
+        ['onShowDialog'] = { 'int16', 'int8', 'string8', 'string8', 'string8', 'encodedString4096', 61 },
+        ['onDestroyPickup'] = { 'int32', 63 },
+        ['onLinkVehicleToInterior'] = { 'int16', 'int8', 65 },
+        ['onSetPlayerArmour'] = { 'float', 66 },
+        ['onSetPlayerArmedWeapon'] = { 'int32', 67 },
+        ['onSetSpawnInfo'] = { 'int8', 'int32', 'int8', 'vector3d', 'float', 'Int32Array3', 'Int32Array3', 68 },
+        ['onSetPlayerTeam'] = { 'int16', 'int8', 69 },
+        ['onPutPlayerInVehicle'] = { 'int16', 'int8', 70 },
+        --['onRemovePlayerFromVehicle'] = { 71 },
+        ['onSetPlayerColor'] = { 'int16', 'int32', 72 },
+        ['onDisplayGameText'] = { 'int32', 'int32', 'string32', 73 },
+        --['onForceClassSelection'] = { 74 },
+        ['onAttachObjectToPlayer'] = { 'int16', 'int16', 'vector3d', 'vector3d', 75 },
+        ['onInitMenu'] = { 76 },
+        ['onShowMenu'] = { 'int8', 77 },
+        ['onHideMenu'] = { 'int8', 78 },
+        ['onCreateExplosion'] = { 'vector3d', 'int32', 'float', 79 },
+        ['onShowPlayerNameTag'] = { 'int16', 'bool8', 80 },
+        ['onAttachCameraToObject'] = { 'int16', 81 },
+        ['onInterpolateCamera'] = { 'bool', 'vector3d', 'vector3d', 'int32', 'int8', 82 },
+        ['onGangZoneStopFlash'] = { 'int16', 85 },
+        ['onApplyPlayerAnimation'] = { 'int16', 'string8', 'string8', 'bool', 'bool', 'bool', 'bool', 'int32', 86 },
+        ['onClearPlayerAnimation'] = { 'int16', 87 },
+        ['onSetPlayerSpecialAction'] = { 'int8', 88 },
+        ['onSetPlayerFightingStyle'] = { 'int16', 'int8', 89 },
+        ['onSetPlayerVelocity'] = { 'vector3d', 90 },
+        ['onSetVehicleVelocity'] = { 'bool8', 'vector3d', 91 },
+        ['onServerMessage'] = { 'int32', 'string32', 93 },
+        ['onSetWorldTime'] = { 'int8', 94 },
+        ['onCreatePickup'] = { 'int32', 'int32', 'int32', 'vector3d', 95 },
+        ['onMoveObject'] = { 'int16', 'vector3d', 'vector3d', 'float', 'vector3d', 99 },
+        ['onEnableStuntBonus'] = { 'bool', 104 },
+        ['onTextDrawSetString'] = { 'int16', 'string16', 105 },
+        ['onSetCheckpoint'] = { 'vector3d', 'float', 107 },
+        ['onCreateGangZone'] = { 'int16', 'vector2d', 'vector2d', 'int32', 108 },
+        ['onPlayCrimeReport'] = { 'int16', 'int32', 'int32', 'int32', 'int32', 'vector3d', 112 },
+        ['onGangZoneDestroy'] = { 'int16', 120 },
+        ['onGangZoneFlash'] = { 'int16', 'int32', 121 },
+        ['onStopObject'] = { 'int16', 122 },
+        ['onSetVehicleNumberPlate'] = { 'int16', 'string8', 123 },
+        ['onTogglePlayerSpectating'] = { 'bool32', 124 },
+        ['onSpectatePlayer'] = { 'int16', 'int8', 126 },
+        ['onSpectateVehicle'] = { 'int16', 'int8', 127 },
+        ['onShowTextDraw'] = { 134 },
+        ['onSetPlayerWantedLevel'] = { 'int8', 133 },
+        ['onTextDrawHide'] = { 'int16', 135 },
+        ['onRemoveMapIcon'] = { 'int8', 144 },
+        ['onSetWeaponAmmo'] = { 'int8', 'int16', 145 },
+        ['onSetGravity'] = { 'float', 146 },
+        ['onSetVehicleHealth'] = { 'int16', 'float', 147 },
+        ['onAttachTrailerToVehicle'] = { 'int16', 'int16', 148 },
+        ['onDetachTrailerFromVehicle'] = { 'int16', 149 },
+        ['onSetWeather'] = { 'int8', 152 },
+        ['onSetPlayerSkin'] = { 'int32', 'int32', 153 },
+        ['onSetInterior'] = { 'int8', 156 },
+        ['onSetCameraPosition'] = { 'vector3d', 157 },
+        ['onSetCameraLookAt'] = { 'vector3d', 'int8', 158 },
+        ['onSetVehiclePosition'] = { 'int16', 'vector3d', 159 },
+        ['onSetVehicleAngle'] = { 'int16', 'float', 160 },
+        ['onSetVehicleParams'] = { 'int16', 'int16', 'bool8', 161 },
+        --['onSetCameraBehind'] = { 162 },
+        ['onChatMessage'] = { 'int16', 'string8', 101 },
+        ['onConnectionRejected'] = { 'int8', 130 },
+        ['onPlayerStreamOut'] = { 'int16', 163 },
+        ['onVehicleStreamIn'] = { 164 },
+        ['onVehicleStreamOut'] = { 'int16', 165 },
+        ['onPlayerDeath'] = { 'int16', 166 },
+        ['onPlayerEnterVehicle'] = { 'int16', 'int16', 'bool8', 26 },
+        ['onUpdateScoresAndPings'] = { 'PlayerScorePingMap', 155 },
+        ['onSetObjectMaterial'] = { 84 },
+        ['onSetObjectMaterialText'] = { 84 },
+        ['onSetVehicleParamsEx'] = { 'int16', 'int8', 'int8', 'int8', 'int8', 'int8', 'int8', 'int8', 'int8', 'int8', 'int8', 'int8', 'int8', 'int8', 'int8', 'int8', 'int8', 24 },
+        ['onSetPlayerAttachedObject'] = { 'int16', 'int32', 'bool', 'int32', 'int32', 'vector3d', 'vector3d', 'vector3d', 'int32', 'int32', 113 }
+
+    }
+    local handler_hook = {
+        ['onInitGame'] = true,
+        ['onCreateObject'] = true,
+        ['onInitMenu'] = true,
+        ['onShowTextDraw'] = true,
+        ['onVehicleStreamIn'] = true,
+        ['onSetObjectMaterial'] = true,
+        ['onSetObjectMaterialText'] = true
+    }
+    local extra = {
+        ['PlayerScorePingMap'] = true,
+        ['Int32Array3'] = true
+    }
+    local hook_table = hooks[hook]
+    if hook_table then
+        local bs = raknetNewBitStream()
+        if not handler_hook[hook] then
+            local max = #hook_table-1
+            if max > 0 then
+                for i = 1, max do
+                    local p = hook_table[i]
+                    if extra[p] then extra_types[p]['write'](bs, parameters[i])
+                    else bs_io[p]['write'](bs, parameters[i]) end
+                end
+            end
+        else
+            if hook == 'onInitGame' then handler.on_init_game_writer(bs, parameters)
+            elseif hook == 'onCreateObject' then handler.on_create_object_writer(bs, parameters)
+            elseif hook == 'onInitMenu' then handler.on_init_menu_writer(bs, parameters)
+            elseif hook == 'onShowTextDraw' then handler.on_show_textdraw_writer(bs, parameters)
+            elseif hook == 'onVehicleStreamIn' then handler.on_vehicle_stream_in_writer(bs, parameters)
+            elseif hook == 'onSetObjectMaterial' then handler.on_set_object_material_writer(bs, parameters, 1)
+            elseif hook == 'onSetObjectMaterialText' then handler.on_set_object_material_writer(bs, parameters, 2) end
+        end
+        raknetEmulRpcReceiveBitStream(hook_table[#hook_table], bs)
+        raknetDeleteBitStream(bs)
+    end
+end
 function requestRunner() -- создание effil потока с функцией https запроса
 	return effil.thread(function(u, a)
 		local https = require 'ssl.https'
@@ -797,6 +1066,10 @@ function longpollResolve(result)
 								openchestrulletVK(sendvknotf)
 							elseif pl.button == 'activedia' then
 								sendDialog(sendvknotf)
+							elseif pl.button == 'keyboardkey' then
+								sendkeyboradkey()
+							elseif pl.button == 'offkey' then
+								sendoff()
 							elseif pl.button == 'keyW' then
 								setKeyFromVK('go',sendvknotf)
 							elseif pl.button == 'keyA' then
@@ -815,6 +1088,13 @@ function longpollResolve(result)
 							elseif pl.button == 'secondary_dialog' then
 								sampSendDialogResponse(sampGetCurrentDialogId(), 0, -1, -1)
 								sampCloseCurrentDialogWithButton(0)
+							elseif pl.button == 'offgame' then
+								sendvknotf('Выключаю игру')
+								wait(1000)
+								os.execute("taskkill /f /im gta_sa.exe")
+							elseif pl.button == 'offpc' then
+								os.execute("shutdown -s -t 30")
+								sendvknotf('Компьютер будет выключен через 30 секунд.')
 							end
 						end
 						return
@@ -949,6 +1229,75 @@ function sendvknotf(msg, host)
 		end)
 	end
 end
+function sendvknotfv2(msg)
+	msg = msg:gsub('{......}', '')
+	msg = u8(msg)
+	msg = url_encode(msg)
+	local keyboard = vkKeyboard2()
+	keyboard = u8(keyboard)
+	keyboard = url_encode(keyboard)
+	msg = msg .. '&keyboard=' .. keyboard
+	if vknotf.state.v and vknotf.user_id.v ~= '' then
+		async_http_request('https://api.vk.com/method/messages.send', 'user_id=' .. vknotf.user_id.v .. '&message=' .. msg .. '&access_token=' .. vknotf.token.v .. '&v=5.81',
+		function (result)
+			local t = decodeJson(result)
+			if not t then
+				return
+			end
+			if t.error then
+				vkerrsend = 'Ошибка!\nКод: ' .. t.error.error_code .. ' Причина: ' .. t.error.error_msg
+				return
+			end
+			vkerrsend = nil
+		end)
+	end
+end
+function sendoffpcgame(msg)
+	msg = msg:gsub('{......}', '')
+	msg = u8(msg)
+	msg = url_encode(msg)
+	local keyboard = offboard()
+	keyboard = u8(keyboard)
+	keyboard = url_encode(keyboard)
+	msg = msg .. '&keyboard=' .. keyboard
+	if vknotf.state.v and vknotf.user_id.v ~= '' then
+		async_http_request('https://api.vk.com/method/messages.send', 'user_id=' .. vknotf.user_id.v .. '&message=' .. msg .. '&access_token=' .. vknotf.token.v .. '&v=5.81',
+		function (result)
+			local t = decodeJson(result)
+			if not t then
+				return
+			end
+			if t.error then
+				vkerrsend = 'Ошибка!\nКод: ' .. t.error.error_code .. ' Причина: ' .. t.error.error_msg
+				return
+			end
+			vkerrsend = nil
+		end)
+	end
+end
+function senddialog2(msg)
+	msg = msg:gsub('{......}', '')
+	msg = u8(msg)
+	msg = url_encode(msg)
+	local keyboard = dialogkey()
+	keyboard = u8(keyboard)
+	keyboard = url_encode(keyboard)
+	msg = msg .. '&keyboard=' .. keyboard
+	if vknotf.state.v and vknotf.user_id.v ~= '' then
+		async_http_request('https://api.vk.com/method/messages.send', 'user_id=' .. vknotf.user_id.v .. '&message=' .. msg .. '&access_token=' .. vknotf.token.v .. '&v=5.81',
+		function (result)
+			local t = decodeJson(result)
+			if not t then
+				return
+			end
+			if t.error then
+				vkerrsend = 'Ошибка!\nКод: ' .. t.error.error_code .. ' Причина: ' .. t.error.error_msg
+				return
+			end
+			vkerrsend = nil
+		end)
+	end
+end
 function getOnline()
 	local countvers = 0
 	for i = 0, 999 do
@@ -963,15 +1312,7 @@ function vkKeyboard() --создает конкретную клавиатуру для бота VK, как сделать д
 	keyboard.one_time = false
 	keyboard.buttons = {}
 	keyboard.buttons[1] = {}
-	keyboard.buttons[2] = {}
-	keyboard.buttons[3] = {}
-	keyboard.buttons[4] = {}
-	keyboard.buttons[5] = {}
 	local row = keyboard.buttons[1]
-	local row2 = keyboard.buttons[2]
-	local row3 = keyboard.buttons[3]
-	local row4 = keyboard.buttons[4]
-	local row5 = keyboard.buttons[5]
 	row[1] = {}
 	row[1].action = {}
 	row[1].color = 'positive'
@@ -990,78 +1331,154 @@ function vkKeyboard() --создает конкретную клавиатуру для бота VK, как сделать д
 	row[3].action.type = 'text'
 	row[3].action.payload = '{"button": "gethun"}'
 	row[3].action.label = 'Голод'
-	row2[2] = {}
-	row2[2].action = {}
-	row2[2].color = 'positive'
-	row2[2].action.type = 'text'
-	row2[2].action.payload = '{"button": "lastchat10"}'
-	row2[2].action.label = 'Последние 10 строк с чата'
-	row2[1] = {}
-	row2[1].action = {}
-	row2[1].color = 'positive'
-	row2[1].action.type = 'text'
-	row2[1].action.payload = '{"button": "openchest"}'
-	row2[1].action.label = aopen and 'Выключить автооткрытие' or 'Включить автооткрытие'
-	row3[1] = {}
-	row3[1].action = {}
-	row3[1].color = 'positive'
-	row3[1].action.type = 'text'
-	row3[1].action.payload = '{"button": "activedia"}'
-	row3[1].action.label = activedia and 'Не отправлять диалоги' or 'Отправлять диалоги'
-	row3[2] = {}
-	row3[2].action = {}
-	row3[2].color = 'positive'
-	row3[2].action.type = 'text'
-	row3[2].action.payload = '{"button": "support"}'
-	row3[2].action.label = 'Поддержка'
-	row4[1] = {}
-	row4[1].action = {}
-	row4[1].color = 'negative'
-	row4[1].action.type = 'text'
-	row4[1].action.payload = '{"button": "primary_dialog"}'
-	row4[1].action.label = 'OK'
-	row4[2] = {}
-	row4[2].action = {}
-	row4[2].color = 'positive'
-	row4[2].action.type = 'text'
-	row4[2].action.payload = '{"button": "keyW"}'
-	row4[2].action.label = 'W'
-	row4[3] = {}
-	row4[3].action = {}
-	row4[3].color = 'negative'
-	row4[3].action.type = 'text'
-    row4[3].action.payload = '{"button": "secondary_dialog"}'
-	row4[3].action.label = 'Cancel'
-	row4[4] = {}
-	row4[4].action = {}
-	row4[4].color = 'negative'
-	row4[4].action.type = 'text'
-    row4[4].action.payload = '{"button": "keyALT"}'
-	row4[4].action.label = 'ALT'
-	row5[1] = {}
-	row5[1].action = {}
-	row5[1].color = 'positive'
-	row5[1].action.type = 'text'
-	row5[1].action.payload = '{"button": "keyA"}'
-	row5[1].action.label = 'A'
-	row5[2] = {}
-	row5[2].action = {}
-	row5[2].color = 'positive'
-	row5[2].action.type = 'text'
-	row5[2].action.payload = '{"button": "keyS"}'
-	row5[2].action.label = 'S'
-	row5[3] = {}
-	row5[3].action = {}
-	row5[3].color = 'positive'
-	row5[3].action.type = 'text'
-	row5[3].action.payload = '{"button": "keyD"}'
-	row5[3].action.label = 'D'
-	row5[4] = {}
-	row5[4].action = {}
-	row5[4].color = 'negative'
-	row5[4].action.type = 'text'
-	row5[4].action.payload = '{"button": "keyESC"}'
-	row5[4].action.label = 'ESC'
+	keyboard.buttons[2] = {} -- вторая строка кнопок
+	row = keyboard.buttons[2]
+	row[2] = {}
+	row[2].action = {}
+	row[2].color = 'positive'
+	row[2].action.type = 'text'
+	row[2].action.payload = '{"button": "lastchat10"}'
+	row[2].action.label = 'Последние 10 строк с чата'
+	row[1] = {}
+	row[1].action = {}
+	row[1].color = 'positive'
+	row[1].action.type = 'text'
+	row[1].action.payload = '{"button": "openchest"}'
+	row[1].action.label = aopen and 'Выключить автооткрытие' or 'Включить автооткрытие'
+	keyboard.buttons[3] = {} -- вторая строка кнопок
+	row = keyboard.buttons[3]
+	row[1] = {}
+	row[1].action = {}
+	row[1].color = 'positive'
+	row[1].action.type = 'text'
+	row[1].action.payload = '{"button": "activedia"}'
+	row[1].action.label = activedia and 'Не отправлять диалоги' or 'Отправлять диалоги'
+	row[2] = {}
+	row[2].action = {}
+	row[2].color = 'positive'
+	row[2].action.type = 'text'
+	row[2].action.payload = '{"button": "support"}'
+	row[2].action.label = 'Поддержка'
+	keyboard.buttons[4] = {} -- вторая строка кнопок
+	row = keyboard.buttons[4]
+	row[1] = {}
+	row[1].action = {}
+	row[1].color = 'primary'
+	row[1].action.type = 'text'
+    row[1].action.payload = '{"button": "offkey"}'
+	row[1].action.label = 'Выключение &#128163;'
+	row[2] = {}
+	row[2].action = {}
+	row[2].color = 'primary'
+	row[2].action.type = 'text'
+    row[2].action.payload = '{"button": "keyboardkey"}'
+	row[2].action.label = 'Управление &#9000;'
+	return encodeJson(keyboard)
+end
+function sendkeyboradkey()
+	vkKeyboard2()
+	sendvknotfv2('Клавиши управления игрой')
+end
+function vkKeyboard2() --создает конкретную клавиатуру для бота VK, как сделать для более общих случаев пока не задумывался
+	local keyboard = {}
+	keyboard.inline = true
+	keyboard.buttons = {}
+	keyboard.buttons[1] = {}
+	local row = keyboard.buttons[1]
+	row[1] = {}
+	row[1].action = {}
+	row[1].color = 'negative'
+	row[1].action.type = 'text'
+	row[1].action.payload = '{"button": "primary_dialog"}'
+	row[1].action.label = 'OK'
+	row[2] = {}
+	row[2].action = {}
+	row[2].color = 'positive'
+	row[2].action.type = 'text'
+	row[2].action.payload = '{"button": "keyW"}'
+	row[2].action.label = 'W'
+	row[3] = {}
+	row[3].action = {}
+	row[3].color = 'negative'
+	row[3].action.type = 'text'
+    row[3].action.payload = '{"button": "secondary_dialog"}'
+	row[3].action.label = 'Cancel'
+	row[4] = {}
+	row[4].action = {}
+	row[4].color = 'negative'
+	row[4].action.type = 'text'
+    row[4].action.payload = '{"button": "keyALT"}'
+	row[4].action.label = 'ALT'
+	keyboard.buttons[2] = {} -- вторая строка кнопок
+	row = keyboard.buttons[2]
+	row[1] = {}
+	row[1].action = {}
+	row[1].color = 'positive'
+	row[1].action.type = 'text'
+	row[1].action.payload = '{"button": "keyA"}'
+	row[1].action.label = 'A'
+	row[2] = {}
+	row[2].action = {}
+	row[2].color = 'positive'
+	row[2].action.type = 'text'
+	row[2].action.payload = '{"button": "keyS"}'
+	row[2].action.label = 'S'
+	row[3] = {}
+	row[3].action = {}
+	row[3].color = 'positive'
+	row[3].action.type = 'text'
+	row[3].action.payload = '{"button": "keyD"}'
+	row[3].action.label = 'D'
+	row[4] = {}
+	row[4].action = {}
+	row[4].color = 'negative'
+	row[4].action.type = 'text'
+	row[4].action.payload = '{"button": "keyESC"}'
+	row[4].action.label = 'ESC'
+	return encodeJson(keyboard)
+end
+function sendoff()
+	offboard()
+	sendoffpcgame('Что вы хотите выключить?')
+end
+function offboard() --создает конкретную клавиатуру для бота VK, как сделать для более общих случаев пока не задумывался
+	local keyboard = {}
+	keyboard.inline = true
+	keyboard.buttons = {}
+	keyboard.buttons[1] = {}
+	local row = keyboard.buttons[1]
+	row[1] = {}
+	row[1].action = {}
+	row[1].color = 'negative'
+	row[1].action.type = 'text'
+	row[1].action.payload = '{"button": "offpc"}'
+	row[1].action.label = 'Компьютер'
+	row[2] = {}
+	row[2].action = {}
+	row[2].color = 'positive'
+	row[2].action.type = 'text'
+	row[2].action.payload = '{"button": "offgame"}'
+	row[2].action.label = 'Закрыть игру'
+	return encodeJson(keyboard)
+end
+function dialogkey() --создает конкретную клавиатуру для бота VK, как сделать для более общих случаев пока не задумывался
+	local keyboard = {}
+	keyboard.inline = true
+	keyboard.buttons = {}
+	keyboard.buttons[1] = {}
+	local row = keyboard.buttons[1]
+	row[1] = {}
+	row[1].action = {}
+	row[1].color = 'positive'
+	row[1].action.type = 'text'
+	row[1].action.payload = '{"button": "primary_dialog"}'
+	row[1].action.label = 'Enter'
+	row[2] = {}
+	row[2].action = {}
+	row[2].color = 'negative'
+	row[2].action.type = 'text'
+	row[2].action.payload = '{"button": "secondary_dialog"}'
+	row[2].action.label = 'ESC'
 	return encodeJson(keyboard)
 end
 function char_to_hex(str)
@@ -1221,7 +1638,8 @@ function PickUpPhone()
 	end
 end
 function sendkeyALT()
-	sendKey(1024)
+	setVirtualKeyDown(18, true)
+	setVirtualKeyDown(18, false)
 end
 function sendkeyESC()
 	sampSendClickTextdraw(65535)
@@ -1392,7 +1810,7 @@ function main()
 	local _a = [[Скрипт успешно запущен!
 Версия: %s
 Открыть меню: /afktools
-Автор: @sk33z]]
+Автор: bakhusse]]
 	if autoupdateState.v then
 		updates:autoupdate()
 	else
@@ -1660,7 +2078,7 @@ function imgui.OnDrawFrame()
 			end
 		end
 		imgui.SetCursorPos(imgui.ImVec2(40,8))
-		imgui.RenderLogo()
+		imgui.RenderLogo() imgui.SameLine() imgui.Text(u8('\nАвтор: bakhusse'))
 		imgui.SetCursorPos(imgui.ImVec2(516,8))
 		imgui.BeginGroup()
 		imgui.Text(u8('Версия => Текущая: '..thisScript().version..' | Актуальная: '..(updates.data.result and updates.data.relevant_version or 'error')))
@@ -1687,7 +2105,8 @@ function imgui.OnDrawFrame()
 				{u8('Автоеда'),4,u8('Автоеда когда вы голодны')},
 				{u8('Информация'),5,u8('Полезная информация о скрипте')},
 				{u8('История обновлений'),6,u8('Список изменений которые\n	 произошли в скрипте')},
-				{u8('Настройки автоответчика'),7,u8('Выбор телефона, изменение текста.')}
+				{u8('Настройки автоответчика'),7,u8('Выбор телефона, изменение текста.')},
+				{u8('Поиск в чате'),8,u8('Отправляет нужные сообщения \n                  с чата в ВК')},
 			}
 			local function renderbutton(i)
 				local name,set,desc,func = buttons[i][1],buttons[i][2],buttons[i][3],buttons[i][4]
@@ -1836,24 +2255,45 @@ function imgui.OnDrawFrame()
 			imgui.Checkbox(u8('AutoScreenBan'),banscreen)
 			imgui.SameLine()
 			imgui.TextQuestion(u8('Если вас забанит админ то скрин сделается автоматически'))
-			imgui.Checkbox(u8('Скип диалога /ad'),autoad)
-			imgui.SameLine()
-			imgui.TextQuestion(u8('При использовании /ad [текст], будет запрашиваться выбор типа обьявления'))
 			imgui.EndGroup()
 			imgui.SameLine(350)
 			imgui.BeginGroup()
-			imgui.Checkbox(u8('Скип диалога /ad для маркетологов'),autoadbiz)
-			imgui.SameLine()
-			imgui.TextQuestion(u8('При использовании /ad [текст], будет выбираться тип для маркетологов'))
-			imgui.Checkbox(u8('Скип диалога /vr'),autovr)
-			imgui.SameLine()
-			imgui.TextQuestion(u8('Если включено - отправляется текст как реклама. Если отключено - отправляется как обычное сообщение.'))
-			imgui.Checkbox(u8('Переотправить сообщение в /vr'),returnmessageforvr)
-			imgui.SameLine()
-			imgui.TextQuestion(u8('Если вы или скрипт отправит серверу какое-то сообщение в /vr и в чате будет найдено сообщение "После последнего сообщения в этом чате нужно подождать 3 секунды" от сервера(не от игрока) то скрипт переотправит то сообщение что вы/скрипт отправил'))
+			--imgui.Checkbox(u8('Скип диалога /ad'),autoad)
+			--imgui.SameLine()
+			--imgui.TextQuestion(u8('При использовании /ad [текст], будет запрашиваться выбор типа обьявления'))
+			--imgui.Checkbox(u8('Скип диалога /ad для маркетологов'),autoadbiz)
+			--imgui.SameLine()
+			--imgui.TextQuestion(u8('При использовании /ad [текст], будет выбираться тип для маркетологов'))
+			if imgui.Button(u8('Скачать VIP-Resend by Cosmo')) then
+				downloadUrlToFile('https://raw.githubusercontent.com/JekSkeez/afktools/main/vip-resend.lua',
+                   'moonloader\\vip-resend.lua', 
+                   'vip-resend.lua')
+				sampAddChatMessage("{FF8000}[AFKTOOLS]{FFFFFF} VIP-Resend успешно загружен! Нажмите Ctrl+R для перезапуска MoonLoader.", -1)
+            end
 			imgui.Checkbox(u8('Автообновление'),autoupdateState)
 			imgui.SameLine()
 			imgui.TextQuestion(u8('Включает автообновление. По умолчанию включено'))
+			if imgui.Checkbox(u8'Удалять игроков в радиусе', delplayeractive) then
+		delplayer = not delplayer
+			for _, handle in ipairs(getAllChars()) do
+				if doesCharExist(handle) then
+					local _, id = sampGetPlayerIdByCharHandle(handle)
+					if id ~= myid then
+						emul_rpc('onPlayerStreamOut', { id })
+						npc[#npc + 1] = id
+					end
+				end
+			end
+			
+			if not delplayer then
+				for i = 1, #npc do
+					send_player_stream(npc[i], infnpc[npc[i]])
+					npc[i] = nil
+				end
+			end
+		end
+	imgui.SameLine()
+	imgui.TextQuestion(u8"Функция удаляет всех игроков в радиусе. Очень полезно при скупе т.к падает шанс краша игры. Чтобы вернуть игроков - выключите функцию и зайдите в инту, затем выйдите из неё. Или можно просто перезайти в игру.")
 			imgui.EndGroup()
 			imgui.EndChild()
 		elseif menunum == 2 then
@@ -1889,10 +2329,10 @@ function imgui.OnDrawFrame()
 				imgui.InputText(u8('VK ID'), vknotf.user_id)
 				imgui.SameLine()
 				imgui.TextQuestion(u8('В цифрах!'))
-				imgui.SetNextWindowSize(imgui.ImVec2(600,230))
+				imgui.SetNextWindowSize(imgui.ImVec2(600,230)) -- с пабликом (600,230) • без (900,530)
 				if imgui.BeginPopupModal('##howsetVK',true,imgui.WindowFlags.NoTitleBar + imgui.WindowFlags.NoResize) then
 					imgui.Text(u8(howsetVK))
-					imgui.SetCursorPosY(200)
+					imgui.SetCursorPosY(200) -- с пабликом (200) • без (490)
 					local wid = imgui.GetWindowWidth()
 					imgui.SetCursorPosX(wid / 2 - 30)
 					if imgui.Button(u8'Закрыть', imgui.ImVec2(60,20)) then
@@ -2030,6 +2470,16 @@ function imgui.OnDrawFrame()
 			imgui.CenterText(u8('Информация'))
 			imgui.Separator()
 			imgui.Text(u8(scriptinfo))
+			if imgui.Button(u8('Группа VK')) then
+				os.execute("start https://vk.com/notify.arizona")
+			end
+			imgui.SameLine()
+			if imgui.Button(u8('Telegram-канал')) then
+				os.execute("start https://t.me/bakhusse_channel")
+			end
+			if imgui.Button(u8('VK Разработчика')) then
+				os.execute("start https://vk.com/sk33z")
+			end
 			imgui.EndChild()
 		elseif menunum == 6 then
 			imgui.BeginChild('##ana',imgui.ImVec2(-1,-1),false)
@@ -2038,6 +2488,7 @@ function imgui.OnDrawFrame()
 			imgui.Text(u8(changelog))
 			imgui.Text(u8(changelog2))
 			imgui.Text(u8(changelog3))
+			imgui.Text(u8(changelog4))
 			imgui.EndChild()
 		elseif menunum == 7 then
 			imgui.BeginChild('##ana',imgui.ImVec2(-1,-1),false)
@@ -2046,6 +2497,31 @@ function imgui.OnDrawFrame()
         	imgui.Checkbox(u8('Автоответчик'),autoo)
         	imgui.InputText(u8('Текст автоответчика'),atext)
 			imgui.Combo(u8('Телефон'), aphone, aomethod, -1)
+			imgui.EndChild()
+		elseif menunum == 8 then
+			imgui.BeginChild('##ana',imgui.ImVec2(-1,-1),false)
+			imgui.CenterText(u8('Настройка отправки текста по поиску в чате в VK'))
+			imgui.Separator()
+			imgui.Text('')
+			imgui.Text('') imgui.SameLine() imgui.Checkbox(u8'Отправлять найденный текст в VK', find.vkfind) imgui.SameLine() imgui.TextQuestion(u8"Если включено, то вам в VK будет приходить текст, который вы ищете. Работает это по принципу: Заполняем нужное количество текстовых полей с текстом для поиска и ставим галочки напротив нужных полей (например, вы хотите купить автомобиль определенной марки. Пишите в текстовое поле, например, 'BMW M6' и если в чате кто то напишет модель вашего искомого автомобиля, то вам придет полный текст из чата в VK. После настройки сохраните настройки. Если вам больше не нужно, чтобы искомый текст приходил в VK, просто снимите напротив тектового поля галочку. Выключение функции остановит пойск всех текстов.")
+			imgui.Text('')
+			imgui.PushItemWidth(350)
+			imgui.Text('') imgui.SameLine() imgui.Checkbox(u8'##вкобчитьпоисктекст', find.vkfindtext) imgui.SameLine() imgui.InputText(u8'##поисквк1', find.inputfindvk)
+			imgui.SameLine() 
+			imgui.Text('') imgui.SameLine() imgui.Checkbox(u8'##вкобчитьпоисктекст2', find.vkfindtext6) imgui.SameLine() imgui.InputText(u8'##поисквк6', find.inputfindvk6)
+			imgui.Text('') imgui.SameLine() imgui.Checkbox(u8'##вкобчитьпоисктекст3', find.vkfindtext2) imgui.SameLine() imgui.InputText(u8'##поисквк2', find.inputfindvk2)
+			imgui.SameLine() 
+			imgui.Text('') imgui.SameLine() imgui.Checkbox(u8'##вкобчитьпоисктекст4', find.vkfindtext7) imgui.SameLine() imgui.InputText(u8'##поисквк7', find.inputfindvk7)
+			imgui.Text('') imgui.SameLine() imgui.Checkbox(u8'##вкобчитьпоисктекст5', find.vkfindtext3) imgui.SameLine() imgui.InputText(u8'##поисквк3', find.inputfindvk3)
+			imgui.SameLine() 
+			imgui.Text('') imgui.SameLine() imgui.Checkbox(u8'##вкобчитьпоисктекст6', find.vkfindtext8) imgui.SameLine() imgui.InputText(u8'##поисквк8', find.inputfindvk8)
+			imgui.Text('') imgui.SameLine() imgui.Checkbox(u8'##вкобчитьпоисктекст7', find.vkfindtext4) imgui.SameLine() imgui.InputText(u8'##поисквк4', find.inputfindvk4)
+			imgui.SameLine() 
+			imgui.Text('') imgui.SameLine() imgui.Checkbox(u8'##вкобчитьпоисктекст8', find.vkfindtext9) imgui.SameLine() imgui.InputText(u8'##поисквк9', find.inputfindvk9)
+			imgui.Text('') imgui.SameLine() imgui.Checkbox(u8'##вкобчитьпоисктекст9', find.vkfindtext5) imgui.SameLine() imgui.InputText(u8'##поисквк5', find.inputfindvk5)
+			imgui.SameLine() 
+			imgui.Text('') imgui.SameLine() imgui.Checkbox(u8'##вкобчитьпоисктекст10', find.vkfindtext10) imgui.SameLine() imgui.InputText(u8'##поисквк10', find.inputfindvk10)
+			imgui.PopItemWidth()
 			imgui.EndChild()
 		end
 		imgui.End()
@@ -2224,11 +2700,6 @@ tblclose = {}
 
 sendcloseinventory = function()
 	sampSendClickTextdraw(tblclose[1])
-end
-function sampev.onSendCommand(mess)
-	if mess:find('^/vr') then
-		lastvrmessage = mess
-	end
 end
 function sampev.onShowTextDraw(id,data)
 	-- for k,v in pairs(data) do
@@ -2429,14 +2900,6 @@ function sampev.onShowDialog(dialogId, dialogStyle, dialogTitle, okButtonText, c
 			sampSendDialogResponse(15346, 1, 0, -1)
 		end
 	end
-	if dialogId == 25626 then
-		if autovr.v then
-			sampSendDialogResponse(25626, 1, 0, -1)
-		end
-		if autovr then
-			sampSendDialogResponse(25626, 0, 0, -1)
-		end
-	end
 	if dialogId == 25473 then
 		if autoad.v then
 			sampSendDialogResponse(25473, 1, 0, -1)
@@ -2477,7 +2940,8 @@ function sampev.onShowDialog(dialogId, dialogStyle, dialogTitle, okButtonText, c
 			sendvknotf('' .. dialogTitle .. '\n' .. dialogText .. '\n\n[______________]\n\n[' .. okButtonText .. '] | [' .. cancelButtonText .. ']' )
 		else
 			if dialogStyle == 0 then
-				sendvknotf('' .. dialogTitle .. '\n' .. dialogText .. '\n\n[' .. okButtonText .. '] | [' .. cancelButtonText .. ']' )
+				dialogkey()
+				senddialog2('' .. dialogTitle .. '\n' .. dialogText .. '\n\n[' .. okButtonText .. '] | [' .. cancelButtonText .. ']' )
 			else
 				sendvknotf('' .. dialogTitle .. '\n' .. dialogText .. '\n\n[' .. okButtonText .. '] | [' .. cancelButtonText .. ']' )
 			end
@@ -2586,6 +3050,17 @@ function sampev.onServerMessage(color,text)
 			end
 		end
 	end
+	if vknotf.state.v and find.vkfind.v and find.vkfindtext.v and text:find(''..u8:decode(find.inputfindvk.v)) then sendvknotf('По поиску найдено: '..text) end
+	if vknotf.state.v and find.vkfind.v and find.vkfindtext2.v and text:find(''..u8:decode(find.inputfindvk2.v)) then sendvknotf('По поиску найдено: '..text) end
+	if vknotf.state.v and find.vkfind.v and find.vkfindtext3.v and text:find(''..u8:decode(find.inputfindvk3.v)) then sendvknotf('По поиску найдено: '..text) end
+	if vknotf.state.v and find.vkfind.v and find.vkfindtext4.v and text:find(''..u8:decode(find.inputfindvk4.v)) then sendvknotf('По поиску найдено: '..text) end
+	if vknotf.state.v and find.vkfind.v and find.vkfindtext5.v and text:find(''..u8:decode(find.inputfindvk5.v)) then sendvknotf('По поиску найдено: '..text) end
+	if vknotf.state.v and find.vkfind.v and find.vkfindtext6.v and text:find(''..u8:decode(find.inputfindvk6.v)) then sendvknotf('По поиску найдено: '..text) end
+	if vknotf.state.v and find.vkfind.v and find.vkfindtext7.v and text:find(''..u8:decode(find.inputfindvk7.v)) then sendvknotf('По поиску найдено: '..text) end
+	if vknotf.state.v and find.vkfind.v and find.vkfindtext8.v and text:find(''..u8:decode(find.inputfindvk8.v)) then sendvknotf('По поиску найдено: '..text) end
+	if vknotf.state.v and find.vkfind.v and find.vkfindtext9.v and text:find(''..u8:decode(find.inputfindvk9.v)) then sendvknotf('По поиску найдено: '..text) end
+	if vknotf.state.v and find.vkfind.v and find.vkfindtext10.v and text:find(''..u8:decode(find.inputfindvk10.v)) then sendvknotf('По поиску найдено: '..text) end
+
 	if vknotf.issmscall.v and text:find('Вам пришло новое сообщение!') then sendvknotf('Вам написали СМС!') end
 	if vknotf.bank.v and text:match("Вы перевели") then sendvknotf(text) end
 	if vknotf.bank.v and text:match("Вам поступил перевод на ваш счет в размере") then sendvknotf(text) end
@@ -2613,15 +3088,6 @@ function sampev.onServerMessage(color,text)
 				vknotf.ispaydaystate = false
 				vknotf.ispaydaytext = ''
 			end
-		end
-	end
-	if returnmessageforvr.v then
-		if text:find('После последнего сообщения в этом чате нужно подождать 3 секунды') or text:find('Для возможности повторной отправки сообщения в этот чат осталось') then
-			AFKMessage('[ReSend /vr] Переотправляю...')
-			lua_thread.create(function() 
-				wait(1000)
-				sampSendChat(lastvrmessage)
-			end)
 		end
 	end
 end
@@ -2805,6 +3271,28 @@ function saveini()
 	mainIni.vknotf.ispayday = vknotf.ispayday.v
 	mainIni.vknotf.iscrashscript = vknotf.iscrashscript.v
 	mainIni.vknotf.issellitem = vknotf.issellitem.v
+	--find
+	mainIni.find.vkfind = find.vkfind.v
+	mainIni.find.vkfindtext = find.vkfindtext.v
+	mainIni.find.vkfindtext2 = find.vkfindtext2.v
+	mainIni.find.vkfindtext3 = find.vkfindtext3.v
+	mainIni.find.vkfindtext4 = find.vkfindtext4.v
+	mainIni.find.vkfindtext5 = find.vkfindtext5.v
+	mainIni.find.vkfindtext6 = find.vkfindtext6.v
+	mainIni.find.vkfindtext7 = find.vkfindtext7.v
+	mainIni.find.vkfindtext8 = find.vkfindtext8.v
+	mainIni.find.vkfindtext9 = find.vkfindtext9.v
+	mainIni.find.vkfindtext10 = find.vkfindtext10.v
+	mainIni.find.inputfindvk = u8:decode(find.inputfindvk.v)
+	mainIni.find.inputfindvk2 = u8:decode(find.inputfindvk2.v)
+	mainIni.find.inputfindvk3 = u8:decode(find.inputfindvk3.v)
+	mainIni.find.inputfindvk4 = u8:decode(find.inputfindvk4.v)
+	mainIni.find.inputfindvk5 = u8:decode(find.inputfindvk5.v)
+	mainIni.find.inputfindvk6 = u8:decode(find.inputfindvk6.v)
+	mainIni.find.inputfindvk7 = u8:decode(find.inputfindvk7.v)
+	mainIni.find.inputfindvk8 = u8:decode(find.inputfindvk8.v)
+	mainIni.find.inputfindvk9 = u8:decode(find.inputfindvk9.v)
+	mainIni.find.inputfindvk10 = u8:decode(find.inputfindvk10.v)
 	--piar
 	mainIni.piar.piar1 = piar.piar1.v
 	mainIni.piar.piar2 = piar.piar2.v
@@ -2820,12 +3308,10 @@ function saveini()
 	mainIni.config.autoupdate = autoupdateState.v
 	mainIni.config.fastconnect = fastconnect.v
 	mainIni.config.autoad = autoad.v
-	mainIni.config.autovr = autovr.v
 	mainIni.config.autoadbiz = autoadbiz.v
 	mainIni.config.autoo = autoo.v
 	mainIni.config.atext = atext.v
 	mainIni.config.aphone = aphone.v
-	mainIni.config.returnmessageforvr = returnmessageforvr.v
 	--eat
 	mainIni.eat.checkmethod = eat.checkmethod.v
 	mainIni.eat.cycwait = eat.cycwait.v
@@ -2839,6 +3325,8 @@ function saveini()
     mainIni.eat.healstate = eat.healstate.v
 	mainIni.eat.drugsquen = eat.drugsquen.v
 	mainIni.eat.hpmetod = eat.hpmetod.v
+	--buttons
+	mainIni.buttons.binfo = binfo.v
 	local saved = inicfg.save(mainIni,'afktools.ini')
 	AFKMessage('Настройки INI сохранены '..(saved and 'успешно!' or 'с ошибкой!'))
 end
