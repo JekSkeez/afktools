@@ -1,6 +1,6 @@
 script_name('AFK Tools (upd)') -- iphone
 script_author("bakhusse")
-script_version('2.4')
+script_version('2.4') --fix
 script_properties('work-in-pause')
 local dlstatus = require("moonloader").download_status
 local imgui = require('imgui')
