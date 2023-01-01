@@ -1,6 +1,6 @@
 script_name('AFK Tools (upd)') -- iphone
-script_author("bakhusse")
-script_version('2.4p') -- fix
+script_author("bakhusse x mamashin.")
+script_version('2.5.1p') --fix
 script_properties('work-in-pause')
 local dlstatus = require("moonloader").download_status
 local imgui = require('imgui')
@@ -65,7 +65,12 @@ local mainIni = inicfg.load({
 		bank = false,
 		record = false,
 		ismeat = false,
-		dienable = false,
+		dienable = false
+	},
+	autologinfix = {
+		state = false,
+		nick = '',
+		pass = ''
 	},
 	find = {
 		vkfind = false,
@@ -455,6 +460,11 @@ changelog4 = [[
 		Исправлен автоответчик, ранее не нажимал Y и не брал трубку.
 		Добавлена кнопка Скриншот в диалоге в ВК.
 		Добавлена кнопка для скачивания скрипта с пабликом или без.
+	v2.5
+		Исправил автоеду в фам КВ.
+		В АвтоХил добавлены сигареты
+	v2.5.1 HOTFIX
+		В основные настройки добавлен автологин для новых интерфейсов.
 
 
 ]]
@@ -555,6 +565,11 @@ local vknotf = {
 	ispaydaytext = '',
 	issellitem = imgui.ImBool(mainIni.vknotf.issellitem)
 }
+local autologinfix = {
+	state = imgui.ImBool(mainIni.autologinfix.state),
+	nick = imgui.ImBuffer(''..mainIni.autologinfix.nick,50),
+	pass = imgui.ImBuffer(''..mainIni.autologinfix.pass,50)
+}
 local piar = {
 	piar1 = imgui.ImBuffer(''..mainIni.piar.piar1, 500),
 	piar2 = imgui.ImBuffer(''..mainIni.piar.piar2, 500),
@@ -628,11 +643,11 @@ local onPlayerHungry = lua_thread.create_suspended(function()
 		sampSendChat('/home')
 	elseif eat.eatmetod.v == 3 then
 		AFKMessage('Реагирую, кушаю')
-		setVirtualKeyDown(0x12, false)
+		setVirtualKeyDown(18, true)
 		while not sampIsDialogActive() do wait(0) end
 		sampSendDialogResponse(1825, 1, 6, false)
 		while not sampIsDialogActive() do wait(0) end
-		setVirtualKeyDown(0x12, false)
+		setVirtualKeyDown(18, true)
 		while not sampIsDialogActive() do wait(0) end
 		sampSendDialogResponse(1825, 1, 6, false)
 		while not sampIsDialogActive() do wait(0) end
@@ -743,7 +758,8 @@ local healmetod = {
 	u8('Наркотики'),
 	u8('Андреналин'),
 	u8('Пиво'),
-	u8('TextDraw')
+	u8('TextDraw'),
+	u8('Сигареты')
 }
 local aomethod = {
 	u8('Xiaomi Mi 8'),
@@ -1886,7 +1902,7 @@ function main()
 	local _a = [[Скрипт успешно запущен!
 Версия: %s
 Открыть меню: /afktools
-Автор: bakhusse]]
+Авторы: bakhusse x mamashin.]]
 	if autoupdateState.v then
 		updates:autoupdate()
 	else
@@ -2154,7 +2170,7 @@ function imgui.OnDrawFrame()
 			end
 		end
 		imgui.SetCursorPos(imgui.ImVec2(40,8))
-		imgui.RenderLogo() imgui.SameLine() imgui.Text(u8('\nАвтор: bakhusse'))
+		imgui.RenderLogo() imgui.SameLine() imgui.Text(u8('\nАвторы: bakhusse x mamashin.'))
 		imgui.SetCursorPos(imgui.ImVec2(516,8))
 		imgui.BeginGroup()
 		imgui.Text(u8('Версия => Текущая: '..thisScript().version..' | Актуальная: '..(updates.data.result and updates.data.relevant_version or 'error')))
@@ -2346,9 +2362,19 @@ function imgui.OnDrawFrame()
                    'vip-resend.lua')
 				sampAddChatMessage("{FF8000}[AFKTOOLS]{FFFFFF} VIP-Resend успешно загружен! Нажмите Ctrl+R для перезапуска MoonLoader.", -1)
             end
+            imgui.SameLine(210)
+            imgui.Checkbox(u8('Автологин'),autologinfix.state)
 			imgui.Checkbox(u8('Автообновление'),autoupdateState)
 			imgui.SameLine()
 			imgui.TextQuestion(u8('Включает автообновление. По умолчанию включено'))
+			imgui.SameLine(210)
+			imgui.BeginGroup()
+			if autologinfix.state.v then
+				imgui.PushItemWidth(130)
+				imgui.InputText(u8('Ник для входа'), autologinfix.nick)
+				imgui.PopItemWidth()
+			end
+			imgui.EndGroup()
 			if imgui.Checkbox(u8'Удалять игроков в радиусе', delplayeractive) then
 		delplayer = not delplayer
 			for _, handle in ipairs(getAllChars()) do
@@ -2370,6 +2396,15 @@ function imgui.OnDrawFrame()
 		end
 	imgui.SameLine()
 	imgui.TextQuestion(u8"Функция удаляет всех игроков в радиусе. Очень полезно при скупе т.к падает шанс краша игры. Чтобы вернуть игроков - выключите функцию и зайдите в инту, затем выйдите из неё. Или можно просто перезайти в игру.")
+			imgui.SameLine(210)
+			imgui.BeginGroup()
+			if autologinfix.state.v then
+				imgui.PushItemWidth(130)
+				imgui.InputText(u8('Пароль для входа'), autologinfix.pass, showpass and 0 or imgui.InputTextFlags.Password)
+				imgui.PopItemWidth()
+				if imgui.Button(u8('Показать##1010')) then showpass = not showpass end
+			end
+			imgui.EndGroup()
 			imgui.EndGroup()
 			imgui.EndChild()
 		elseif menunum == 2 then
@@ -2405,10 +2440,10 @@ function imgui.OnDrawFrame()
 				imgui.InputText(u8('VK ID'), vknotf.user_id)
 				imgui.SameLine()
 				imgui.TextQuestion(u8('В цифрах!'))
-				imgui.SetNextWindowSize(imgui.ImVec2(900,530)) -- с пабликом (600,230) • без (900,530)
+				imgui.SetNextWindowSize(imgui.ImVec2(600,230)) -- с пабликом (600,230) • без (900,530)
 				if imgui.BeginPopupModal('##howsetVK',true,imgui.WindowFlags.NoTitleBar + imgui.WindowFlags.NoResize) then
 					imgui.Text(u8(howsetVK))
-					imgui.SetCursorPosY(490) -- с пабликом (200) • без (490)
+					imgui.SetCursorPosY(200) -- с пабликом (200) • без (490)
 					local wid = imgui.GetWindowWidth()
 					imgui.SetCursorPosX(wid / 2 - 30)
 					if imgui.Button(u8'Закрыть', imgui.ImVec2(60,20)) then
@@ -2768,6 +2803,34 @@ function onReceivePacket(id, bitStream)
 			end)
 		end
 	end
+	if autologinfix.state.v then
+		if(id == 220) then
+		raknetBitStreamIgnoreBits(bitStream, 8)
+		if(raknetBitStreamReadInt8(bitStream) == 17) then
+			raknetBitStreamIgnoreBits(bitStream, 32)
+			if(raknetBitStreamReadString(bitStream, raknetBitStreamReadInt32(bitStream)):match("window%.executeEvent%('event%.setActiveView', '%[\"Auth\"%]'%);")) then
+				lua_thread.create(function()
+				wait(200)
+local NICK = mainIni.autologinfix.nick
+local PASS = mainIni.autologinfix.pass
+local BITSTREAM = raknetNewBitStream()
+raknetBitStreamWriteInt8(BITSTREAM, 220)
+raknetBitStreamWriteInt8(BITSTREAM, 18)
+raknetBitStreamWriteInt8(BITSTREAM, string.len(string.format("authorization|%s|%s|0", NICK, PASS)))
+raknetBitStreamWriteInt8(BITSTREAM, 0)
+raknetBitStreamWriteInt8(BITSTREAM, 0)
+raknetBitStreamWriteInt8(BITSTREAM, 0)
+raknetBitStreamWriteString(BITSTREAM, string.format("authorization|%s|%s|0", NICK, PASS))
+raknetBitStreamWriteInt32(BITSTREAM, 1)
+raknetBitStreamWriteInt8(BITSTREAM, 0)
+raknetBitStreamWriteInt8(BITSTREAM, 0)
+raknetSendBitStreamEx(BITSTREAM, 1, 7, 1)
+raknetDeleteBitStream(BITSTREAM)
+					end)
+				end
+			end
+		end
+	end
 end
 function onReceiveRpc(id,bitStream)
 	if (id == RPC_CONNECTIONREJECTED) then
@@ -2946,6 +3009,8 @@ function sampev.onSetPlayerHealth(healthfloat)
 				sampSendChat('/beer')
 			elseif eat.hpmetod.v == 4 then
 				sampSendClickTextdraw(eat.arztextdrawidheal.v)
+			elseif eat.hpmetod.v == 5 then
+				sampSendChat('/smoke')
 			end 
 		end   
 	end
@@ -3144,6 +3209,8 @@ function sampev.onServerMessage(color,text)
 	if vknotf.state.v and find.vkfind.v and find.vkfindtext10.v and text:find(''..u8:decode(find.inputfindvk10.v)) then sendvknotf('По поиску найдено: '..text) end
 
 	if vknotf.issmscall.v and text:find('Вам пришло новое сообщение!') then sendvknotf('Вам написали СМС!') end
+	if text:find('докурил(а) сигарету и выбросил(а) окурок') and healthfloat <= eat.hplvl.v then sampSendChat('/smoke') end
+	if text:find('попытался закурить %(Неудачно%)') then sampSendChat('/smoke') end
 	if vknotf.bank.v and text:match("Вы перевели") then sendvknotf(text) end
 	if vknotf.bank.v and text:match("Вам поступил перевод на ваш счет в размере") then sendvknotf(text) end
 	if autoo.v and text:find('Вы подняли трубку') then sampSendChat(u8:decode(atext.v)) end
@@ -3335,6 +3402,10 @@ function saveini()
 	mainIni.vknotf.ispayday = vknotf.ispayday.v
 	mainIni.vknotf.iscrashscript = vknotf.iscrashscript.v
 	mainIni.vknotf.issellitem = vknotf.issellitem.v
+	--autologin
+	mainIni.autologinfix.state = autologinfix.state.v
+	mainIni.autologinfix.nick = autologinfix.nick.v
+	mainIni.autologinfix.pass = autologinfix.pass.v
 	--find
 	mainIni.find.vkfind = find.vkfind.v
 	mainIni.find.vkfindtext = find.vkfindtext.v
