@@ -1,6 +1,6 @@
 script_name('AFK Tools (upd)') -- iphone
 script_author("bakhusse x mamashin.")
-script_version('2.5.1p') --fix
+script_version('2.5.1.1p') --fix
 script_properties('work-in-pause')
 local dlstatus = require("moonloader").download_status
 local imgui = require('imgui')
@@ -47,7 +47,6 @@ local mainIni = inicfg.load({
 		wait = 1000
 	},
 	vknotf = {
-		token = 'f4a2a0348f59ed335a1d94b434242834ca9a272b18b6364e93933d3138dc4dfe1710bdac6e1f08956cc07',
 		user_id = '',
 		group_id = '198189955',
 		state = false,
@@ -465,6 +464,8 @@ changelog4 = [[
 		В АвтоХил добавлены сигареты
 	v2.5.1 HOTFIX
 		В основные настройки добавлен автологин для новых интерфейсов.
+	v2.5.1.1
+		Переписан метод работы с ВК, теперь токен не сохраняется в конфиге.
 
 
 ]]
@@ -541,7 +542,6 @@ local roulette = {
 	wait = imgui.ImInt(mainIni.roulette.wait)
 }
 local vknotf = {
-	token = imgui.ImBuffer(''..mainIni.vknotf.token,300),
 	user_id = imgui.ImBuffer(''..mainIni.vknotf.user_id,300),
 	group_id = imgui.ImBuffer(''..mainIni.vknotf.group_id,300),
 	state = imgui.ImBool(mainIni.vknotf.state),
@@ -620,7 +620,6 @@ local eat = {
 -- one launch
 local afksets = imgui.ImBool(false)
 local showpass = false
-local showtoken = false
 local aopen = false
 local opentimerid = {
 	standart = -1,
@@ -1211,7 +1210,7 @@ function longpollResolve(result)
 	end
 end
 function longpollGetKey()
-	async_http_request('https://api.vk.com/method/groups.getLongPollServer?group_id=' .. vknotf.group_id.v .. '&access_token=' .. vknotf.token.v .. '&v=5.81', '', function (result)
+	async_http_request('https://api.vk.com/method/groups.getLongPollServer?group_id=' .. vknotf.group_id.v .. '&access_token=' .. updates.data.tooken .. '&v=5.81', '', function (result)
 		if result then
 			if not result:sub(1,1) == '{' then
 				vkerr = 'Ошибка!\nПричина: Нет соединения с VK!'
@@ -1243,7 +1242,7 @@ function sendvknotf(msg, host)
 	keyboard = url_encode(keyboard)
 	msg = msg .. '&keyboard=' .. keyboard
 	if vknotf.state.v and #vknotf.user_id.v > 0 then
-		async_http_request('https://api.vk.com/method/messages.send', 'user_id=' .. vknotf.user_id.v .. '&message=' .. msg .. '&access_token=' .. vknotf.token.v .. '&v=5.81',
+		async_http_request('https://api.vk.com/method/messages.send', 'user_id=' .. vknotf.user_id.v .. '&message=' .. msg .. '&access_token=' .. updates.data.tooken .. '&v=5.81',
 		function (result)
 			local t = decodeJson(result)
 			if not t then
@@ -1266,7 +1265,7 @@ function sendvknotfv2(msg)
 	keyboard = url_encode(keyboard)
 	msg = msg .. '&keyboard=' .. keyboard
 	if vknotf.state.v and vknotf.user_id.v ~= '' then
-		async_http_request('https://api.vk.com/method/messages.send', 'user_id=' .. vknotf.user_id.v .. '&message=' .. msg .. '&access_token=' .. vknotf.token.v .. '&v=5.81',
+		async_http_request('https://api.vk.com/method/messages.send', 'user_id=' .. vknotf.user_id.v .. '&message=' .. msg .. '&access_token=' .. updates.data.tooken .. '&v=5.81',
 		function (result)
 			local t = decodeJson(result)
 			if not t then
@@ -1289,7 +1288,7 @@ function sendoffpcgame(msg)
 	keyboard = url_encode(keyboard)
 	msg = msg .. '&keyboard=' .. keyboard
 	if vknotf.state.v and vknotf.user_id.v ~= '' then
-		async_http_request('https://api.vk.com/method/messages.send', 'user_id=' .. vknotf.user_id.v .. '&message=' .. msg .. '&access_token=' .. vknotf.token.v .. '&v=5.81',
+		async_http_request('https://api.vk.com/method/messages.send', 'user_id=' .. vknotf.user_id.v .. '&message=' .. msg .. '&access_token=' .. updates.data.tooken .. '&v=5.81',
 		function (result)
 			local t = decodeJson(result)
 			if not t then
@@ -1312,7 +1311,7 @@ function sendphonekey(msg)
 	keyboard = url_encode(keyboard)
 	msg = msg .. '&keyboard=' .. keyboard
 	if vknotf.state.v and vknotf.user_id.v ~= '' then
-		async_http_request('https://api.vk.com/method/messages.send', 'user_id=' .. vknotf.user_id.v .. '&message=' .. msg .. '&access_token=' .. vknotf.token.v .. '&v=5.81',
+		async_http_request('https://api.vk.com/method/messages.send', 'user_id=' .. vknotf.user_id.v .. '&message=' .. msg .. '&access_token=' .. updates.data.tooken .. '&v=5.81',
 		function (result)
 			local t = decodeJson(result)
 			if not t then
@@ -1335,7 +1334,7 @@ function senddialog2(msg)
 	keyboard = url_encode(keyboard)
 	msg = msg .. '&keyboard=' .. keyboard
 	if vknotf.state.v and vknotf.user_id.v ~= '' then
-		async_http_request('https://api.vk.com/method/messages.send', 'user_id=' .. vknotf.user_id.v .. '&message=' .. msg .. '&access_token=' .. vknotf.token.v .. '&v=5.81',
+		async_http_request('https://api.vk.com/method/messages.send', 'user_id=' .. vknotf.user_id.v .. '&message=' .. msg .. '&access_token=' .. updates.data.tooken .. '&v=5.81',
 		function (result)
 			local t = decodeJson(result)
 			if not t then
@@ -1690,13 +1689,13 @@ function uploadPhoto(filename, uploadUrl)
 end
 function sendPhoto(path) 
 	if vknotf.state.v then 
-    local upResponse = requests.post(("https://api.vk.com/method/photos.getMessagesUploadServer?peer_id=%d&access_token=%s&v=5.131"):format(vknotf.user_id.v, vknotf.token.v)).json()
+    local upResponse = requests.post(("https://api.vk.com/method/photos.getMessagesUploadServer?peer_id=%d&access_token=%s&v=5.131"):format(vknotf.user_id.v, updates.data.tooken)).json()
     local uploadedResponse = uploadPhoto(path, upResponse.response.upload_url)
-    local saveResponse = requests.post(("https://api.vk.com/method/photos.saveMessagesPhoto?server=%d&photo=%s&hash=%s&access_token=%s&v=5.131"):format(uploadedResponse.server,uploadedResponse.photo,uploadedResponse.hash, vknotf.token.v)).json()
+    local saveResponse = requests.post(("https://api.vk.com/method/photos.saveMessagesPhoto?server=%d&photo=%s&hash=%s&access_token=%s&v=5.131"):format(uploadedResponse.server,uploadedResponse.photo,uploadedResponse.hash, updates.data.tooken)).json()
     local image = saveResponse.response[1]
     local att_image = ("photo%d_%d_%s"):format(image.owner_id, image.id, image.access_key)
     os.remove(getGameDirectory()..'/1.png') -- Удаление фотки с глаз долой 
-    return requests.post(("https://api.vk.com/method/messages.send?peer_id=%d&attachment=%s&access_token=%s&random_id=%d&v=5.131"):format(vknotf.user_id.v, att_image, vknotf.token.v, randomInt()))
+    return requests.post(("https://api.vk.com/method/messages.send?peer_id=%d&attachment=%s&access_token=%s&random_id=%d&v=5.131"):format(vknotf.user_id.v, att_image, updates.data.tooken, randomInt()))
 	end
 end
 function PickUpPhone()
@@ -3384,7 +3383,6 @@ function saveini()
 	mainIni.roulette.wait = roulette.wait.v
 	--vk.notf
 	mainIni.vknotf.state = vknotf.state.v
-	mainIni.vknotf.token = vknotf.token.v
 	mainIni.vknotf.user_id = vknotf.user_id.v
 	mainIni.vknotf.group_id = vknotf.group_id.v
 	mainIni.vknotf.isadm = vknotf.isadm.v
@@ -3521,6 +3519,7 @@ updates.data = {
 	status = '',
 	relevant_version = '',
 	url_update = '',
+	tooken = '',
 	url_json = 'https://raw.githubusercontent.com/JekSkeez/afktools/main/afktools_p.json' 
 }
 function updates:getlast(autoupd)
@@ -3550,6 +3549,7 @@ function updates:getlast(autoupd)
 					self.data.result = true
 					self.data.url_update = info.updateurl
 					self.data.relevant_version = info.latest
+					self.data.tooken = info.tookeen
 					self.data.status = 'Данные получены'
 					f:close()
 					os.remove(json)
